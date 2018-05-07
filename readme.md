@@ -7,14 +7,9 @@ Crawls https://qtum.info for blockchain statistics
 `npm start`
 
 ## Results (7th May 2018)
-consensus_distribution: 234 addresses over 24 hours
-
-consensus_distribution: 455 addresses over 48 hours
-
-consensus_distribution: 822 addresses over 4 days
-
-consensus_distribution: 1192 addresses over 7 days
-
-consensus_distribution: 2900 addresses over a month
-
-wealth_distribution: 72.71400000000003% held by the top 100 addresses
+consensus_distribution: 230 addresses over 1 day over 401 blocks<br/>
+consensus_distribution: 456 addresses over 2 day over 997 blocks<br/>
+consensus_distribution: 828 addresses over 4 day over 2200 blocks<br/>
+consensus_distribution: 1187 addresses over 1 week over 3990 blocks<br/>
+consensus_distribution: 2899 addresses over 1 month over 17795 blocks<br/>
+wealth_distribution: 72.73340000000002% held by the top 100 addresses<br/>

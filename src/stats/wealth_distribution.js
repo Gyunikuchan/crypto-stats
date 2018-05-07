@@ -12,5 +12,5 @@ module.exports = async () => {
     richListPercentageSum += Number.parseFloat(percentage);
   });
 
-  return richListPercentageSum;
+  console.log(`wealth_distribution: ${richListPercentageSum}% held by the top 100 addresses`);
 }

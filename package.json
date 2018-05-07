@@ -1,0 +1,19 @@
+{
+	"name": "qtum-stats",
+	"version": "1.0.0",
+	"description": "Crawls the explorer webpage for statistics",
+	"main": "index.js",
+	"scripts": {
+		"start": "node src/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Gyunikuchan/qtum-stats.git"
+	},
+	"dependencies": {
+		"axios": "^0.18.0",
+		"cheerio": "^1.0.0-rc.2",
+		"moment": "^2.22.1"
+	},
+	"devDependencies": {}
+}

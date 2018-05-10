@@ -1,14 +1,21 @@
-const printConsensusDistribution = require("./stats/consensus_distribution");
-const printWealthDistribution = require("./stats/wealth_distribution");
+const consensus_distribution = require("./stats/consensus_distribution");
+const wealth_distribution = require("./stats/wealth_distribution");
 
 async function printStats() {
-  await printConsensusDistribution(1, "day");
-  await printConsensusDistribution(2, "day");
-  await printConsensusDistribution(4, "day");
-  await printConsensusDistribution(1, "week");
-  await printConsensusDistribution(1, "month");
+  console.log(`~~ consensus_distribution ~~`);
+  await consensus_distribution.printConsensusDistribution(1, "day");
+  console.log(``);
+  await consensus_distribution.printConsensusDistribution(2, "day");
+  console.log(``);
+  await consensus_distribution.printConsensusDistribution(4, "day");
+  console.log(``);
+  await consensus_distribution.printConsensusDistribution(1, "week");
+  console.log(``);
+  await consensus_distribution.printConsensusDistribution(1, "month");
+  console.log(``);
 
-  await printWealthDistribution();
+  console.log(`~~ wealth_distribution ~~`)
+  await wealth_distribution.printWealthDistribution();
 }
 
 printStats();

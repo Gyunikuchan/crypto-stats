@@ -59,12 +59,11 @@ function getNoOfAddressesToPercent51(blockStats: BlockStats) {
 	let noOfAddresses = 0;
 	let blocksAccum = 0;
 	for (const minerStat of blockStats.sortedMinerStats) {
+		++noOfAddresses;
 		blocksAccum += minerStat[1];
 
 		if (blocksAccum > percent51)
 			break;
-
-		++noOfAddresses;
 	}
 
 	return noOfAddresses;

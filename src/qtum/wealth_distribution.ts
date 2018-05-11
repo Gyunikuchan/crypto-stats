@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
+import logger from "../config/logger";
 
 export async function getWealthDistribution() {
 	const response = await axios.get("https://qtum.info/misc/rich-list");
@@ -28,7 +29,9 @@ export async function getWealthDistribution() {
 
 export async function printWealthDistribution() {
 	const results = await getWealthDistribution();
-	console.log(`${results.top10}% held by the top 10 addresses`);
-	console.log(`${results.top50}% held by the top 50 addresses`);
-	console.log(`${results.top100}% held by the top 100 addresses`);
+
+	logger.info(`======== Consensus Distribution ========`);
+	logger.info(`${results.top10}% held by the top 10 addresses`);
+	logger.info(`${results.top50}% held by the top 50 addresses`);
+	logger.info(`${results.top100}% held by the top 100 addresses`);
 }

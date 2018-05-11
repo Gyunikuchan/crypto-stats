@@ -1,67 +1,87 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
 import * as moment from "moment";
+import logger from "../config/logger";
+import { getBlocks, Block } from "./blocks";
 
-export async function getConsensusDistribution(amount, unit) {
-	const day = moment();
-	const cutOffMoment = moment().subtract(amount, unit);
-	const cutOffDay = moment(cutOffMoment).startOf("day");
+export async function printConsensusDistribution() {
+	const now = moment();
+	const start1DayMoment = moment(now).subtract(1, "day");
+	const start1WeekMoment = moment(now).subtract(1, "week");
+	const start1MonthMoment = moment(now).subtract(1, "month");
+	const blocks = await getBlocks(start1MonthMoment, now);
 
-	const results = {
-		producers: new Map(),
-		blockCount: 0,
-	};
+	logger.info(`======== Consensus Distribution ========`);
+	logger.info(`1 Day Stats`);
+	await printBlockStats(blocks, start1DayMoment);
 
-	do {
-		await addProducersForDay(results, day.format("YYYY-MM-DD"), cutOffMoment);
-		day.subtract(1, "day");
-	}
-	while (!day.isBefore(cutOffDay));  // Day is after or equals to cutOffDay
+	logger.info(``);
+	logger.info(`1 Week Stats`);
+	await printBlockStats(blocks, start1WeekMoment);
 
-	return results;
-}
-
-export async function printConsensusDistribution(amount, unit) {
-	const results = await getConsensusDistribution(amount, unit);
-	console.log(`${results.producers.size} addresses over ${amount} ${unit} (${results.blockCount} blocks)`);
-
-	const sortedProducers = [...results.producers.entries()].sort((a, b) => b[1] - a[1]);
-	if (sortedProducers[0]) console.log(`Producer #1: ${sortedProducers[0][1]} blocks`);
-	if (sortedProducers[1]) console.log(`Producer #2: ${sortedProducers[1][1]} blocks`);
-	if (sortedProducers[2]) console.log(`Producer #3: ${sortedProducers[2][1]} blocks`);
-	if (sortedProducers[3]) console.log(`Producer #4: ${sortedProducers[3][1]} blocks`);
-	if (sortedProducers[4]) console.log(`Producer #5: ${sortedProducers[4][1]} blocks`);
-	if (sortedProducers[9]) console.log(`Producer #10: ${sortedProducers[9][1]} blocks`);
-	if (sortedProducers[49]) console.log(`Producer #50: ${sortedProducers[49][1]} blocks`);
-	if (sortedProducers[99]) console.log(`Producer #100: ${sortedProducers[49][1]} blocks`);
+	logger.info(``);
+	logger.info(`1 Month Stats`);
+	await printBlockStats(blocks, start1MonthMoment);
 }
 
 // =============================================================================
 // Helpers
 // =============================================================================
 
-async function addProducersForDay(results, dateString, cutOffMoment) {
-	const response = await axios.get("https://qtum.info/block", {
-		params: {
-			date: dateString,
-		},
-	});
-	const $ = cheerio.load(response.data);
-	const dataRows = $(`#app`).find(`tbody`).children();
+interface BlockStats {
+	sortedMinerStats: Array<[string, number]>;
+	totalBlockCount: number;
+}
 
-	dataRows.each((index, element) => {
-		const blockTimeString = element.children[1].children[0].data;
+async function getBlockStats(blocks: Block[], startMoment: moment.Moment): Promise<BlockStats> {
+	const minerStats = new Map<string, number>();
+	let totalBlockCount = 0;
 
-		// Stop when cut off is reached
-		const blockTimeMoment = moment(blockTimeString);
-		if (blockTimeMoment.isBefore(cutOffMoment)) {
-			return;
-		}
+	for (const block of blocks) {
+		if (block.time.isBefore(startMoment))
+			continue;
 
-		const miner = element.children[3].children[0].children[0].children[0].data;
-		const minerCount = (results.producers.get(miner) || 0) + 1;
+		const minerBlockCount = (minerStats.get(block.miner) || 0) + 1;
+		minerStats.set(block.miner, minerBlockCount);
+		++totalBlockCount;
+	}
 
-		results.producers.set(miner, minerCount);
-		++results.blockCount;
-	});
+	// Sort from most blocks to fewest
+	const sortedMinerStats = [...minerStats.entries()].sort((a, b) => b[1] - a[1]);
+
+	return {
+		sortedMinerStats,
+		totalBlockCount,
+	};
+}
+
+function getNoOfAddressesToPercent51(blockStats: BlockStats) {
+	const percent51 = Math.floor(blockStats.totalBlockCount * 0.51);
+
+	let noOfAddresses = 0;
+	let blocksAccum = 0;
+	for (const minerStat of blockStats.sortedMinerStats) {
+		blocksAccum += minerStat[1];
+
+		if (blocksAccum > percent51)
+			break;
+
+		++noOfAddresses;
+	}
+
+	return noOfAddresses;
+}
+
+async function printBlockStats(blocks: Block[], startMoment: moment.Moment) {
+	const blockStats = await getBlockStats(blocks, startMoment);
+	const noOfAddressesToPercent51 = getNoOfAddressesToPercent51(blockStats);
+
+	logger.info(`${blockStats.sortedMinerStats.length} addresses over ${blockStats.totalBlockCount} blocks`);
+	logger.info(`${noOfAddressesToPercent51} of the top addresses generated 51% of the blocks`);
+	if (blockStats.sortedMinerStats[0]) logger.info(`Producer #1: ${blockStats.sortedMinerStats[0][1]} blocks`);
+	if (blockStats.sortedMinerStats[1]) logger.info(`Producer #2: ${blockStats.sortedMinerStats[1][1]} blocks`);
+	if (blockStats.sortedMinerStats[2]) logger.info(`Producer #3: ${blockStats.sortedMinerStats[2][1]} blocks`);
+	if (blockStats.sortedMinerStats[3]) logger.info(`Producer #4: ${blockStats.sortedMinerStats[3][1]} blocks`);
+	if (blockStats.sortedMinerStats[4]) logger.info(`Producer #5: ${blockStats.sortedMinerStats[4][1]} blocks`);
+	if (blockStats.sortedMinerStats[9]) logger.info(`Producer #10: ${blockStats.sortedMinerStats[9][1]} blocks`);
+	if (blockStats.sortedMinerStats[49]) logger.info(`Producer #50: ${blockStats.sortedMinerStats[49][1]} blocks`);
+	if (blockStats.sortedMinerStats[99]) logger.info(`Producer #100: ${blockStats.sortedMinerStats[99][1]} blocks`);
 }

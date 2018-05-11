@@ -14,11 +14,13 @@
 		"axios": "^0.18.0",
 		"cheerio": "^1.0.0-rc.2",
 		"moment": "^2.22.1",
-		"lodash": "^4.17.10"
+		"lodash": "^4.17.10",
+		"pino": "^4.16.1"
 	},
 	"devDependencies": {
 		"@types/cheerio": "^0.22.7",
 		"@types/lodash": "^4.14.108",
+		"@types/pino": "^4.7.1",
 		"typescript": "^2.8.3",
 		"ts-node": "^6.0.3"
 	}

@@ -1,3 +1,21 @@
+// Place your settings in this file to overwrite default and user settings.
 {
-    "editor.formatOnSave": true
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "search.useIgnoreFilesByDefault": true,
+    "tslint.configFile": "tslint.json",
+    "tslint.jsEnable": true,
+    "tslint.autoFixOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "workbench.commandPalette.history": 5,
+    "workbench.commandPalette.preserveInput": true,
+    "autoimport.doubleQuotes": true,
+    "auto-close-tag.activationOnLanguage": [
+        "html",
+        "javascriptreact",
+        "typescriptreact"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }

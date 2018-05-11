@@ -1,65 +1,70 @@
-# Qtum-stats
-Crawls https://qtum.info for blockchain statistics
+# Crypto-Stats
+
+## Summary
+Gathers statistics from various cryptocurrency projects<br/>
+Qtum source: https://qtum.info<br/>
 
 ## How to run
 `npm i`
 
 `npm start`
 
-## Results (11th May 2018)
+##  Qtum Results (12th May 2018)
+//////////////////////////////////////////////////////<br/>
+Qtum<br/>
+//////////////////////////////////////////////////////<br/>
 ~~ consensus_distribution ~~<br/>
-228 addresses over 1 day (397 blocks)<br/>
-Producer #1: 28 blocks<br/>
-Producer #2: 24 blocks<br/>
-Producer #3: 12 blocks<br/>
-Producer #4: 12 blocks<br/>
-Producer #5: 11 blocks<br/>
-Producer #10: 5 blocks<br/>
-Producer #50: 1 blocks<br/>
-Producer #100: 1 blocks<br/>
+226 addresses over 1 day (405 blocks)<br/>
+Producer #1: 24 blocks<br/>
+Producer #2: 22 blocks<br/>
+Producer #3: 18 blocks<br/>
+Producer #4: 13 blocks<br/>
+Producer #5: 10 blocks<br/>
+Producer #10: 4 blocks<br/>
+Producer #50: 2 blocks<br/>
+Producer #100: 2 blocks<br/>
 <br/>
-450 addresses over 2 day (1000 blocks)<br/>
+451 addresses over 2 day (1001 blocks)<br/>
 Producer #1: 59 blocks<br/>
 Producer #2: 57 blocks<br/>
-Producer #3: 33 blocks<br/>
-Producer #4: 28 blocks<br/>
-Producer #5: 26 blocks<br/>
-Producer #10: 15 blocks<br/>
+Producer #3: 40 blocks<br/>
+Producer #4: 26 blocks<br/>
+Producer #5: 24 blocks<br/>
+Producer #10: 10 blocks<br/>
 Producer #50: 3 blocks<br/>
 Producer #100: 3 blocks<br/>
 <br/>
-795 addresses over 4 day (2206 blocks)<br/>
-Producer #1: 122 blocks<br/>
-Producer #2: 120 blocks<br/>
-Producer #3: 69 blocks<br/>
-Producer #4: 48 blocks<br/>
-Producer #5: 47 blocks<br/>
-Producer #10: 27 blocks<br/>
-Producer #50: 7 blocks<br/>
-Producer #100: 7 blocks<br/>
+797 addresses over 4 day (2210 blocks)<br/>
+Producer #1: 121 blocks<br/>
+Producer #2: 119 blocks<br/>
+Producer #3: 74 blocks<br/>
+Producer #4: 52 blocks<br/>
+Producer #5: 50 blocks<br/>
+Producer #10: 28 blocks<br/>
+Producer #50: 8 blocks<br/>
+Producer #100: 8 blocks<br/>
 <br/>
-1196 addresses over 1 week (4008 blocks)<br/>
-Producer #1: 209 blocks<br/>
+1172 addresses over 1 week (4008 blocks)<br/>
+Producer #1: 213 blocks<br/>
 Producer #2: 203 blocks<br/>
-Producer #3: 128 blocks<br/>
-Producer #4: 84 blocks<br/>
-Producer #5: 83 blocks<br/>
-Producer #10: 49 blocks<br/>
+Producer #3: 135 blocks<br/>
+Producer #4: 86 blocks<br/>
+Producer #5: 84 blocks<br/>
+Producer #10: 44 blocks<br/>
 Producer #50: 12 blocks<br/>
 Producer #100: 12 blocks<br/>
 <br/>
-2895 addresses over 1 month (17819 blocks)<br/>
-Producer #1: 966 blocks<br/>
-Producer #2: 751 blocks<br/>
-Producer #3: 736 blocks<br/>
-Producer #4: 421 blocks<br/>
-Producer #5: 321 blocks<br/>
-Producer #10: 198 blocks<br/>
-Producer #50: 59 blocks<br/>
-Producer #100: 59 blocks<br/>
+2899 addresses over 1 month (17825 blocks)<br/>
+Producer #1: 958 blocks<br/>
+Producer #2: 758 blocks<br/>
+Producer #3: 727 blocks<br/>
+Producer #4: 422 blocks<br/>
+Producer #5: 320 blocks<br/>
+Producer #10: 203 blocks<br/>
+Producer #50: 58 blocks<br/>
+Producer #100: 58 blocks<br/>
 <br/>
 ~~ wealth_distribution ~~<br/>
-6.5547% held by the top addresses<br/>
-36.458800000000004% held by the top 10 addresses<br/>
-64.75110000000001% held by the top 50 addresses<br/>
-72.96340000000005% held by the top 100 addresses<br/>
+36.326100000000004% held by the top 10 addresses<br/>
+64.68489999999998% held by the top 50 addresses<br/>
+72.89920000000001% held by the top 100 addresses<br/>

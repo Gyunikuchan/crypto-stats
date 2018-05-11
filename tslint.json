@@ -1,0 +1,63 @@
+{
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {
+        "indent": [
+            true,
+            "tabs"
+        ],
+        "no-empty": false,
+        "ordered-imports": [
+            false
+        ],
+        "object-literal-sort-keys": false,
+        "space-before-function-paren": [
+            true,
+            {
+                "anonymous": "always",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ]
+    },
+    "rules": {
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "indent": [
+            true,
+            "tabs"
+        ],
+        "class-name": true,
+        "variable-name": [
+            "ban-keywords",
+            "check-format"
+        ],
+        "ordered-imports": [
+            false
+        ],
+        "member-ordering": [
+            false
+        ],
+        "object-literal-sort-keys": false,
+        "curly": false,
+        "max-line-length": [
+            false
+        ],
+        "no-namespace": [
+            false
+        ],
+        "no-var-requires": false,
+        "no-empty": false,
+        "interface-name": [
+            false
+        ],
+        "member-access": [
+            "check-accessor"
+        ],
+        "no-empty-interface": false
+    },
+    "rulesDirectory": []
+}

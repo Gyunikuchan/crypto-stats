@@ -30,7 +30,7 @@ export async function getWealthDistribution() {
 export async function printWealthDistribution() {
 	const results = await getWealthDistribution();
 
-	logger.info(`======== Consensus Distribution ========`);
+	logger.info(`======== Wealth Distribution ========`);
 	logger.info(`${results.top10}% held by the top 10 addresses`);
 	logger.info(`${results.top50}% held by the top 50 addresses`);
 	logger.info(`${results.top100}% held by the top 100 addresses`);

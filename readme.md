@@ -50,7 +50,7 @@ Producer #10: 205 blocks<br/>
 Producer #50: 59 blocks<br/>
 Producer #100: 29 blocks<br/>
 <br/>
-======== Consensus Distribution ========<br/>
+======== Wealth Distribution ========<br/>
 36.3244% held by the top 10 addresses<br/>
 64.67959999999998% held by the top 50 addresses<br/>
 72.89980000000003% held by the top 100 addresses<br/>

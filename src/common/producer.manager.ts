@@ -1,4 +1,6 @@
-import logger from "../config/logger";
+import * as _ from "lodash";
+
+import logger from "../utils/logger";
 import { Block } from "./block.manager";
 
 export interface Producer {
@@ -24,7 +26,7 @@ export class ProducerManager {
 	}
 
 	public getNoProducersFor51Percent() {
-		const percent51 = Math.floor(this.producers.length * 0.51);
+		const percent51 = Math.floor(this.blocks.length * 0.51);
 
 		let noOfAddresses = 0;
 		let blocksAccum = 0;
@@ -60,5 +62,15 @@ export class ProducerManager {
 
 		// Transform
 		this.producers = sortedProducers.map((producer) => { return { id: producer[0], blockCount: producer[1] }; });
+
+		// Sanity check
+		this.audit();
+	}
+
+	protected audit() {
+		// Check for unique ids
+		const unique = _.uniqBy(this.producers, (producer) => producer.id);
+		if (unique.length !== this.producers.length)
+			throw new Error("Duplicate producer detected");
 	}
 }

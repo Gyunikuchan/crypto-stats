@@ -2,7 +2,7 @@
 
 ## Summary
 Gathers statistics from various cryptocurrency projects<br/>
-Qtum source: https://qtum.info<br/>
+Disclaimer: These numbers have a lot of nuances and usually can't tell the full story<br/>
 
 ## How to run
 `npm i`

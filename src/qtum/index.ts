@@ -1,6 +1,6 @@
 import * as moment from "moment";
 
-import logger from "../config/logger";
+import logger from "../utils/logger";
 import { QTUM_BLOCKS_SOURCE_URL, QtumBlockManager } from "./qtum.block.manager";
 import { ProducerManager } from "../common/producer.manager";
 import { QTUM_ACCOUNTS_SOURCE_URL, QtumAccountManager } from "./qtum.account.manager";
@@ -28,6 +28,7 @@ async function printConsensusStats() {
 	// Load blocks
 	const endLoadMoment = moment();
 	const startLoadMoment = moment(endLoadMoment).subtract(1, "month");
+	// const startLoadMoment = moment(endLoadMoment).subtract(1, "day");
 	const blockManager = new QtumBlockManager();
 	await blockManager.load(startLoadMoment, endLoadMoment);
 

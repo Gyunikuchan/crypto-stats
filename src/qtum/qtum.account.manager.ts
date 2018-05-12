@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import logger from "../config/logger";
+import logger from "../utils/logger";
 import { AccountManager } from "../common/account.manager";
 
 export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";

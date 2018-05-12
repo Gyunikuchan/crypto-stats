@@ -10,4 +10,5 @@ Disclaimer: These numbers have a lot of nuances and usually can't tell the full 
 `npm start`
 
 ## Results
+[Ethereum](results/ethereum.results.md)<br/>
 [Qtum](results/qtum.results.md)<br/>

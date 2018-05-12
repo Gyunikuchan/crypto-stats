@@ -1,3 +1,9 @@
+import * as eth from "./ethereum";
 import * as qtum from "./qtum";
 
-qtum.printStats();
+async function printStats() {
+	// await eth.printStats();
+	await qtum.printStats();
+}
+
+printStats();

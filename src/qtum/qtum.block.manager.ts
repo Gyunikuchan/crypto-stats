@@ -17,7 +17,7 @@ export class QtumBlockManager extends BlockManager {
 
 		// Loop days
 		while (dayCounter.isBefore(end)) {
-			logger.debug(`Loading day: ${dayCounter.toString()}`);
+			logger.debug(`Loading day: ${dayCounter.toString()}, ${this.blocks.length} blocks`);
 
 			// FIXME: Can optimize with promises to reduce network delay times
 			const response = await axios.get(QTUM_BLOCKS_SOURCE_URL, {

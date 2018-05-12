@@ -2,5 +2,5 @@ import * as Pino from "pino";
 
 export default Pino({
 	prettyPrint: true,
-	level: "info",
+	level: "debug",
 });

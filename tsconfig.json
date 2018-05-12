@@ -3,6 +3,7 @@
 		/* General settings */
 		"target": "es6",
 		"allowJs": true,
+		"baseUrl": "src",
 		/* Module settings */
 		"module": "commonjs",
 		"moduleResolution": "node",

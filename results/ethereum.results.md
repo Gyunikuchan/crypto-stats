@@ -1,39 +1,29 @@
-# Ethereum (May 13th 2018)
+# Ethereum (May 14th 2018)
 Sources:<br/>
 https://etherscan.io/blocks<br/>
 
 ---
-## Consensus Stats
+## Producer Stats
 ### 1 Day Stats
-60 addresses over 5771 blocks<br/>
-3 of the top addresses generated 51% of the blocks<br/>
-> Producer #1 mined 1497 blocks<br/>
-> Producer #2 mined 959 blocks<br/>
-> Producer #3 mined 871 blocks<br/>
-> Producer #4 mined 757 blocks<br/>
-> Producer #5 mined 603 blocks<br/>
-> Producer #10 mined 51 blocks<br/>
-> Producer #50 mined 1 blocks<br/>
+58 addresses over 5802 blocks<br/>
+50% of the blocks are produced by 3 of the top addresses<br/>
+> Producer #1 (Ethermine): mined 1546 blocks<br/>
+> Producer #2 (SparkPool): mined 928 blocks<br/>
+> Producer #3 (f2pool_2): mined 922 blocks<br/>
+> Producer #4 (Nanopool): mined 764 blocks<br/>
+> Producer #5 (miningpoolhub_1): mined 584 blocks<br/>
+> Producer #10 (Ethpool_2): mined 54 blocks<br/>
+> Producer #50 (0xede16675c4aea9b5b92ce1a3750992880d83bb12): mined 1 blocks<br/>
 
 ### 1 Week Stats
-75 addresses over 40254 blocks<br/>
-3 of the top addresses generated 51% of the blocks<br/>
-> Producer #1 mined 10940 blocks<br/>
-> Producer #2 mined 6604 blocks<br/>
-> Producer #3 mined 6090 blocks<br/>
-> Producer #4 mined 5319 blocks<br/>
-> Producer #5 mined 4021 blocks<br/>
-> Producer #10 mined 341 blocks<br/>
-> Producer #50 mined 12 blocks<br/>
+76 addresses over 40224 blocks<br/>
+50% of the blocks are produced by 3 of the top addresses<br/>
+> Producer #1 (Ethermine): mined 10758 blocks<br/>
+> Producer #2 (f2pool_2): mined 6559 blocks<br/>
+> Producer #3 (SparkPool): mined 6157 blocks<br/>
+> Producer #4 (Nanopool): mined 5364 blocks<br/>
+> Producer #5 (miningpoolhub_1): mined 4074 blocks<br/>
+> Producer #10 (PandaPool): mined 339 blocks<br/>
+> Producer #50 (0x6a851246689eb8fc77a9bf68df5860f13f679fa0): mined 12 blocks<br/>
 
-### 1 Month Stats
-104 addresses over 173413 blocks<br/>
-3 of the top addresses generated 51% of the blocks<br/>
-> Producer #1 mined 47617 blocks<br/>
-> Producer #2 mined 28781 blocks<br/>
-> Producer #3 mined 26768 blocks<br/>
-> Producer #4 mined 23586 blocks<br/>
-> Producer #5 mined 17027 blocks<br/>
-> Producer #10 mined 1475 blocks<br/>
-> Producer #50 mined 51 blocks<br/>
-> Producer #100 mined 1 blocks<br/>
+**Number of accounts needed to control 50% blocks: <span style="color:red">3**</span><br/>

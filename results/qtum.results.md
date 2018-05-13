@@ -1,48 +1,48 @@
-# Qtum (May 13th 2018)
+# Qtum (May 14th 2018)
 Sources:<br/>
 https://qtum.info/block<br/>
 https://qtum.info/misc/rich-list<br/>
 
 ---
-## Consensus Stats
+## Producer Stats
 ### 1 Day Stats
-317 addresses over 596 blocks<br/>
-53 of the top addresses generated 51% of the blocks<br/>
-> Producer #1 mined 29 blocks<br/>
-> Producer #2 mined 24 blocks<br/>
-> Producer #3 mined 21 blocks<br/>
-> Producer #4 mined 17 blocks<br/>
-> Producer #5 mined 13 blocks<br/>
-> Producer #10 mined 6 blocks<br/>
-> Producer #50 mined 2 blocks<br/>
-> Producer #100 mined 1 blocks<br/>
+309 addresses over 605 blocks<br/>
+50% of the blocks are produced by 48 of the top addresses<br/>
+> Producer #1: mined 35 blocks<br/>
+> Producer #2: mined 23 blocks<br/>
+> Producer #3: mined 17 blocks<br/>
+> Producer #4: mined 15 blocks<br/>
+> Producer #5: mined 15 blocks<br/>
+> Producer #10: mined 9 blocks<br/>
+> Producer #50: mined 2 blocks<br/>
+> Producer #100: mined 1 blocks<br/>
 
 ### 1 Week Stats
-1210 addresses over 4204 blocks<br/>
-67 of the top addresses generated 51% of the blocks<br/>
-> Producer #1 mined 216 blocks<br/>
-> Producer #2 mined 215 blocks<br/>
-> Producer #3 mined 152 blocks<br/>
-> Producer #4 mined 93 blocks<br/>
-> Producer #5 mined 87 blocks<br/>
-> Producer #10 mined 47 blocks<br/>
-> Producer #50 mined 14 blocks<br/>
-> Producer #100 mined 7 blocks<br/>
+1206 addresses over 4218 blocks<br/>
+50% of the blocks are produced by 62 of the top addresses<br/>
+> Producer #1: mined 221 blocks<br/>
+> Producer #2: mined 217 blocks<br/>
+> Producer #3: mined 145 blocks<br/>
+> Producer #4: mined 93 blocks<br/>
+> Producer #5: mined 91 blocks<br/>
+> Producer #10: mined 45 blocks<br/>
+> Producer #50: mined 14 blocks<br/>
+> Producer #100: mined 7 blocks<br/>
 
-### 1 Month Stats
-2927 addresses over 18018 blocks<br/>
-72 of the top addresses generated 51% of the blocks<br/>
-> Producer #1 mined 964 blocks<br/>
-> Producer #2 mined 773 blocks<br/>
-> Producer #3 mined 730 blocks<br/>
-> Producer #4 mined 423 blocks<br/>
-> Producer #5 mined 327 blocks<br/>
-> Producer #10 mined 208 blocks<br/>
-> Producer #50 mined 59 blocks<br/>
-> Producer #100 mined 29 blocks<br/>
+**Number of accounts needed to control 50% blocks: <span style="color:red">48**</span><br/>
 
 ---
-## Wealth Stats
-36.290% held by the top 10 accounts<br/>
-64.681% held by the top 50 accounts<br/>
-72.885% held by the top 100 accounts<br/>
+## Stake Stats
+36.239% held by the top 10 accounts<br/>
+64.724% held by the top 50 accounts<br/>
+72.963% held by the top 100 accounts<br/>
+> Account #1: holds 6.5542%<br/>
+> Account #2: holds 5.9647%<br/>
+> Account #3: holds 5.9647%<br/>
+> Account #4: holds 3.6258%<br/>
+> Account #5: holds 2.9823%<br/>
+> Account #10: holds 1.6914%<br/>
+> Account #50: holds 0.2982%<br/>
+> Account #100: holds 0.0955%<br/>
+
+**Number of accounts needed to control 50% stakes: <span style="color:red">24**</span><br/>

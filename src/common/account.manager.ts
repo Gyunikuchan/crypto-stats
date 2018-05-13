@@ -1,3 +1,5 @@
+import * as _ from "lodash";
+
 import logger from "../utils/logger";
 
 export interface Account {
@@ -14,8 +16,8 @@ export abstract class AccountManager {
 	 */
 	public abstract async load();
 
-	public getTotalAmount() {
-		return this.totalAmount;
+	public getAccount(index: number) {
+		return this.accounts[index];
 	}
 
 	public getAccumulatedAmountForAccountsCount(accountsCount: number) {
@@ -30,5 +32,37 @@ export abstract class AccountManager {
 		}
 
 		return accumAmount;
+	}
+
+	public getAccumulatedWealthPercentageForAccountsCount(accountsCount: number) {
+		return this.getAccumulatedAmountForAccountsCount(accountsCount) / this.totalAmount;
+	}
+
+	public getNoAccountFor50PercentWealth() {
+		const percent50 = Math.floor(this.totalAmount * 0.5);
+
+		let noOfAddresses = 0;
+		let amountAccum = 0;
+		for (const account of this.accounts) {
+			++noOfAddresses;
+			amountAccum += account.amount;
+
+			logger.debug(`Account #${noOfAddresses} holds ${account.amount}, totalling ${amountAccum}`);
+			if (amountAccum > percent50)
+				break;
+		}
+
+		return noOfAddresses;
+	}
+
+	// =============================================================================
+	// Helpers
+	// =============================================================================
+
+	protected audit() {
+		// Check for unique ids
+		const unique = _.uniqBy(this.accounts, (account) => account.id);
+		if (unique.length !== this.accounts.length)
+			throw new Error("Duplicate account detected");
 	}
 }

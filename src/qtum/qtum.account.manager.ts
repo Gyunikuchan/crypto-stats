@@ -9,7 +9,7 @@ export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export class QtumAccountManager extends AccountManager {
 	constructor() {
 		super();
-		this.totalAmount = 1;	// Amount is in percentage
+		this.totalAmount = 100;	// Amount is in percentage
 	}
 
 	public async load() {
@@ -30,6 +30,16 @@ export class QtumAccountManager extends AccountManager {
 			});
 		});
 
+		// Sanity check
+		this.audit();
+
 		logger.debug(`Loaded accounts: ${this.accounts.length}`);
+	}
+
+	/**
+	 * Amount is already in percentage
+	 */
+	public getAccumulatedWealthPercentageForAccountsCount(accountsCount: number) {
+		return this.getAccumulatedAmountForAccountsCount(accountsCount);
 	}
 }

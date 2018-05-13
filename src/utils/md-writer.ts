@@ -37,6 +37,7 @@ export class MDWriter {
 	}
 
 	public writeDivider() {
+		this.write();
 		this.write(`---`);
 	}
 }

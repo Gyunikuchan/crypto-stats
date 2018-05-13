@@ -25,8 +25,8 @@ export class ProducerManager {
 		return this.producers.length;
 	}
 
-	public getNoProducersFor51Percent() {
-		const percent51 = Math.floor(this.blocks.length * 0.51);
+	public getNoProducersFor50PercentConsensus() {
+		const percent50 = Math.floor(this.blocks.length * 0.5);
 
 		let noOfAddresses = 0;
 		let blocksAccum = 0;
@@ -35,7 +35,7 @@ export class ProducerManager {
 			blocksAccum += producer.blockCount;
 
 			logger.debug(`Producer #${noOfAddresses} mined ${producer.blockCount} blocks, totalling ${blocksAccum} blocks`);
-			if (blocksAccum > percent51)
+			if (blocksAccum > percent50)
 				break;
 		}
 

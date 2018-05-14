@@ -14,55 +14,28 @@ export class EthBlockManager extends BlockManager {
 		this.startMoment = start;
 		this.endMoment = end;
 
-		let lastHeight;
-		for (let page = 1; true; ++page) {
-			logger.debug(`Loading page: ${page}, ${this.blocks.length} blocks`);
+		// Loop pages 5 at a time
+		let startReached = false;
+		for (let page = 1; true; page += 5) {
+			const results = await Promise.all([
+				this.loadPage(start, end, page),
+				this.loadPage(start, end, page + 1),
+				this.loadPage(start, end, page + 2),
+				this.loadPage(start, end, page + 3),
+				this.loadPage(start, end, page + 4),
+			]);
 
-			// FIXME: Can optimize with promises to reduce network delay times
-			const response = await axios.get(ETH_BLOCKS_SOURCE_URL, {
-				params: {
-					p: page,
-					ps: 100,
-				},
-			});
-
-			const $ = cheerio.load(response.data);
-			const dataRows = $(`tbody`).children();
-
-			// Loop blocks
-			let startReached = false;
-
-			dataRows.each((index, element) => {
-				if (element.children.length !== 9)
-					return;
-
-				// Check height
-				const height = Number.parseInt(element.children[0].children[0].children[0].data);
-				if (lastHeight != null && height >= lastHeight)
-					return;
-
-				lastHeight = height;
-
-				// Check time
-				const blockTimeString = element.children[1].children[0].attribs.title;
-				const blockTimeMoment = moment.utc(blockTimeString, "MMM-DD-YYYY hh:mm:ss A");
-
-				if (blockTimeMoment.isBefore(start)) {
+			// Combine blocks
+			for (const result of results) {
+				if (result.startReached) {
 					startReached = true;
-					return;
-				}
-				if (blockTimeMoment.isAfter(end)) {
-					return;
+					break;
 				}
 
-				// Add block
-				const producer = element.children[4].children[0].children[0].data;
-				this.blocks.push({
-					height,
-					producer,
-					time: blockTimeMoment,
-				});
-			});
+				const lastHeight = (this.blocks.length > 0 ? this.blocks[this.blocks.length - 1].height : Number.MAX_SAFE_INTEGER);
+				const startIndex = result.blocks.findIndex((block) => block.height < lastHeight);
+				this.blocks.push(...result.blocks.splice(startIndex));
+			}
 
 			if (startReached)
 				break;
@@ -75,5 +48,53 @@ export class EthBlockManager extends BlockManager {
 		this.audit();
 
 		logger.debug(`Loaded blocks: ${this.blocks.length}`);
+	}
+
+	private async loadPage(start: moment.Moment, end: moment.Moment, page: number) {
+		logger.debug(`Loading page: ${page}`);
+
+		const response = await axios.get(ETH_BLOCKS_SOURCE_URL, {
+			params: {
+				p: page,
+				ps: 100,
+			},
+		});
+
+		const $ = cheerio.load(response.data);
+		const dataRows = $(`tbody`).children();
+
+		// Loop blocks
+		let startReached = false;
+		const blocks: Block[] = [];
+		dataRows.each((index, element) => {
+			if (element.children.length !== 9)
+				return;
+
+			// Check time
+			const blockTimeString = element.children[1].children[0].attribs.title;
+			const blockTimeMoment = moment.utc(blockTimeString, "MMM-DD-YYYY hh:mm:ss A");
+
+			if (blockTimeMoment.isBefore(start)) {
+				startReached = true;
+				return;
+			}
+			if (blockTimeMoment.isAfter(end)) {
+				return;
+			}
+
+			// Add block
+			const height = Number.parseInt(element.children[0].children[0].children[0].data);
+			const producer = element.children[4].children[0].children[0].data;
+			blocks.push({
+				height,
+				producer,
+				time: blockTimeMoment,
+			});
+		});
+
+		return {
+			startReached,
+			blocks,
+		};
 	}
 }

@@ -52,7 +52,10 @@ export abstract class AccountManager {
 				break;
 		}
 
-		return noOfAddresses;
+		return {
+			noOfAddresses,
+			moreThan: noOfAddresses === this.accounts.length,
+		};
 	}
 
 	// =============================================================================

@@ -40,6 +40,15 @@ export abstract class BlockManager {
 	// =============================================================================
 
 	protected audit() {
+		// Check for running block heights
+		const startHeight = this.blocks[0].height;
+		for (let i = 1; i < this.blocks.length; ++i) {
+			const block = this.blocks[i];
+			const expectedBlockHeight = startHeight + i;
+			if (block.height !== expectedBlockHeight)
+				throw new Error(`Missing block height: ${expectedBlockHeight}`);
+		}
+
 		// Check for unique block heights
 		const unique = _.uniqBy(this.blocks, (block) => block.height);
 		if (unique.length !== this.blocks.length)

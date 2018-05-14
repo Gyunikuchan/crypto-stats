@@ -113,7 +113,8 @@ async function writeStakeStats() {
 
 	// Stake score
 	const stakeScore = accountManager.getNoAccountFor50PercentWealth();
-	writer.writeLn(`**Number of accounts needed to control 50% stakes: <span style="color:red">${stakeScore}**</span>`);
+	const prefixSymbol = stakeScore.moreThan ? ">" : "";
+	writer.writeLn(`**Number of accounts needed to control 50% stakes: <span style="color:red">${prefixSymbol}${stakeScore.noOfAddresses}**</span>`);
 
 	return stakeScore;
 }

@@ -20,6 +20,11 @@ export class MDWriter {
 		this.writeStream.write(`${line}\n`);
 	}
 
+	public writeQuoted(line?: string) {
+		line = line || ``;
+		this.write(`> ${line}`);
+	}
+
 	public writeLn(line?: string) {
 		line = line || ``;
 		this.write(`${line}<br/>`);

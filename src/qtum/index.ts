@@ -2,8 +2,8 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md-writer";
-import { QTUM_BLOCKS_SOURCE_URL, QtumBlockManager } from "./qtum.block.manager";
 import { ProducerManager } from "../common/producer.manager";
+import { QTUM_BLOCKS_SOURCE_URL, QtumBlockManager } from "./qtum.block.manager";
 import { QTUM_ACCOUNTS_SOURCE_URL, QtumAccountManager } from "./qtum.account.manager";
 
 const OUTPUT_PATH = `${__dirname}/../../results/qtum.results.md`;

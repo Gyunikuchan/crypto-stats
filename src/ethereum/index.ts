@@ -1,8 +1,10 @@
+import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md-writer";
-import { ETH_BLOCKS_SOURCE_URL, EthBlockManager } from "./eth.block.manager";
 import { ProducerManager } from "../common/producer.manager";
+import { ETH_BLOCKS_SOURCE_URL, EthBlockManager } from "./eth.block.manager";
+import { ETH_ACCOUNTS_SOURCE_URL, EthAccountManager } from "./eth.account.manager";
 
 const OUTPUT_PATH = `${__dirname}/../../results/ethereum.results.md`;
 const writer: MDWriter = new MDWriter();
@@ -13,11 +15,11 @@ export async function printStats() {
 	writer.writeHeader(`Ethereum (${moment().format("MMMM Do YYYY")})`, 1);
 	writer.writeLn(`Sources:`);
 	writer.writeLn(`${ETH_BLOCKS_SOURCE_URL}`);
-	// writer.writeLn(`${ETH_ACCOUNTS_SOURCE_URL}`);
+	writer.writeLn(`${ETH_ACCOUNTS_SOURCE_URL}`);
 	writer.writeDivider();
 	const producerScore = await writeProducerStats();
-	// writer.writeDivider();
-	// await writeWealthStats();
+	writer.writeDivider();
+	const wealthScore = await writeWealthStats();
 
 	writer.close();
 }
@@ -67,10 +69,10 @@ function writePeriodProducerStats(blockManager: EthBlockManager, startMoment: mo
 	writer.writeLn(`50% of the blocks are produced by ${producersScore} of the top addresses`);
 
 	// Top producers
-	for (const index of [0, 1, 2, 3, 4, 9, 49, 99]) {
+	for (const index of [..._.range(0, 10), ..._.range(19, 50, 10), 99]) {
 		const producer = producerManager.getProducer(index);
 		if (producer)
-			writer.writeLnQuoted(`Producer #${index + 1} (${producer.id}): mined ${producer.blockCount} blocks`);
+			writer.writeLnQuoted(`Producer #${index + 1}: mined ${producer.blockCount} blocks (${producer.id})`);
 	}
 
 	return producersScore;
@@ -80,4 +82,34 @@ function writePeriodProducerStats(blockManager: EthBlockManager, startMoment: mo
 // Wealth
 // =============================================================================
 
-// TODO:
+async function writeWealthStats() {
+	writer.writeHeader(`Wealth Stats`, 2);
+
+	// Load accounts
+	const accountManager = new EthAccountManager();
+	await accountManager.load();
+
+	// Top accumulated
+	const accumWealthPercent10 = accountManager.getAccumulatedWealthPercentageForAccountsCount(10);
+	writer.writeLn(`${accumWealthPercent10.toPrecision(5)}% held by the top 10 accounts`);
+
+	const accumWealthPercent50 = accountManager.getAccumulatedWealthPercentageForAccountsCount(50);
+	writer.writeLn(`${accumWealthPercent50.toPrecision(5)}% held by the top 50 accounts`);
+
+	const accumWealthPercent100 = accountManager.getAccumulatedWealthPercentageForAccountsCount(100);
+	writer.writeLn(`${accumWealthPercent100.toPrecision(5)}% held by the top 100 accounts`);
+
+	// Top accounts
+	for (const index of [..._.range(0, 10), ..._.range(19, 50, 10), 99]) {
+		const account = accountManager.getAccount(index);
+		if (account)
+			writer.writeLnQuoted(`Account #${(index + 1)}: holds ${account.amount}% (${account.id})`);
+	}
+	writer.write();
+
+	// Stake score
+	const wealthScore = accountManager.getNoAccountFor50PercentWealth();
+	writer.writeLn(`**Number of accounts needed to control 50% wealth: <span style="color:red">${wealthScore}**</span>`);
+
+	return wealthScore;
+}

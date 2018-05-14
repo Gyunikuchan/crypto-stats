@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md-writer";
@@ -68,10 +69,10 @@ function writePeriodProducerStats(blockManager: QtumBlockManager, startMoment: m
 	writer.writeLn(`50% of the blocks are produced by ${producersScore} of the top addresses`);
 
 	// Top producers
-	for (const index of [0, 1, 2, 3, 4, 9, 49, 99]) {
+	for (const index of [..._.range(0, 10), ..._.range(19, 50, 10), 99]) {
 		const producer = producerManager.getProducer(index);
 		if (producer)
-			writer.writeLnQuoted(`Producer #${index + 1}: mined ${producer.blockCount} blocks`);
+			writer.writeLnQuoted(`Producer #${(index + 1)}: mined ${producer.blockCount} blocks (${producer.id})`);
 	}
 
 	return producersScore;
@@ -99,10 +100,10 @@ async function writeStakeStats() {
 	writer.writeLn(`${accumWealthPercent100.toPrecision(5)}% held by the top 100 accounts`);
 
 	// Top accounts
-	for (const index of [0, 1, 2, 3, 4, 9, 49, 99]) {
+	for (const index of [..._.range(0, 10), ..._.range(19, 50, 10), 99]) {
 		const account = accountManager.getAccount(index);
 		if (account)
-			writer.writeLnQuoted(`Account #${index + 1}: holds ${account.amount}%`);
+			writer.writeLnQuoted(`Account #${(index + 1)}: holds ${account.amount}% (${account.id})`);
 	}
 	writer.write();
 

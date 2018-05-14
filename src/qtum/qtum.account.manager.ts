@@ -21,7 +21,7 @@ export class QtumAccountManager extends AccountManager {
 
 		// Loop accounts
 		dataRows.each((index, element) => {
-			const id = element.children[0].children[0].data;
+			const id = element.children[1].children[0].children[0].children[0].data;
 			const percentage = element.children[3].children[0].data;
 
 			this.accounts.push({

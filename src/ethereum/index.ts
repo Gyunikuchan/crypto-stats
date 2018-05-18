@@ -29,7 +29,7 @@ export async function printStats() {
 // =============================================================================
 
 async function writeProducerStats() {
-	writer.writeHeader(`Producer Stats`, 2);
+	writer.writeHeader(`Miner Stats`, 2);
 
 	// Load blocks
 	const endLoadMoment = moment();
@@ -52,7 +52,7 @@ async function writeProducerStats() {
 
 	// Producer score
 	const producerScore = Math.min(producersScore1Day, producersScore1Week);
-	writer.writeLn(`**Number of accounts needed to control 50% blocks: <span style="color:red">${producerScore}**</span>`);
+	writer.writeHeader(`**\\# of accounts needed to control 50% hash power: <span style="color:red">${producerScore}</span>**`, 3);
 
 	return producerScore;
 }
@@ -60,21 +60,20 @@ async function writeProducerStats() {
 function writePeriodProducerStats(blockManager: EthBlockManager, startMoment: moment.Moment, endMoment: moment.Moment) {
 	const blocks = blockManager.getBlocks(startMoment, endMoment);
 	const producerManager = new ProducerManager(blocks);
-
-	// Number of participating producers
-	writer.writeLn(`${producerManager.getProducersCount()} addresses over ${blocks.length} blocks`);
-
-	// Producer score
 	const producersScore = producerManager.getNoProducersFor50PercentConsensus();
-	writer.writeLn(`50% of the blocks are produced by ${producersScore} of the top addresses`);
+
+	// Producer stats
+	writer.writeLn(`Total blocks mined: **${blocks.length}**`);
+	writer.writeLn(`Unique accounts that mined a block: **${producerManager.getProducersCount()}**`);
+	writer.writeLn(`\\# of top accounts that mined 50% of the blocks: **${producersScore}**`);
 
 	// Top producers
-	writer.writeQuoted(`|Rank|Address|Blocks mined`);
-	writer.writeQuoted(`|---|---|---`);
+	writer.writeQuoted(`|Rank|Address|Blocks mined|`);
+	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const producer = producerManager.getProducer(index);
 		if (producer)
-			writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}`);
+			writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}|`);
 	}
 
 	return producersScore;
@@ -93,28 +92,27 @@ async function writeWealthStats() {
 
 	// Top accumulated
 	const accumWealthPercent10 = accountManager.getAccumulatedWealthPercentageForAccountsCount(10);
-	writer.writeLn(`${accumWealthPercent10.toPrecision(5)}% held by the top 10 accounts`);
-
 	const accumWealthPercent50 = accountManager.getAccumulatedWealthPercentageForAccountsCount(50);
-	writer.writeLn(`${accumWealthPercent50.toPrecision(5)}% held by the top 50 accounts`);
-
 	const accumWealthPercent100 = accountManager.getAccumulatedWealthPercentageForAccountsCount(100);
-	writer.writeLn(`${accumWealthPercent100.toPrecision(5)}% held by the top 100 accounts`);
+
+	writer.writeLn(`Amount held by the top 10 accounts: **${accumWealthPercent10.toPrecision(5)}%**`);
+	writer.writeLn(`Amount held by the top 50 accounts: **${accumWealthPercent50.toPrecision(5)}%**`);
+	writer.writeLn(`Amount held by the top 100 accounts: **${accumWealthPercent100.toPrecision(5)}%**`);
 
 	// Top accounts
-	writer.writeQuoted(`|Rank|Address|Amount(%)`);
-	writer.writeQuoted(`|---|---|---`);
+	writer.writeQuoted(`|Rank|Address|Amount(%)|`);
+	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = accountManager.getAccount(index);
 		if (account)
-			writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.amount}`);
+			writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.amount}|`);
 	}
 	writer.write();
 
 	// Stake score
 	const wealthScore = accountManager.getNoAccountFor50PercentWealth();
 	const prefixSymbol = wealthScore.moreThan ? ">" : wealthScore.noOfAddresses;
-	writer.writeLn(`**Number of accounts needed to control 50% wealth: <span style="color:red">${prefixSymbol}${wealthScore.noOfAddresses}**</span>`);
+	writer.writeHeader(`**\\# of accounts needed to control 50% wealth: <span style="color:red">${prefixSymbol}${wealthScore.noOfAddresses}</span>**`, 3);
 
 	return wealthScore;
 }

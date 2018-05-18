@@ -16,13 +16,12 @@ export class EthBlockManager extends BlockManager {
 
 		// Loop pages 5 at a time
 		let startReached = false;
-		for (let page = 1; true; page += 5) {
+		for (let page = 1; true; page += 4) {
 			const results = await Promise.all([
 				this.loadPage(start, end, page),
 				this.loadPage(start, end, page + 1),
 				this.loadPage(start, end, page + 2),
 				this.loadPage(start, end, page + 3),
-				this.loadPage(start, end, page + 4),
 			]);
 
 			// Combine blocks

@@ -40,36 +40,31 @@ export abstract class BlockManager {
 	// =============================================================================
 
 	protected audit() {
-		// Check for running block heights
+		// Loop blocks
 		const startHeight = this.blocks[0].height;
 		for (let i = 1; i < this.blocks.length; ++i) {
 			const block = this.blocks[i];
+
+			// Check for running block heights
 			const expectedBlockHeight = startHeight + i;
 			if (block.height !== expectedBlockHeight)
 				throw new Error(`Missing block height: ${expectedBlockHeight}`);
+
+			// Check for bad id
+			if (!block.producer)
+				throw new Error(`Bad account id detected: ${block.height}`);
+
+			// Check for time constraints
+			if (block.time.isBefore(this.startMoment))
+				throw new Error(`Block found before start: ${block.height}`);
+
+			if (block.time.isAfter(this.endMoment))
+				throw new Error(`Block found after end: ${block.height}`);
 		}
 
 		// Check for unique block heights
 		const unique = _.uniqBy(this.blocks, (block) => block.height);
 		if (unique.length !== this.blocks.length)
-			throw new Error("Duplicate block detected");
-
-		// Check for time constraints
-		const failedTimeConstraintCheck = _.some(this.blocks, (block: Block) => {
-			if (block.time.isBefore(this.startMoment)) {
-				logger.warn(`Block found before start: ${block.time}`);
-				return true;
-			}
-
-			if (block.time.isAfter(this.endMoment)) {
-				logger.warn(`Block found after end: ${block.time}`);
-				return true;
-			}
-
-			return false;
-		});
-
-		if (failedTimeConstraintCheck)
-			throw new Error("Block outside of time range detected");
+			throw new Error(`Duplicate block detected: ${unique.length}`);
 	}
 }

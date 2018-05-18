@@ -63,6 +63,11 @@ export abstract class AccountManager {
 	// =============================================================================
 
 	protected audit() {
+		// Check for bad id
+		const failedIdCheck = _.some(this.accounts, (account) => !account);
+		if (failedIdCheck)
+			throw new Error("Bad account id detected");
+
 		// Check for unique ids
 		const unique = _.uniqBy(this.accounts, (account) => account.id);
 		if (unique.length !== this.accounts.length)

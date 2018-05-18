@@ -33,8 +33,8 @@ async function writeProducerStats() {
 
 	// Load blocks
 	const endLoadMoment = moment();
-	const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	// const startLoadMoment = moment(endLoadMoment).subtract(1, "day");
+	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
+	const startLoadMoment = moment(endLoadMoment).subtract(1, "day");
 	const blockManager = new QtumBlockManager();
 	await blockManager.load(startLoadMoment, endLoadMoment);
 

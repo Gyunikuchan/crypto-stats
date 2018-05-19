@@ -74,17 +74,17 @@ function writePeriodProducerStats(statsManager: QtumStatsManager, start: moment.
 
 	// Producer stats
 	writer.writeLn(`Total blocks: **${stats.totalBlocks}**`);
-	writer.writeLn(`Total producers: **${stats.noProducers}**`);
+	writer.writeLn(`Total producers: **${stats.producers.length}**`);
 	writer.writeLn(`No of producers to take over: **${stats.noTopProducersToTakeOver}**`);
 
 	// Top producers
-	// writer.writeQuoted(`|Rank|Address|Blocks produced|`);
-	// writer.writeQuoted(`|---|---|---|`);
-	// for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
-	// 	const producer = producerManager.getProducer(index);
-	// 	if (producer)
-	// 		writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}|`);
-	// }
+	writer.writeQuoted(`|Rank|Address|Blocks|`);
+	writer.writeQuoted(`|---|---|---|`);
+	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
+		const producer = stats.producers[index];
+		if (producer)
+			writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}|`);
+	}
 
 	return stats.noTopProducersToTakeOver;
 }
@@ -106,14 +106,14 @@ async function writeWealthStats(statsManager: QtumStatsManager) {
 	writer.writeLn(`Amount held by the top 100 accounts: **${accumWealthPercent100.toPrecision(5)}%**`);
 
 	// Top accounts
-	// writer.writeQuoted(`|Rank|Address|Amount(%)|`);
-	// writer.writeQuoted(`|---|---|---|`);
-	// for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
-	// 	const account = accountManager.getAccount(index);
-	// 	if (account)
-	// 		writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.amount}|`);
-	// }
-	// writer.write();
+	writer.writeQuoted(`|Rank|Address|Amount(%)|`);
+	writer.writeQuoted(`|---|---|---|`);
+	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
+		const account = statsManager.accounts[index];
+		if (account)
+			writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.wealth.toPrecision(5)}|`);
+	}
+	writer.write();
 
 	// Summary
 	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth();

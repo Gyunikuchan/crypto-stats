@@ -17,8 +17,8 @@ export class ProducerService {
 		const noTopProducersToTakeOver = this.getNoTopProducersToTakeOver(blocks, producers, percentToTakeOver);
 
 		return {
+			producers,
 			totalBlocks: blocks.length,
-			noProducers: producers.length,
 			noTopProducersToTakeOver,
 		};
 	}

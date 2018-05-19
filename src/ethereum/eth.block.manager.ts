@@ -9,7 +9,7 @@ import logger from "../utils/logger";
 export const ETH_BLOCKS_SOURCE_URL = "https://etherscan.io/blocks";
 
 export class EthBlockManager extends BlockManager {
-	public async load(start: moment.Moment, end: moment.Moment) {
+	public async loadBlocks(start: moment.Moment, end: moment.Moment) {
 		logger.debug(`Loading blocks: ${start.toString()} - ${end.toString()}`);
 		this.startMoment = start;
 		this.endMoment = end;
@@ -48,6 +48,14 @@ export class EthBlockManager extends BlockManager {
 
 		logger.debug(`Loaded blocks: ${this.blocks.length}`);
 	}
+
+	public async loadTotalNodeCount() {
+		// TODO:
+	}
+
+	// =============================================================================
+	// Helpers
+	// =============================================================================
 
 	private async loadPage(start: moment.Moment, end: moment.Moment, page: number) {
 		logger.debug(`Loading page: ${page}`);

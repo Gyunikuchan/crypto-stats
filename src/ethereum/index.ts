@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as moment from "moment";
 
-import { MDWriter } from "../utils/md-writer";
+import { MDWriter } from "../utils/md_writer";
 import { ProducerManager } from "../common/producer.manager";
 import { ETH_BLOCKS_SOURCE_URL, EthBlockManager } from "./eth.block.manager";
 import { ETH_ACCOUNTS_SOURCE_URL, EthAccountManager } from "./eth.account.manager";
@@ -36,7 +36,7 @@ async function writeProducerStats() {
 	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
 	const startLoadMoment = moment(endLoadMoment).subtract(1, "day");
 	const blockManager = new EthBlockManager();
-	await blockManager.load(startLoadMoment, endLoadMoment);
+	await blockManager.loadBlocks(startLoadMoment, endLoadMoment);
 
 	// 1 day
 	const start1Day = moment(endLoadMoment).subtract(1, "day");
@@ -88,7 +88,7 @@ async function writeWealthStats() {
 
 	// Load accounts
 	const accountManager = new EthAccountManager();
-	await accountManager.load();
+	await accountManager.loadAccounts();
 
 	// Top accumulated
 	const accumWealthPercent10 = accountManager.getAccumulatedWealthPercentageForAccountsCount(10);

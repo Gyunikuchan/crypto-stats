@@ -13,7 +13,7 @@ export class EthAccountManager extends AccountManager {
 		this.totalAmount = 100;	// Amount is in percentage
 	}
 
-	public async load() {
+	public async loadAccounts() {
 		logger.debug(`Loading accounts`);
 
 		const response = await axios.get(`${ETH_ACCOUNTS_SOURCE_URL}/1`, {

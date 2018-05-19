@@ -14,7 +14,7 @@ export abstract class AccountManager {
 	/**
 	 * Load top accounts and sort them by amount (ascending)
 	 */
-	public abstract async load();
+	public abstract async loadAccounts();
 
 	public getAccount(index: number) {
 		return this.accounts[index];

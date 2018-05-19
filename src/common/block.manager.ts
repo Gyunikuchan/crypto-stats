@@ -13,11 +13,16 @@ export abstract class BlockManager {
 	protected startMoment: moment.Moment;
 	protected endMoment: moment.Moment;
 	protected blocks: Block[] = [];
-
+	protected totalNodeCount: number;
 	/**
 	 * Load all blocks for time period and sort them by time (ascending)
 	 */
-	public abstract async load(start: moment.Moment, end: moment.Moment);
+	public abstract async loadBlocks(start: moment.Moment, end: moment.Moment);
+
+	/**
+	 * Load the current total number of nodes
+	 */
+	public abstract async loadTotalNodeCount();
 
 	public getBlocks(start: moment.Moment, end: moment.Moment) {
 		// FIXME: Could be optimized with binary search for partition

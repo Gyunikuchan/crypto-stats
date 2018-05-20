@@ -1,12 +1,12 @@
 # Qtum (May 21st 2018)
 Combining a modified Bitcoin Core infrastructure with an intercompatible version of the Ethereum Virtual Machine (EVM),<br/>
 Qtum merges the reliability of Bitcoin’s unfailing blockchain with the endless possibilities provided by smart contracts. <br/>
-|||
+| | |
 |---|---|
 |**Website**|https://qtum.org|
 |**Sources**|https://qtum.info/misc/rich-list|
-||https://qtum.info/block|
-||https://qtum.org/api/nodes|
+| |https://qtum.info/block|
+| |https://qtum.org/api/nodes|
 |**Consensus**|PoS|
 |**Total nodes**|6970|
 

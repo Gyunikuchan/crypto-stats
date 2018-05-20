@@ -1,11 +1,11 @@
 # Ethereum (May 21st 2018)
 Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.<br/>
-|||
+| | |
 |---|---|
 |**Website**|https://www.ethereum.org|
 |**Sources**|https://etherscan.io/accounts|
-||https://etherscan.io/blocks|
-||https://www.ethernodes.org/network|
+| |https://etherscan.io/blocks|
+| |https://www.ethernodes.org/network|
 |**Consensus**|PoW|
 |**Total nodes**|15328|
 

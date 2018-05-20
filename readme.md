@@ -4,8 +4,8 @@ Gathers decentralization statistics for various cryptocurrency projects<br/>
 Disclaimer: These numbers are often very nuanced and cannot tell the full story<br/>
 
 ## How to run
-> npm i<br/>
-> npm start<br/>
+`npm i`<br/>
+`npm start`<br/>
 
 ## Results
 Date: May 21st 2018<br/>

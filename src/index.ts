@@ -28,8 +28,8 @@ async function writeSummary() {
 	writer.write(``);
 
 	writer.writeHeader(`How to run`, 2);
-	writer.writeLnQuoted(`npm i`);
-	writer.writeLnQuoted(`npm start`);
+	writer.writeLn(`\`npm i\``);
+	writer.writeLn(`\`npm start\``);
 	writer.write(``);
 
 	writer.writeHeader(`Results`, 2);

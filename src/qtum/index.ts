@@ -50,7 +50,7 @@ function writeSummary(statsManager: QtumStatsManager) {
 	writer.writeLn(`Combining a modified Bitcoin Core infrastructure with an intercompatible version of the Ethereum Virtual Machine (EVM),`);
 	writer.writeLn(`Qtum merges the reliability of Bitcoin’s unfailing blockchain with the endless possibilities provided by smart contracts. `);
 
-	writer.write(`| | |`);
+	writer.write(`|Attribute|Description|`);
 	writer.write(`|---|---|`);
 	writer.write(`|**Website**|https://qtum.org|`);
 	writer.write(`|**Sources**|${QTUM_ACCOUNTS_SOURCE_URL}|`);

@@ -2,98 +2,107 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md_writer";
-import { ProducerManager } from "../common/producer.manager";
-import { ETH_BLOCKS_SOURCE_URL, EthBlockManager } from "./eth.block.manager";
-import { ETH_ACCOUNTS_SOURCE_URL, EthAccountManager } from "./eth.account.manager";
+import {
+	ETH_ACCOUNTS_SOURCE_URL,
+	ETH_BLOCKS_SOURCE_URL,
+	ETH_NODES_SOURCE_URL,
+	EthereumStatsManager,
+} from "./ethereum.stats.manager";
 
-const OUTPUT_PATH = `${__dirname}/../../results/ethereum.results.md`;
 const writer: MDWriter = new MDWriter();
 
-export async function printStats() {
-	writer.open(OUTPUT_PATH);
+export async function writeStats(start: moment.Moment, end: moment.Moment) {
+	// Load stats
+	const statsManager = new EthereumStatsManager(start, end);
+	await statsManager.load();
 
-	writer.writeHeader(`Ethereum (${moment().format("MMMM Do YYYY")})`, 1);
-	writer.writeLn(`Sources:`);
-	writer.writeLn(`${ETH_BLOCKS_SOURCE_URL}`);
-	writer.writeLn(`${ETH_ACCOUNTS_SOURCE_URL}`);
+	// Write
+	writer.open(`${__dirname}/../../results/${statsManager.name.toLowerCase()}.results.md`);
+
+	writeSummary(statsManager);
+
 	writer.writeDivider();
-	const producerScore = await writeProducerStats();
+	writeProducerStats(statsManager);
+
 	writer.writeDivider();
-	const wealthScore = await writeWealthStats();
+	writeWealthStats(statsManager);
 
 	writer.close();
+}
+
+// =============================================================================
+// Summary
+// =============================================================================
+
+function writeSummary(statsManager: EthereumStatsManager) {
+	writer.writeHeader(`${statsManager.name} (${statsManager.end.format("MMMM Do YYYY")})`, 1);
+	writer.writeLn(`Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.`);
+
+	writer.write(`|||`);
+	writer.write(`|---|---|`);
+	writer.write(`|**Website**|https://www.ethereum.org|`);
+	writer.write(`|**Sources**|${ETH_ACCOUNTS_SOURCE_URL}|`);
+	writer.write(`||${ETH_BLOCKS_SOURCE_URL}|`);
+	writer.write(`||${ETH_NODES_SOURCE_URL}|`);
+	writer.write(`|**Consensus**|PoW|`);
+	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
 }
 
 // =============================================================================
 // Producers
 // =============================================================================
 
-async function writeProducerStats() {
-	writer.writeHeader(`Miner Stats`, 2);
-
-	// Load blocks
-	const endLoadMoment = moment();
-	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	const startLoadMoment = moment(endLoadMoment).subtract(1, "day");
-	const blockManager = new EthBlockManager();
-	await blockManager.loadBlocks(startLoadMoment, endLoadMoment);
+function writeProducerStats(statsManager: EthereumStatsManager) {
+	writer.writeHeader(`Producer Stats`, 2);
 
 	// 1 day
-	const start1Day = moment(endLoadMoment).subtract(1, "day");
 	writer.writeHeader(`1 Day Stats`, 3);
-	const producersScore1Day = writePeriodProducerStats(blockManager, start1Day, endLoadMoment);
+	const start1Day = moment(statsManager.end).subtract(1, "day");
+	const noTopProducersToTakeOver1Day = writePeriodProducerStats(statsManager, start1Day);
 	writer.write();
 
 	// 1 week
 	writer.writeHeader(`1 Week Stats`, 3);
-	const start1Week = moment(endLoadMoment).subtract(1, "week");
-	const producersScore1Week = writePeriodProducerStats(blockManager, start1Week, endLoadMoment);
+	const start1Week = moment(statsManager.end).subtract(1, "week");
+	const noTopProducersToTakeOver1Week = writePeriodProducerStats(statsManager, start1Week);
 	writer.write();
 
-	// Producer score
-	const producerScore = Math.min(producersScore1Day, producersScore1Week);
-	writer.writeHeader(`**\\# of accounts needed to control 50% hash power: <span style="color:red">${producerScore}</span>**`, 3);
-
-	return producerScore;
+	// Summary
+	const noTopProducersToTakeOver = Math.min(noTopProducersToTakeOver1Day, noTopProducersToTakeOver1Week);
+	writer.writeHeader(`**No of producers to take over: <span style="color:red">${noTopProducersToTakeOver}</span>**`, 3);
 }
 
-function writePeriodProducerStats(blockManager: EthBlockManager, startMoment: moment.Moment, endMoment: moment.Moment) {
-	const blocks = blockManager.getBlocks(startMoment, endMoment);
-	const producerManager = new ProducerManager(blocks);
-	const producersScore = producerManager.getNoProducersFor50PercentConsensus();
+function writePeriodProducerStats(statsManager: EthereumStatsManager, start: moment.Moment) {
+	const stats = statsManager.getProducerStats(start, statsManager.end);
 
 	// Producer stats
-	writer.writeLn(`Total blocks mined: **${blocks.length}**`);
-	writer.writeLn(`Unique accounts that mined a block: **${producerManager.getProducersCount()}**`);
-	writer.writeLn(`\\# of top accounts that mined 50% of the blocks: **${producersScore}**`);
+	writer.writeLn(`Total blocks: **${stats.totalBlocks}**`);
+	writer.writeLn(`Total producers: **${stats.producers.length}**`);
+	writer.writeLn(`No of producers to take over: **${stats.noTopProducersToTakeOver}**`);
 
 	// Top producers
-	writer.writeQuoted(`|Rank|Address|Blocks mined|`);
+	writer.writeQuoted(`|Rank|Address|Blocks|`);
 	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
-		const producer = producerManager.getProducer(index);
+		const producer = stats.producers[index];
 		if (producer)
 			writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}|`);
 	}
 
-	return producersScore;
+	return stats.noTopProducersToTakeOver;
 }
 
 // =============================================================================
 // Wealth
 // =============================================================================
 
-async function writeWealthStats() {
+async function writeWealthStats(statsManager: EthereumStatsManager) {
 	writer.writeHeader(`Wealth Stats`, 2);
 
-	// Load accounts
-	const accountManager = new EthAccountManager();
-	await accountManager.loadAccounts();
-
 	// Top accumulated
-	const accumWealthPercent10 = accountManager.getAccumulatedWealthPercentageForAccountsCount(10);
-	const accumWealthPercent50 = accountManager.getAccumulatedWealthPercentageForAccountsCount(50);
-	const accumWealthPercent100 = accountManager.getAccumulatedWealthPercentageForAccountsCount(100);
+	const accumWealthPercent10 = statsManager.getAccumulatedWealthForAccountCount(10);
+	const accumWealthPercent50 = statsManager.getAccumulatedWealthForAccountCount(50);
+	const accumWealthPercent100 = statsManager.getAccumulatedWealthForAccountCount(100);
 
 	writer.writeLn(`Amount held by the top 10 accounts: **${accumWealthPercent10.toPrecision(5)}%**`);
 	writer.writeLn(`Amount held by the top 50 accounts: **${accumWealthPercent50.toPrecision(5)}%**`);
@@ -103,16 +112,14 @@ async function writeWealthStats() {
 	writer.writeQuoted(`|Rank|Address|Amount(%)|`);
 	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
-		const account = accountManager.getAccount(index);
+		const account = statsManager.accounts[index];
 		if (account)
-			writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.amount}|`);
+			writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.wealth.toPrecision(5)}|`);
 	}
 	writer.write();
 
-	// Stake score
-	const wealthScore = accountManager.getNoAccountFor50PercentWealth();
-	const prefixSymbol = wealthScore.moreThan ? ">" : wealthScore.noOfAddresses;
-	writer.writeHeader(`**\\# of accounts needed to control 50% wealth: <span style="color:red">${prefixSymbol}${wealthScore.noOfAddresses}</span>**`, 3);
-
-	return wealthScore;
+	// Summary
+	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth();
+	const prefixSymbol = noTopAccountsToTakeOverWealth.moreThan ? ">" : "";
+	writer.writeHeader(`**No of accounts needed to take over: <span style="color:red">${prefixSymbol}${noTopAccountsToTakeOverWealth.noOfAccounts}</span>**`, 3);
 }

@@ -9,7 +9,6 @@ import {
 	QtumStatsManager,
 } from "./qtum.stats.manager";
 
-const OUTPUT_PATH = `${__dirname}/../../results/qtum.results.md`;
 const writer: MDWriter = new MDWriter();
 
 export async function writeStats(start: moment.Moment, end: moment.Moment) {
@@ -18,7 +17,7 @@ export async function writeStats(start: moment.Moment, end: moment.Moment) {
 	await statsManager.load();
 
 	// Write
-	writer.open(OUTPUT_PATH);
+	writer.open(`${__dirname}/../../results/${statsManager.name.toLowerCase()}.results.md`);
 
 	writeSummary(statsManager);
 

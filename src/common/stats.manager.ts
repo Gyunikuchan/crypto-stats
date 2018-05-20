@@ -130,7 +130,7 @@ export abstract class StatsManager {
 			return true;
 		});
 
-		logger.debug(`Got ${periodBlocks.length} blocks between ${start} to ${end}`);
+		logger.debug(`Got ${periodBlocks.length} blocks between ${start.toString()} to ${end.toString()}`);
 		return periodBlocks;
 	}
 }

@@ -12,6 +12,7 @@ export class MDWriter {
 
 	public close() {
 		this.writeStream.end();
+		this.writeStream = null;
 	}
 
 	public write(line?: string) {

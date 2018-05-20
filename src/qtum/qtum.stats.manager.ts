@@ -5,9 +5,9 @@ import * as moment from "moment";
 import { StatsManager } from "../common/stats.manager";
 import logger from "../utils/logger";
 
+export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export const QTUM_BLOCKS_SOURCE_URL = "https://qtum.info/block";
 export const QTUM_NODES_SOURCE_URL = "https://qtum.org/api/nodes";
-export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 
 export class QtumStatsManager extends StatsManager {
 	constructor(
@@ -25,7 +25,7 @@ export class QtumStatsManager extends StatsManager {
 	}
 
 	// =============================================================================
-	// Helpers
+	// Loaders
 	// =============================================================================
 
 	protected async loadAccounts() {
@@ -50,15 +50,15 @@ export class QtumStatsManager extends StatsManager {
 	}
 
 	protected async loadBlocks() {
-		logger.debug(`Loading blocks`);
+		logger.debug(`Loading blocks: ${this.start.toString()} - ${this.end.toString()}`);
 
-		const dayCounter = moment(this.start).startOf("day");
+		const dayCounter = moment(this.start).utc().startOf("day");
 
 		// Loop days
 		while (dayCounter.isBefore(this.end)) {
 			const response = await axios.get(QTUM_BLOCKS_SOURCE_URL, {
 				params: {
-					date: moment(dayCounter).utc().format("YYYY-MM-DD"),
+					date: dayCounter.format("YYYY-MM-DD"),
 				},
 			});
 

@@ -6,17 +6,14 @@ import * as moment from "moment";
 export interface Summary {
 	// General
 	name: string;
-	start: moment.Moment;
-	end: moment.Moment;
 
-	// Validator
+	// Producers
 	totalBlocks: string;
-	totalValidators: string;
-	noEffectiveValidators: string;
-	noTopValidatorsToTakeOver: string;
+	totalNodes: string;
+	totalProducers: string;
+	noTopProducersToTakeOver: string;
 
 	// Wealth
-	totalWealth: string;
-	percentHeldbyTop100: string;
-	noTopAccountsToTakeOver: string;
+	wealthPercentHeldbyTop100: string;
+	wealthNoTopAccountsToTakeOver: string;
 }

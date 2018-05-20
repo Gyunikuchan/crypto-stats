@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md_writer";
+import { Summary } from "../common/summary";
 import {
 	QTUM_ACCOUNTS_SOURCE_URL,
 	QTUM_BLOCKS_SOURCE_URL,
@@ -11,7 +12,7 @@ import {
 
 const writer: MDWriter = new MDWriter();
 
-export async function writeStats(start: moment.Moment, end: moment.Moment) {
+export async function writeStats(start: moment.Moment, end: moment.Moment): Promise<Summary> {
 	// Load stats
 	const statsManager = new QtumStatsManager(start, end);
 	await statsManager.load();
@@ -22,12 +23,22 @@ export async function writeStats(start: moment.Moment, end: moment.Moment) {
 	writeSummary(statsManager);
 
 	writer.writeDivider();
-	writeProducerStats(statsManager);
+	const producerStats1Week = writeProducerStats(statsManager);
 
 	writer.writeDivider();
-	writeWealthStats(statsManager);
+	const wealthStats = writeWealthStats(statsManager);
 
 	writer.close();
+
+	return {
+		name: statsManager.name,
+		totalBlocks: statsManager.blocks.length.toString(),
+		totalNodes: statsManager.totalNodeCount.toString(),
+		totalProducers: producerStats1Week.producers.length.toString(),
+		noTopProducersToTakeOver: producerStats1Week.noTopProducersToTakeOver.toString(),
+		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toString(),
+		wealthNoTopAccountsToTakeOver: wealthStats.noTopAccountsToTakeOverWealthString,
+	};
 }
 
 // =============================================================================
@@ -59,45 +70,47 @@ function writeProducerStats(statsManager: QtumStatsManager) {
 	// 1 day
 	writer.writeHeader(`1 Day Stats`, 3);
 	const start1Day = moment(statsManager.end).subtract(1, "day");
-	const noTopProducersToTakeOver1Day = writePeriodProducerStats(statsManager, start1Day);
+	const producerStats1Day = writePeriodProducerStats(statsManager, start1Day);
 	writer.write();
 
 	// 1 week
 	writer.writeHeader(`1 Week Stats`, 3);
 	const start1Week = moment(statsManager.end).subtract(1, "week");
-	const noTopProducersToTakeOver1Week = writePeriodProducerStats(statsManager, start1Week);
+	const producerStats1Week = writePeriodProducerStats(statsManager, start1Week);
 	writer.write();
 
 	// Summary
-	const noTopProducersToTakeOver = Math.min(noTopProducersToTakeOver1Day, noTopProducersToTakeOver1Week);
-	writer.writeHeader(`**No of producers to take over: <span style="color:red">${noTopProducersToTakeOver}</span>**`, 3);
+	const noTopProducersToTakeOver = Math.min(producerStats1Day.noTopProducersToTakeOver, producerStats1Week.noTopProducersToTakeOver);
+	writer.writeHeader(`**No of producers to take over network: <span style="color:red">${noTopProducersToTakeOver}</span>**`, 3);
+
+	return producerStats1Week;
 }
 
 function writePeriodProducerStats(statsManager: QtumStatsManager, start: moment.Moment) {
-	const stats = statsManager.getProducerStats(start, statsManager.end);
+	const producerStats = statsManager.getProducerStats(start, statsManager.end);
 
 	// Producer stats
-	writer.writeLn(`Total blocks: **${stats.totalBlocks}**`);
-	writer.writeLn(`Total producers: **${stats.producers.length}**`);
-	writer.writeLn(`No of producers to take over: **${stats.noTopProducersToTakeOver}**`);
+	writer.writeLn(`Total blocks: **${producerStats.totalBlocks}**`);
+	writer.writeLn(`Total producers: **${producerStats.producers.length}**`);
+	writer.writeLn(`No of producers to take over network: **${producerStats.noTopProducersToTakeOver}**`);
 
 	// Top producers
 	writer.writeQuoted(`|Rank|Address|Blocks|`);
 	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
-		const producer = stats.producers[index];
+		const producer = producerStats.producers[index];
 		if (producer)
 			writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}|`);
 	}
 
-	return stats.noTopProducersToTakeOver;
+	return producerStats;
 }
 
 // =============================================================================
 // Wealth
 // =============================================================================
 
-async function writeWealthStats(statsManager: QtumStatsManager) {
+function writeWealthStats(statsManager: QtumStatsManager) {
 	writer.writeHeader(`Wealth Stats`, 2);
 
 	// Top accumulated
@@ -122,5 +135,11 @@ async function writeWealthStats(statsManager: QtumStatsManager) {
 	// Summary
 	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth();
 	const prefixSymbol = noTopAccountsToTakeOverWealth.moreThan ? ">" : "";
-	writer.writeHeader(`**No of accounts needed to take over: <span style="color:red">${prefixSymbol}${noTopAccountsToTakeOverWealth.noOfAccounts}</span>**`, 3);
+	const noTopAccountsToTakeOverWealthString = `${prefixSymbol}${noTopAccountsToTakeOverWealth.noOfAccounts}`;
+	writer.writeHeader(`**No of accounts needed to take over network with wealth: <span style="color:red">${noTopAccountsToTakeOverWealthString}</span>**`, 3);
+
+	return {
+		accumWealthPercent100,
+		noTopAccountsToTakeOverWealthString,
+	};
 }

@@ -1,5 +1,6 @@
 # Ethereum (May 21st 2018)
 Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.<br/>
+
 |Attribute|Description|
 |---|---|
 |**Website**|https://www.ethereum.org|

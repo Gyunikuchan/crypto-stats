@@ -49,6 +49,7 @@ function writeSummary(statsManager: QtumStatsManager) {
 	writer.writeHeader(`${statsManager.name} (${statsManager.end.format("MMMM Do YYYY")})`, 1);
 	writer.writeLn(`Combining a modified Bitcoin Core infrastructure with an intercompatible version of the Ethereum Virtual Machine (EVM),`);
 	writer.writeLn(`Qtum merges the reliability of Bitcoin’s unfailing blockchain with the endless possibilities provided by smart contracts. `);
+	writer.write(``);
 
 	writer.write(`|Attribute|Description|`);
 	writer.write(`|---|---|`);

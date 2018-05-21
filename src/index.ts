@@ -2,20 +2,23 @@ import * as moment from "moment";
 
 import { MDWriter } from "./utils/md_writer";
 import { Summary } from "./common/summary";
+
 import * as ethereum from "./ethereum";
 import * as qtum from "./qtum";
+import * as neo from "./neo";
 
 const writer: MDWriter = new MDWriter();
 
 async function writeSummary() {
 	const endLoadMoment = moment();
-	const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	// const startLoadMoment = moment(endLoadMoment).subtract(1, "hour");
+	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
+	const startLoadMoment = moment(endLoadMoment).subtract(1, "hour");
 
 	// Load summaries
 	const summaries: Summary[] = await Promise.all([
-		ethereum.writeStats(startLoadMoment, endLoadMoment),
-		qtum.writeStats(startLoadMoment, endLoadMoment),
+		// ethereum.writeStats(startLoadMoment, endLoadMoment),
+		// qtum.writeStats(startLoadMoment, endLoadMoment),
+		neo.writeStats(startLoadMoment, endLoadMoment),
 	]);
 
 	// Write

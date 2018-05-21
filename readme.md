@@ -8,9 +8,8 @@ Disclaimer: These numbers are often very nuanced and cannot tell the full story<
 `npm start`<br/>
 
 ## Results
-Date: May 21st 2018<br/>
-Period: 1 week (Mon May 14 2018 22:57:10 GMT+0800 - Mon May 21 2018 22:57:10 GMT+0800)<br/>
+Date: May 22nd 2018<br/>
+Period: 1 week (Mon May 21 2018 23:30:57 GMT+0800 - Tue May 22 2018 00:30:57 GMT+0800)<br/>
 > |Name|Total Blocks|Total Nodes|Total Producers|No of producers to take over network|Wealth held by top 100 (%)|No of accounts to take over network with wealth|
 > |:---|:---:|:---:|:---:|:---:|:---:|:---:|
-> |[Ethereum](results/ethereum.results.md)|39596|16365|82|3|34.691|-|
-> |[Qtum](results/qtum.results.md)|4222|6955|1245|72|73.014|24|
+> |[Neo](results/neo.results.md)|162|7*|1|1|?|?|

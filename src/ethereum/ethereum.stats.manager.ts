@@ -81,7 +81,7 @@ export class EthereumStatsManager extends StatsManager {
 	protected async loadBlocks() {
 		logger.debug(`Loading blocks: ${this.start.toString()} - ${this.end.toString()}`);
 
-		// Loop pages 5 at a time
+		// Loop pages 4 at a time
 		let startReached = false;
 		for (let page = 1; true; page += 4) {
 			const results = await Promise.all([

@@ -4,17 +4,16 @@ import * as moment from "moment";
 import { MDWriter } from "../utils/md_writer";
 import { Summary } from "../common/summary";
 import {
-	QTUM_ACCOUNTS_SOURCE_URL,
-	QTUM_BLOCKS_SOURCE_URL,
-	QTUM_NODES_SOURCE_URL,
-	QtumStatsManager,
-} from "./qtum.stats.manager";
+	NEO_ACCOUNTS_SOURCE_URL,
+	NEO_API_SOURCE_URL,
+	NeoStatsManager,
+} from "./neo.stats.manager";
 
 const writer: MDWriter = new MDWriter();
 
 export async function writeStats(start: moment.Moment, end: moment.Moment): Promise<Summary> {
 	// Load stats
-	const statsManager = new QtumStatsManager(start, end);
+	const statsManager = new NeoStatsManager(start, end);
 	await statsManager.load();
 
 	// Write
@@ -25,19 +24,19 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 	writer.writeDivider();
 	const producerStats1Week = writeProducerStats(statsManager);
 
-	writer.writeDivider();
-	const wealthStats = writeWealthStats(statsManager);
+	// writer.writeDivider();
+	// const wealthStats = writeWealthStats(statsManager);
 
 	writer.close();
 
 	return {
 		name: statsManager.name,
 		totalBlocks: statsManager.blocks.length.toString(),
-		totalNodes: statsManager.totalNodeCount.toString(),
+		totalNodes: `${statsManager.totalNodeCount.toString()}*`,
 		totalProducers: producerStats1Week.producers.length.toString(),
 		noTopProducersToTakeOver: producerStats1Week.noTopProducersToTakeOver.toString(),
-		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toPrecision(5),
-		wealthNoTopAccountsToTakeOver: wealthStats.noTopAccountsToTakeOverWealthString,
+		wealthPercentHeldbyTop100: "?",
+		wealthNoTopAccountsToTakeOver: "?",
 	};
 }
 
@@ -45,19 +44,18 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 // Summary
 // =============================================================================
 
-function writeSummary(statsManager: QtumStatsManager) {
+function writeSummary(statsManager: NeoStatsManager) {
 	writer.writeHeader(`${statsManager.name} (${statsManager.end.format("MMMM Do YYYY")})`, 1);
-	writer.writeLn(`Combining a modified Bitcoin Core infrastructure with an intercompatible version of the Ethereum Virtual Machine (EVM),`);
-	writer.writeLn(`Qtum merges the reliability of Bitcoin’s unfailing blockchain with the endless possibilities provided by smart contracts.`);
+	writer.writeLn(`NEO is a non-profit community-based blockchain project that utilizes blockchain technology and digital identity to digitize assets,`);
+	writer.writeLn(`to automate the management of digital assets using smart contracts, and to realize a "smart economy" with a distributed network.`);
 	writer.write(``);
 
 	writer.write(`|Attribute|Description|`);
 	writer.write(`|---|---|`);
-	writer.write(`|**Website**|https://qtum.org|`);
-	writer.write(`|**Sources**|${QTUM_ACCOUNTS_SOURCE_URL}|`);
-	writer.write(`| |${QTUM_BLOCKS_SOURCE_URL}|`);
-	writer.write(`| |${QTUM_NODES_SOURCE_URL}|`);
-	writer.write(`|**Consensus**|PoS|`);
+	writer.write(`|**Website**|https://neo.org|`);
+	writer.write(`|**Sources**|${NEO_ACCOUNTS_SOURCE_URL}|`);
+	writer.write(`| |${NEO_API_SOURCE_URL}|`);
+	writer.write(`|**Consensus**|dBFT|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
 }
 
@@ -65,7 +63,7 @@ function writeSummary(statsManager: QtumStatsManager) {
 // Producers
 // =============================================================================
 
-function writeProducerStats(statsManager: QtumStatsManager) {
+function writeProducerStats(statsManager: NeoStatsManager) {
 	writer.writeHeader(`Producer Stats`, 2);
 
 	// 1 day
@@ -87,12 +85,12 @@ function writeProducerStats(statsManager: QtumStatsManager) {
 	return producerStats1Week;
 }
 
-function writePeriodProducerStats(statsManager: QtumStatsManager, start: moment.Moment) {
+function writePeriodProducerStats(statsManager: NeoStatsManager, start: moment.Moment) {
 	const producerStats = statsManager.getProducerStats(start, statsManager.end);
 
 	// Producer stats
 	writer.writeLn(`Total blocks: **${producerStats.totalBlocks}**`);
-	writer.writeLn(`Total producers: **${producerStats.producers.length}**`);
+	writer.writeLn(`Total producers: **${producerStats.producers.length}\***`);
 	writer.writeLn(`No of producers to take over network: **${producerStats.noTopProducersToTakeOver}**`);
 
 	// Top producers
@@ -111,7 +109,7 @@ function writePeriodProducerStats(statsManager: QtumStatsManager, start: moment.
 // Wealth
 // =============================================================================
 
-function writeWealthStats(statsManager: QtumStatsManager) {
+function writeWealthStats(statsManager: NeoStatsManager) {
 	writer.writeHeader(`Wealth Stats`, 2);
 
 	// Top accumulated

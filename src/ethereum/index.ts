@@ -5,6 +5,7 @@ import { MDWriter } from "../utils/md_writer";
 import { Summary } from "../common/summary";
 import {
 	ETH_ACCOUNTS_SOURCE_URL,
+	ETH_API_SOURCE_URL,
 	ETH_BLOCKS_SOURCE_URL,
 	ETH_NODES_SOURCE_URL,
 	EthereumStatsManager,
@@ -54,6 +55,7 @@ function writeSummary(statsManager: EthereumStatsManager) {
 	writer.write(`|---|---|`);
 	writer.write(`|**Website**|https://www.ethereum.org|`);
 	writer.write(`|**Sources**|${ETH_ACCOUNTS_SOURCE_URL}|`);
+	writer.write(`| |${ETH_API_SOURCE_URL}|`);
 	writer.write(`| |${ETH_BLOCKS_SOURCE_URL}|`);
 	writer.write(`| |${ETH_NODES_SOURCE_URL}|`);
 	writer.write(`|**Consensus**|PoW|`);
@@ -100,7 +102,7 @@ function writePeriodProducerStats(statsManager: EthereumStatsManager, start: mom
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const producer = producerStats.producers[index];
 		if (producer)
-			writer.writeQuoted(`|${(index + 1)}|${producer.id}|${producer.blockCount}|`);
+			writer.writeQuoted(`|${(index + 1)}|${statsManager.getAliasOrId(producer.id)}|${producer.blockCount}|`);
 	}
 
 	return producerStats;
@@ -128,7 +130,7 @@ function writeWealthStats(statsManager: EthereumStatsManager) {
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];
 		if (account)
-			writer.writeQuoted(`|${(index + 1)}|${account.id}|${account.wealth.toPrecision(5)}|`);
+			writer.writeQuoted(`|${(index + 1)}|${account.alias || account.id}|${account.wealth.toPrecision(5)}|`);
 	}
 	writer.write();
 

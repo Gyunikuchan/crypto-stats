@@ -7,6 +7,7 @@ import { ProducerService } from "./producer.service";
 
 export interface Account {
 	id: string;
+	alias?: string;
 	wealth: number;
 }
 
@@ -54,6 +55,12 @@ export abstract class StatsManager {
 		logger.debug(options, `Initialized StatsManager`);
 	}
 
+	// =============================================================================
+	// General
+	// =============================================================================
+
+	protected abstract async onLoad();
+
 	public async load() {
 		logger.debug(`Loading stats`);
 		await this.onLoad();
@@ -61,7 +68,16 @@ export abstract class StatsManager {
 		this.auditService.auditBlocks(this);
 	}
 
-	protected abstract async onLoad();
+	public getAlias(accountId: string) {
+		for (const account of this.accounts) {
+			if (account.id === accountId)
+				return account.alias;
+		}
+	}
+
+	public getAliasOrId(accountId: string) {
+		return this.getAlias(accountId) || accountId;
+	}
 
 	// =============================================================================
 	// Producer stats

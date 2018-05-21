@@ -36,7 +36,7 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 		totalNodes: statsManager.totalNodeCount.toString(),
 		totalProducers: producerStats1Week.producers.length.toString(),
 		noTopProducersToTakeOver: producerStats1Week.noTopProducersToTakeOver.toString(),
-		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toString(),
+		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toPrecision(5),
 		wealthNoTopAccountsToTakeOver: wealthStats.noTopAccountsToTakeOverWealthString,
 	};
 }

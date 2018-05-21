@@ -29,7 +29,7 @@ export class AuditService {
 			// Check for running block heights
 			const expectedBlockHeight = startHeight + i;
 			if (block.height !== expectedBlockHeight)
-				throw new Error(`Missing block height: ${expectedBlockHeight}`);
+				throw new Error(`Unexpected block height: expected=${expectedBlockHeight} got=${block.height}`);
 
 			// Check for bad id
 			if (!block.producer)

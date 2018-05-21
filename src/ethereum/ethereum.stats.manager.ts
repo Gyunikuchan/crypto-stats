@@ -95,7 +95,9 @@ export class EthereumStatsManager extends StatsManager {
 
 				const lastHeight = (this.blocks.length > 0 ? this.blocks[this.blocks.length - 1].height : Number.MAX_SAFE_INTEGER);
 				const startIndex = result.blocks.findIndex((block) => block.height < lastHeight);
-				this.blocks.push(...result.blocks.splice(startIndex));
+				const newBlocks = result.blocks.splice(startIndex);
+				this.blocks.push(...newBlocks);
+				// console.log("BLOCKS", lastHeight, newBlocks[0].height, newBlocks[newBlocks.length - 1].height);
 			}
 
 			if (startReached)
@@ -149,6 +151,9 @@ export class EthereumStatsManager extends StatsManager {
 				time: blockTimeMoment,
 			});
 		});
+
+		if (blocks.length > 0)
+			logger.debug(`Loaded page: ${blocks[0].height} - ${blocks[blocks.length - 1].height}`);
 
 		return {
 			startReached,

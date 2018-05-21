@@ -43,7 +43,7 @@ async function writeSummary() {
 		`No of producers to take over network|` +
 		`Wealth held by top 100 (%)|` +
 		`No of accounts to take over network with wealth|`);
-	writer.writeQuoted(`|---|---|---|---|---|---|---|`);
+	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|`);
 	for (const summary of summaries) {
 		writer.writeQuoted(`|` +
 			`[${summary.name}](results/${summary.name.toLowerCase()}.results.md)|` +

@@ -35,7 +35,7 @@ export class NeoStatsManager extends StatsManager {
 
 		// Loop blocks 5 at a time
 		let startReached = false;
-		for (; height >= 0; height += 5) {
+		for (; height >= 0; height -= 5) {
 			const results = await Promise.all([
 				this.loadBlock(height),
 				this.loadBlock(height - 1),

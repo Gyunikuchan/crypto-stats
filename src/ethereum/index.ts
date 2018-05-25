@@ -70,15 +70,15 @@ function writeProducerStats(statsManager: EthereumStatsManager) {
 	writer.writeHeader(`Producer Stats`, 2);
 
 	// 1 day
-	writer.writeHeader(`1 Day Stats`, 3);
 	const start1Day = moment(statsManager.end).subtract(1, "day");
 	const producerStats1Day = writePeriodProducerStats(statsManager, start1Day);
+	writer.writeHeader(`Period: 1 day (${start1Day.toString()} - ${statsManager.end.toString()})`, 3);
 	writer.write();
 
 	// 1 week
-	writer.writeHeader(`1 Week Stats`, 3);
 	const start1Week = moment(statsManager.end).subtract(1, "week");
 	const producerStats1Week = writePeriodProducerStats(statsManager, start1Week);
+	writer.writeHeader(`Period: 1 week (${start1Week.toString()} - ${statsManager.end.toString()})`, 3);
 	writer.write();
 
 	// Summary

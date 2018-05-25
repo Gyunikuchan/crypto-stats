@@ -57,6 +57,7 @@ async function writeSummary() {
 			`${summary.wealthPercentHeldbyTop100}|` +
 			`${summary.wealthNoTopAccountsToTakeOver}|`);
 	}
+	writer.writeQuoted(`*Not dynamically retrieved`);
 
 	writer.close();
 }

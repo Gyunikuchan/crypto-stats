@@ -27,7 +27,16 @@ async function writeSummary() {
 	writer.writeHeader(`Crypto-Stats`, 1);
 	writer.writeHeader(`Summary`, 2);
 	writer.writeLn(`Gathers decentralization statistics for various cryptocurrency projects`);
-	writer.writeLn(`Disclaimer: These numbers are often very nuanced and cannot tell the full story`);
+	writer.writeLn(`Disclaimer: These are just numbers and is incapable of tell the full story on its own`);
+	writer.writeLn(``);
+	writer.writeHeader(`Explanation`, 3);
+	writer.writeLn(`**Total Blocks**: Activity in this period`);
+	writer.writeLn(`**Total Nodes**: The number of full nodes capable of producing and validating`);
+	writer.writeLn(`**Total Producers**: Unique addresses that managed to produce blocks`);
+	writer.writeLn(`**Total Validators**: Unique addresses that participated in validation (lower means it is easier to censor)`);
+	writer.writeLn(`**No of validators to take over network**: The minimum number of addresses needed for collusion (lower means it is easier to censor/attack)`);
+	writer.writeLn(`**Wealth held by top 100 (%)**: Percentage of wealth held by the top 100 addresses`);
+	writer.writeLn(`**No of accounts to take over network with wealth**: The minimum number of addresses needed for collusion (lower means it is easier to censor/attack)`);
 	writer.write(``);
 
 	writer.writeHeader(`How to run`, 2);
@@ -43,19 +52,17 @@ async function writeSummary() {
 		`Total Blocks|` +
 		`Total Nodes|` +
 		`Total Producers|` +
-		`No of producers to take over network|` +
 		`Total Validators|` +
 		`No of validators to take over network|` +
 		`Wealth held by top 100 (%)|` +
 		`No of accounts to take over network with wealth|`);
-	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|`);
+	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|`);
 	for (const summary of summaries) {
 		writer.writeQuoted(`|` +
 			`[${summary.name}](results/${summary.name.toLowerCase()}.results.md)|` +
 			`${summary.totalBlocks}|` +
 			`${summary.totalNodes}|` +
 			`${summary.totalProducers}|` +
-			`${summary.noTopProducersToTakeOver}|` +
 			`${summary.totalValidators}|` +
 			`${summary.noTopValidatorsToTakeOver}|` +
 			`${summary.wealthPercentHeldbyTop100}|` +

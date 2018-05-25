@@ -35,7 +35,6 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 		totalBlocks: statsManager.blocks.length.toString(),
 		totalNodes: statsManager.totalNodeCount.toString(),
 		totalProducers: producerStats1Week.producers.length.toString(),
-		noTopProducersToTakeOver: producerStats1Week.noTopProducersToTakeOver.toString(),
 		totalValidators: producerStats1Week.validators.length.toString(),
 		noTopValidatorsToTakeOver: producerStats1Week.noTopValidatorsToTakeOver.toString(),
 		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toPrecision(5),
@@ -83,8 +82,8 @@ function writeProducerStats(statsManager: QtumStatsManager) {
 	writer.write();
 
 	// Summary
-	const noTopProducersToTakeOver = Math.min(producerStats1Day.noTopProducersToTakeOver, producerStats1Week.noTopProducersToTakeOver);
-	writer.writeHeader(`**No of producers to take over network: <span style="color:red">${noTopProducersToTakeOver}</span>**`, 3);
+	const noTopValidatorsToTakeOver = Math.min(producerStats1Day.noTopValidatorsToTakeOver, producerStats1Week.noTopValidatorsToTakeOver);
+	writer.writeHeader(`**No of validators to take over network: <span style="color:red">${noTopValidatorsToTakeOver}</span>**`, 3);
 
 	return producerStats1Week;
 }
@@ -95,7 +94,6 @@ function writePeriodProducerStats(statsManager: QtumStatsManager, start: moment.
 	// Producer stats
 	writer.writeLn(`Total blocks: **${producerStats.totalBlocks}**`);
 	writer.writeLn(`Total producers: **${producerStats.producers.length}**`);
-	writer.writeLn(`No of producers to take over network: **${producerStats.noTopProducersToTakeOver}**`);
 	writer.writeLn(`Total validations: **${producerStats.totalValidations}**`);
 	writer.writeLn(`Total validators: **${producerStats.validators.length}**`);
 	writer.writeLn(`No of validators to take over network: **${producerStats.noTopValidatorsToTakeOver}**`);

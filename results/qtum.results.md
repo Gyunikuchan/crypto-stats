@@ -9,43 +9,43 @@ Qtum merges the reliability of Bitcoin’s unfailing blockchain with the endless
 | |https://qtum.info/block|
 | |https://qtum.org/api/nodes|
 |**Consensus**|PoS|
-|**Total nodes**|6695|
+|**Total nodes**|6701|
 
 ---
 ## Producer Stats
-### Period: 1 day (Fri May 25 2018 02:05:09 GMT+0800 - Sat May 26 2018 02:05:09 GMT+0800)
-Total blocks: **3**<br/>
-Total producers: **3**<br/>
-No of producers to take over network: **2**<br/>
-Total validations: **3**<br/>
-Total validators: **3**<br/>
-No of validators to take over network: **2**<br/>
+### Period: 1 day (Fri May 25 2018 02:23:47 GMT+0800 - Sat May 26 2018 02:23:47 GMT+0800)
+Total blocks: **4**<br/>
+Total producers: **4**<br/>
+Total validations: **4**<br/>
+Total validators: **4**<br/>
+No of validators to take over network: **3**<br/>
 > |Rank|Address|Blocks|
 > |---|---|---|
-> |1|QWByoEYsXarqHnbEBo3b3sD3JuXt7AgL6n|1|
-> |2|QQxAF4PqsT76hq34tNMyVkus14H3swSh5X|1|
-> |3|QT1zNgCyVmMG1DU65JHhqG6XBrnScxLRkq|1|
+> |1|QTMvLCk2Gw6QisG5ekr4kfY3RWdepR8tMG|1|
+> |2|QiioHKggEf1pLRUAbZzMGQnNsXqKYJ59Vg|1|
+> |3|QcZtbGKV2gQ7UK6ucmxFcmRYPCPc3UYf5Q|1|
+> |4|Qdfh92dG57nR9LXhRkQKkca3gcAjVA7pHu|1|
 
-### Period: 1 week (Sat May 19 2018 02:05:09 GMT+0800 - Sat May 26 2018 02:05:09 GMT+0800)
-Total blocks: **3**<br/>
-Total producers: **3**<br/>
-No of producers to take over network: **2**<br/>
-Total validations: **3**<br/>
-Total validators: **3**<br/>
-No of validators to take over network: **2**<br/>
+### Period: 1 week (Sat May 19 2018 02:23:47 GMT+0800 - Sat May 26 2018 02:23:47 GMT+0800)
+Total blocks: **4**<br/>
+Total producers: **4**<br/>
+Total validations: **4**<br/>
+Total validators: **4**<br/>
+No of validators to take over network: **3**<br/>
 > |Rank|Address|Blocks|
 > |---|---|---|
-> |1|QWByoEYsXarqHnbEBo3b3sD3JuXt7AgL6n|1|
-> |2|QQxAF4PqsT76hq34tNMyVkus14H3swSh5X|1|
-> |3|QT1zNgCyVmMG1DU65JHhqG6XBrnScxLRkq|1|
+> |1|QTMvLCk2Gw6QisG5ekr4kfY3RWdepR8tMG|1|
+> |2|QiioHKggEf1pLRUAbZzMGQnNsXqKYJ59Vg|1|
+> |3|QcZtbGKV2gQ7UK6ucmxFcmRYPCPc3UYf5Q|1|
+> |4|Qdfh92dG57nR9LXhRkQKkca3gcAjVA7pHu|1|
 
-### **No of producers to take over network: <span style="color:red">2</span>**
+### **No of validators to take over network: <span style="color:red">3</span>**
 
 ---
 ## Wealth Stats
 Amount held by the top 10 accounts: **36.549%**<br/>
-Amount held by the top 50 accounts: **64.981%**<br/>
-Amount held by the top 100 accounts: **73.033%**<br/>
+Amount held by the top 50 accounts: **64.982%**<br/>
+Amount held by the top 100 accounts: **73.035%**<br/>
 > |Rank|Address|Amount(%)|
 > |---|---|---|
 > |1|QQetqGpBoGXKLDeiLsBRLf21yhvx6kpjJa|6.5524|

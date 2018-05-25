@@ -17,7 +17,6 @@ export interface Validator {
 export interface ProducerStats {
 	totalBlocks: number;
 	producers: Producer[];
-	noTopProducersToTakeOver: number;
 	totalValidations: number;
 	validators: Validator[];
 	noTopValidatorsToTakeOver: number;
@@ -29,12 +28,10 @@ export class ProducerService {
 		fractionalToTakeOver: number,
 	): ProducerStats {
 		const { totalBlocks, producers, totalValidations, validators } = this.getProducersValidators(blocks);
-		const noTopProducersToTakeOver = this.getNoTopProducersToTakeOver(totalBlocks, producers, fractionalToTakeOver);
 		const noTopValidatorsToTakeOver = this.getNoTopValidatorsToTakeOver(totalValidations, validators, fractionalToTakeOver);
 
 		return {
 			totalBlocks,
-			noTopProducersToTakeOver,
 			producers,
 			totalValidations,
 			validators,
@@ -97,29 +94,6 @@ export class ProducerService {
 			totalValidations,
 			validators,
 		};
-	}
-
-	protected getNoTopProducersToTakeOver(
-		totalBlocks: number,
-		producers: Producer[],
-		fractionalToTakeOver: number,
-	) {
-		logger.debug(`Getting number of top producers to take over`);
-
-		const blocksToTakeOver = totalBlocks * fractionalToTakeOver;
-
-		let noOfAddresses = 0;
-		let blocksAccum = 0;
-		for (const producer of producers) {
-			++noOfAddresses;
-			blocksAccum += producer.blockCount;
-
-			logger.debug(`Producer #${noOfAddresses} produced ${producer.blockCount} times (Accumulated: ${blocksAccum})`);
-			if (blocksAccum > blocksToTakeOver)
-				break;
-		}
-
-		return noOfAddresses;
 	}
 
 	protected getNoTopValidatorsToTakeOver(

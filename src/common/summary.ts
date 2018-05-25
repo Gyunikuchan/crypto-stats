@@ -11,7 +11,6 @@ export interface Summary {
 	totalBlocks: string;
 	totalNodes: string;
 	totalProducers: string;
-	noTopProducersToTakeOver: string;
 	totalValidators: string;
 	noTopValidatorsToTakeOver: string;
 

@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import * as moment from "moment";
+import { Heap } from "typescript-collections";
 import { Block } from "./stats.manager";
 import logger from "../utils/logger";
 
@@ -8,18 +9,36 @@ export interface Producer {
 	blockCount: number;
 }
 
+export interface Validator {
+	id: string;
+	blockCount: number;
+}
+
+export interface ProducerStats {
+	totalBlocks: number;
+	producers: Producer[];
+	noTopProducersToTakeOver: number;
+	totalValidations: number;
+	validators: Validator[];
+	noTopValidatorsToTakeOver: number;
+}
+
 export class ProducerService {
 	public getStats(
 		blocks: Block[],
-		percentToTakeOver: number,
-	) {
-		const producers = this.getProducers(blocks);
-		const noTopProducersToTakeOver = this.getNoTopProducersToTakeOver(blocks, producers, percentToTakeOver);
+		fractionalToTakeOver: number,
+	): ProducerStats {
+		const { totalBlocks, producers, totalValidations, validators } = this.getProducersValidators(blocks);
+		const noTopProducersToTakeOver = this.getNoTopProducersToTakeOver(totalBlocks, producers, fractionalToTakeOver);
+		const noTopValidatorsToTakeOver = this.getNoTopValidatorsToTakeOver(totalValidations, validators, fractionalToTakeOver);
 
 		return {
-			producers,
-			totalBlocks: blocks.length,
+			totalBlocks,
 			noTopProducersToTakeOver,
+			producers,
+			totalValidations,
+			validators,
+			noTopValidatorsToTakeOver,
 		};
 	}
 
@@ -30,41 +49,64 @@ export class ProducerService {
 	/**
 	 * Gets a list of producers sorted by block count (descending)
 	 */
-	protected getProducers(
-		blocks: Block[],
-	) {
-		logger.debug(`Getting producers`);
+	protected getProducersValidators(blocks: Block[]) {
+		logger.debug(`Getting producers and validators`);
 
-		type ProducerId = string;
+		type ID = string;
 		type BlockCount = number;
-		const producersMap = new Map<ProducerId, BlockCount>();
+		const producersMap = new Map<ID, BlockCount>();
+		const validatorsMap = new Map<ID, BlockCount>();
+		let totalValidations = 0;
 
-		// Load producers from blocks
+		// Load from blocks
 		for (const block of blocks) {
-			const blockCount = (producersMap.get(block.producer) || 0) + 1;
-			producersMap.set(block.producer, blockCount);
+			const producerCount = (producersMap.get(block.producer) || 0) + 1;
+			producersMap.set(block.producer, producerCount);
+
+			for (const validator of block.validators) {
+				const validatorCount = (validatorsMap.get(validator) || 0) + 1;
+				validatorsMap.set(validator, validatorCount);
+			}
+
+			totalValidations += block.validators.length;
 		}
 
-		// Sort by block count (descending)
-		const sortedProducers = [...producersMap.entries()].sort((a, b) => b[1] - a[1]);
+		// Transform and sort by count (highest first)
+		const producersHeap = new Heap<Producer>((a, b) => b.blockCount - a.blockCount);
+		producersMap.forEach((blockCount, id) => { producersHeap.add({ id, blockCount }); });
+		const producers: Producer[] = [];
+		while (!producersHeap.isEmpty()) {
+			producers.push(producersHeap.removeRoot());
+		}
 
-		// Transform
-		const producers: Producer[] = sortedProducers.map((producer) => { return { id: producer[0], blockCount: producer[1] }; });
+		const validatorsHeap = new Heap<Validator>((a, b) => b.blockCount - a.blockCount);
+		validatorsMap.forEach((blockCount, id) => { validatorsHeap.add({ id, blockCount }); });
+		const validators: Validator[] = [];
+		while (!validatorsHeap.isEmpty()) {
+			validators.push(validatorsHeap.removeRoot());
+		}
 
 		// Sanity check
 		this.auditProducers(producers);
+		this.auditValidators(validators);
 
-		return producers;
+		logger.debug(`Got ${producers.length} producers and ${validators.length} validators`);
+		return {
+			totalBlocks: blocks.length,
+			producers,
+			totalValidations,
+			validators,
+		};
 	}
 
 	protected getNoTopProducersToTakeOver(
-		blocks: Block[],
+		totalBlocks: number,
 		producers: Producer[],
-		percentToTakeOver: number,
+		fractionalToTakeOver: number,
 	) {
 		logger.debug(`Getting number of top producers to take over`);
 
-		const blocksToTakeOver = blocks.length * percentToTakeOver;
+		const blocksToTakeOver = totalBlocks * fractionalToTakeOver;
 
 		let noOfAddresses = 0;
 		let blocksAccum = 0;
@@ -74,6 +116,29 @@ export class ProducerService {
 
 			logger.debug(`Producer #${noOfAddresses} produced ${producer.blockCount} times (Accumulated: ${blocksAccum})`);
 			if (blocksAccum > blocksToTakeOver)
+				break;
+		}
+
+		return noOfAddresses;
+	}
+
+	protected getNoTopValidatorsToTakeOver(
+		totalValidations,
+		validators: Validator[],
+		fractionalToTakeOver: number,
+	) {
+		logger.debug(`Getting number of top validators to take over`);
+
+		const validationsToTakeOver = totalValidations * fractionalToTakeOver;
+
+		let noOfAddresses = 0;
+		let validationsAccum = 0;
+		for (const validator of validators) {
+			++noOfAddresses;
+			validationsAccum += validator.blockCount;
+
+			logger.debug(`Validator #${noOfAddresses} validated ${validator.blockCount} times (Accumulated: ${validationsAccum})`);
+			if (validationsAccum > validationsToTakeOver)
 				break;
 		}
 
@@ -96,5 +161,19 @@ export class ProducerService {
 		const failedHasBlockCheck = _.some(producers, (producer: Producer) => !producer.blockCount);
 		if (failedHasBlockCheck)
 			throw new Error(`Producer with no block detected`);
+	}
+
+	protected auditValidators(validators: Validator[]) {
+		logger.debug(`Auditing validators`);
+
+		// Check for unique ids
+		const unique = _.uniqBy(validators, (validator) => validator.id);
+		if (unique.length !== validators.length)
+			throw new Error(`Duplicate validator detected: ${unique.length} - ${unique[0]}`);
+
+		// Check for no blocks
+		const failedHasBlockCheck = _.some(validators, (validator) => !validator.blockCount);
+		if (failedHasBlockCheck)
+			throw new Error(`Validator with no block detected`);
 	}
 }

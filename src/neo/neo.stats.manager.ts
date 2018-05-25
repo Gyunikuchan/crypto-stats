@@ -9,13 +9,20 @@ export const NEO_ACCOUNTS_SOURCE_URL = "https://coranos.github.io/neo/charts/neo
 export const NEO_API_SOURCE_URL = "https://neoscan.io/api/main_net/v1";
 
 export class NeoStatsManager extends StatsManager {
+	private readonly mockValidators: string[] = [];
+
 	constructor(
 		start: moment.Moment,
 		end: moment.Moment,
 	) {
-		super({ start, end, name: "Neo", percentToTakeOver: 1 / 3 }, {});
+		super({ start, end, name: "Neo" }, {});
 		this.totalWealth = 100;		// In percentage, 0-100
 		this.totalNodeCount = 7;	// No dynamic source
+
+		// Populate fake validators
+		for (let i = 0; i < this.totalNodeCount; ++i) {
+			this.mockValidators.push(i.toString());
+		}
 	}
 
 	protected async onLoad() {
@@ -78,9 +85,11 @@ export class NeoStatsManager extends StatsManager {
 
 		const response = await axios.get(`${NEO_API_SOURCE_URL}/get_block/${height}`);
 		const data = response.data;
+
 		const block: Block = {
 			height: Number.parseInt(data.index),
 			producer: data.nextconsensus,
+			validators: this.mockValidators,
 			time: moment.unix(data.time),
 		};
 		return block;

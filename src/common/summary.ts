@@ -12,6 +12,8 @@ export interface Summary {
 	totalNodes: string;
 	totalProducers: string;
 	noTopProducersToTakeOver: string;
+	totalValidators: string;
+	noTopValidatorsToTakeOver: string;
 
 	// Wealth
 	wealthPercentHeldbyTop100: string;

@@ -12,12 +12,12 @@ const writer: MDWriter = new MDWriter();
 async function writeSummary() {
 	const endLoadMoment = moment();
 	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	const startLoadMoment = moment(endLoadMoment).subtract(1, "hour");
+	const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
 
 	// Load summaries
 	const summaries: Summary[] = await Promise.all([
-		// ethereum.writeStats(startLoadMoment, endLoadMoment),
-		// qtum.writeStats(startLoadMoment, endLoadMoment),
+		ethereum.writeStats(startLoadMoment, endLoadMoment),
+		qtum.writeStats(startLoadMoment, endLoadMoment),
 		neo.writeStats(startLoadMoment, endLoadMoment),
 	]);
 
@@ -44,9 +44,11 @@ async function writeSummary() {
 		`Total Nodes|` +
 		`Total Producers|` +
 		`No of producers to take over network|` +
+		`Total Validators|` +
+		`No of validators to take over network|` +
 		`Wealth held by top 100 (%)|` +
 		`No of accounts to take over network with wealth|`);
-	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|`);
+	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|`);
 	for (const summary of summaries) {
 		writer.writeQuoted(`|` +
 			`[${summary.name}](results/${summary.name.toLowerCase()}.results.md)|` +
@@ -54,10 +56,12 @@ async function writeSummary() {
 			`${summary.totalNodes}|` +
 			`${summary.totalProducers}|` +
 			`${summary.noTopProducersToTakeOver}|` +
+			`${summary.totalValidators}|` +
+			`${summary.noTopValidatorsToTakeOver}|` +
 			`${summary.wealthPercentHeldbyTop100}|` +
 			`${summary.wealthNoTopAccountsToTakeOver}|`);
 	}
-	writer.writeQuoted(`*Not dynamically retrieved`);
+	writer.writeQuoted(`*Not dynamically calculated`);
 
 	writer.close();
 }

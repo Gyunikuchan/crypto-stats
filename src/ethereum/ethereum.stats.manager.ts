@@ -16,7 +16,7 @@ export class EthereumStatsManager extends StatsManager {
 		start: moment.Moment,
 		end: moment.Moment,
 	) {
-		super({ start, end, name: "Ethereum", percentToTakeOver: 0.5 }, {});
+		super({ start, end, name: "Ethereum" }, {});
 		this.totalWealth = 100;	// In percentage, 0-100
 	}
 
@@ -93,17 +93,17 @@ export class EthereumStatsManager extends StatsManager {
 
 			// Combine blocks
 			for (const result of results) {
-				if (result.startReached) {
+				if (result.length === 0) {
 					startReached = true;
 					break;
 				}
 
-				logger.debug(`Parsing blocks: ${result.blocks[result.blocks.length - 1].height} - ${result.blocks[0].height}`);
+				logger.debug(`Parsing blocks: ${result[result.length - 1].height} - ${result[0].height}`);
 
 				const lastHeight = (this.blocks.length > 0 ? this.blocks[this.blocks.length - 1].height : Number.MAX_SAFE_INTEGER);
 				const nextHeight = lastHeight - 1;
-				const startIndex = result.blocks.findIndex((block) => block.height <= nextHeight);
-				const newBlocks = result.blocks.splice(startIndex);
+				const startIndex = result.findIndex((block) => block.height <= nextHeight);
+				const newBlocks = result.splice(startIndex);
 
 				// Add missing blocks
 				if (this.blocks.length > 0) {
@@ -120,6 +120,7 @@ export class EthereumStatsManager extends StatsManager {
 				this.blocks.push(...newBlocks);
 			}
 
+			// Escape outer loop
 			if (startReached)
 				break;
 		}
@@ -171,14 +172,12 @@ export class EthereumStatsManager extends StatsManager {
 			blocks.push({
 				height,
 				producer,
+				validators: [producer],
 				time: blockTimeMoment,
 			});
 		});
 
-		return {
-			startReached,
-			blocks,
-		};
+		return blocks;
 	}
 
 	protected async loadBlock(height: number): Promise<Block> {
@@ -194,6 +193,7 @@ export class EthereumStatsManager extends StatsManager {
 		const block: Block = {
 			height: Number.parseInt(result.blockNumber),
 			producer: result.blockMiner,
+			validators: [result.blockMiner],
 			time: moment.unix(result.timeStamp),
 		};
 

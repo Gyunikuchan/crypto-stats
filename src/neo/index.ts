@@ -35,6 +35,8 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 		totalNodes: `${statsManager.totalNodeCount.toString()}*`,
 		totalProducers: producerStats1Week.producers.length.toString(),
 		noTopProducersToTakeOver: producerStats1Week.noTopProducersToTakeOver.toString(),
+		totalValidators: `${producerStats1Week.validators.length.toString()}*`,
+		noTopValidatorsToTakeOver: producerStats1Week.noTopValidatorsToTakeOver.toString(),
 		wealthPercentHeldbyTop100: "?",
 		wealthNoTopAccountsToTakeOver: "?",
 	};
@@ -68,14 +70,14 @@ function writeProducerStats(statsManager: NeoStatsManager) {
 
 	// 1 day
 	const start1Day = moment(statsManager.end).subtract(1, "day");
-	const producerStats1Day = writePeriodProducerStats(statsManager, start1Day);
 	writer.writeHeader(`Period: 1 day (${start1Day.toString()} - ${statsManager.end.toString()})`, 3);
+	const producerStats1Day = writePeriodProducerStats(statsManager, start1Day);
 	writer.write();
 
 	// 1 week
 	const start1Week = moment(statsManager.end).subtract(1, "week");
-	const producerStats1Week = writePeriodProducerStats(statsManager, start1Week);
 	writer.writeHeader(`Period: 1 week (${start1Week.toString()} - ${statsManager.end.toString()})`, 3);
+	const producerStats1Week = writePeriodProducerStats(statsManager, start1Week);
 	writer.write();
 
 	// Summary
@@ -86,12 +88,15 @@ function writeProducerStats(statsManager: NeoStatsManager) {
 }
 
 function writePeriodProducerStats(statsManager: NeoStatsManager, start: moment.Moment) {
-	const producerStats = statsManager.getProducerStats(start, statsManager.end);
+	const producerStats = statsManager.getProducerStats(start, statsManager.end, 2 / 3);
 
 	// Producer stats
 	writer.writeLn(`Total blocks: **${producerStats.totalBlocks}**`);
-	writer.writeLn(`Total producers: **${producerStats.producers.length}\***`);
+	writer.writeLn(`Total producers: **${producerStats.producers.length}**`);
 	writer.writeLn(`No of producers to take over network: **${producerStats.noTopProducersToTakeOver}**`);
+	writer.writeLn(`Total validations: **${producerStats.totalValidations}**`);
+	writer.writeLn(`Total validators: **${producerStats.validators.length}\***`);
+	writer.writeLn(`No of validators to take over network: **${producerStats.noTopValidatorsToTakeOver}**`);
 
 	// Top producers
 	writer.writeQuoted(`|Rank|Address|Blocks|`);
@@ -132,7 +137,7 @@ function writeWealthStats(statsManager: NeoStatsManager) {
 	writer.write();
 
 	// Summary
-	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth();
+	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth(2 / 3);
 	const prefixSymbol = noTopAccountsToTakeOverWealth.moreThan ? ">" : "";
 	const noTopAccountsToTakeOverWealthString = `${prefixSymbol}${noTopAccountsToTakeOverWealth.noOfAccounts}`;
 	writer.writeHeader(`**No of accounts needed to take over network with wealth: <span style="color:red">${noTopAccountsToTakeOverWealthString}</span>**`, 3);

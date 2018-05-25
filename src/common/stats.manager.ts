@@ -14,6 +14,7 @@ export interface Account {
 export interface Block {
 	height: number;
 	producer: string;
+	validators: string[];
 	time: moment.Moment;
 }
 
@@ -24,7 +25,6 @@ export abstract class StatsManager {
 	public readonly start: moment.Moment;
 	public readonly end: moment.Moment;
 	public readonly name: string;
-	public readonly percentToTakeOver: number;		// Between 0 - 1
 
 	public accounts: Account[] = [];			// Sorted by amount (descending)
 	public blocks: Block[] = [];					// Sorted by time (ascending)
@@ -36,7 +36,6 @@ export abstract class StatsManager {
 			start: moment.Moment,
 			end: moment.Moment,
 			name: string,
-			percentToTakeOver: number,
 		},
 		services: {
 			auditService?: AuditService,
@@ -46,7 +45,6 @@ export abstract class StatsManager {
 		this.start = options.start;
 		this.end = options.end;
 		this.name = options.name;
-		this.percentToTakeOver = options.percentToTakeOver;
 
 		// Services
 		this.auditService = services.auditService || new AuditService();
@@ -83,9 +81,9 @@ export abstract class StatsManager {
 	// Producer stats
 	// =============================================================================
 
-	public getProducerStats(start: moment.Moment, end: moment.Moment) {
+	public getProducerStats(start: moment.Moment, end: moment.Moment, fractionalToTakeOver: number) {
 		const blocks = this.getBlocks(start, end);
-		return this.producerService.getStats(blocks, this.percentToTakeOver);
+		return this.producerService.getStats(blocks, fractionalToTakeOver);
 	}
 
 	// =============================================================================
@@ -110,8 +108,8 @@ export abstract class StatsManager {
 		return this.getAccumulatedWealthForAccountCount(accountsCount) / this.totalWealth;
 	}
 
-	public getNoTopAccountsToTakeOverWealth() {
-		const wealthToTakeOver = this.totalWealth * this.percentToTakeOver;
+	public getNoTopAccountsToTakeOverWealth(fractionalToTakeOver) {
+		const wealthToTakeOver = this.totalWealth * fractionalToTakeOver;
 		let noOfAccounts = 0;
 		let wealthAccum = 0;
 

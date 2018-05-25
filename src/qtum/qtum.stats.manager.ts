@@ -14,7 +14,7 @@ export class QtumStatsManager extends StatsManager {
 		start: moment.Moment,
 		end: moment.Moment,
 	) {
-		super({ start, end, name: "Qtum", percentToTakeOver: 0.5 }, {});
+		super({ start, end, name: "Qtum" }, {});
 		this.totalWealth = 100;	// In percentage, 0-100
 	}
 
@@ -82,6 +82,7 @@ export class QtumStatsManager extends StatsManager {
 				this.blocks.push({
 					height,
 					producer,
+					validators: [producer],
 					time: blockTimeMoment,
 				});
 			});

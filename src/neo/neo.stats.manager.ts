@@ -5,7 +5,7 @@ import logger from "../utils/logger";
 import { RetryRequest } from "../utils/retry_request";
 import { Block, StatsManager } from "../common/stats.manager";
 
-export const NEO_ACCOUNTS_SOURCE_URL = "https://coranos.github.io/neo/charts/neo-account-data.html";
+export const NEO_ACCOUNTS_SOURCE_URL = "https://coranos.github.io/neo/charts/neo-account-data.json";
 export const NEO_API_SOURCE_URL = "https://neoscan.io/api/main_net/v1";
 
 export class NeoStatsManager extends StatsManager {
@@ -16,8 +16,8 @@ export class NeoStatsManager extends StatsManager {
 		end: moment.Moment,
 	) {
 		super({ start, end, name: "NEO", consensus: "dBFT" }, {});
-		this.totalWealth = 100;		// In percentage, 0-100
 		this.totalNodeCount = 7;	// No dynamic source
+		this.totalWealth = 100;	// In percentage, 0-100
 
 		// Populate fake validators
 		for (let i = 0; i < this.totalNodeCount; ++i) {
@@ -26,13 +26,44 @@ export class NeoStatsManager extends StatsManager {
 	}
 
 	protected async onLoad() {
-		// await this.loadAccounts();
+		await this.loadAccounts();
 		await this.loadBlocks();
 	}
 
 	// =============================================================================
 	// Loaders
 	// =============================================================================
+
+	protected async loadAccounts() {
+		logger.debug(`Loading accounts`);
+
+		const response = await RetryRequest.get({
+			url: `${NEO_ACCOUNTS_SOURCE_URL}`,
+		});
+
+		const accountResults = response.data.results;
+		let totalWealth = 0;
+
+		// Loop accounts
+		for (const accountData of accountResults) {
+			const id = accountData.account;
+			const wealth = Number.parseFloat(accountData.neo);
+			totalWealth += wealth;
+
+			this.accounts.push({
+				id,
+				wealth,
+			});
+		}
+
+		// Sort by wealth (highest first)
+		this.accounts.sort((a, b) => b.wealth - a.wealth);
+
+		// Convert wealth to percentage (1-100)
+		this.accounts.forEach((account) => { account.wealth = account.wealth / totalWealth * 100; });
+
+		logger.debug(`Loaded accounts: ${this.accounts.length}`);
+	}
 
 	protected async loadBlocks() {
 		logger.debug(`Loading blocks: ${this.start.toString()} - ${this.end.toString()}`);
@@ -42,13 +73,16 @@ export class NeoStatsManager extends StatsManager {
 
 		// Loop blocks 5 at a time
 		let startReached = false;
-		for (; height >= 0; height -= 5) {
+		for (; height >= 0; height -= 8) {
 			const results = await Promise.all([
 				this.loadBlock(height),
 				this.loadBlock(height - 1),
 				this.loadBlock(height - 2),
 				this.loadBlock(height - 3),
 				this.loadBlock(height - 4),
+				this.loadBlock(height - 5),
+				this.loadBlock(height - 6),
+				this.loadBlock(height - 7),
 			]);
 
 			logger.debug(`Parsing blocks: ${results[results.length - 1].height} - ${results[0].height}`);

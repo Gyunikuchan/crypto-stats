@@ -29,8 +29,8 @@ export abstract class StatsManager {
 
 	public accounts: Account[] = [];			// Sorted by amount (descending)
 	public blocks: Block[] = [];					// Sorted by time (ascending)
-	public totalNodeCount: number;
-	public totalWealth: number;
+	public totalNodeCount = 0;
+	public totalWealth = 0;
 
 	constructor(
 		options: {
@@ -111,7 +111,7 @@ export abstract class StatsManager {
 		return this.getAccumulatedWealthForAccountCount(accountsCount) / this.totalWealth;
 	}
 
-	public getNoTopAccountsToTakeOverWealth(fractionalToTakeOver) {
+	public getNoTopAccountsToAttack(fractionalToTakeOver) {
 		const wealthToTakeOver = Math.floor(this.totalWealth * fractionalToTakeOver);
 		let noOfAccounts = 0;
 		let wealthAccum = 0;

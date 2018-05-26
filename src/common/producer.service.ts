@@ -19,7 +19,7 @@ export interface ProducerStats {
 	producers: Producer[];
 	totalValidations: number;
 	validators: Validator[];
-	noTopValidatorsToTakeOver: number;
+	noTopValidatorsToAttack: number;
 }
 
 export class ProducerService {
@@ -28,14 +28,14 @@ export class ProducerService {
 		fractionalToTakeOver: number,
 	): ProducerStats {
 		const { totalBlocks, producers, totalValidations, validators } = this.getProducersValidators(blocks);
-		const noTopValidatorsToTakeOver = this.getNoTopValidatorsToTakeOver(totalValidations, validators, fractionalToTakeOver);
+		const noTopValidatorsToAttack = this.getNoTopValidatorsToAttack(totalValidations, validators, fractionalToTakeOver);
 
 		return {
 			totalBlocks,
 			producers,
 			totalValidations,
 			validators,
-			noTopValidatorsToTakeOver,
+			noTopValidatorsToAttack,
 		};
 	}
 
@@ -96,7 +96,7 @@ export class ProducerService {
 		};
 	}
 
-	protected getNoTopValidatorsToTakeOver(
+	protected getNoTopValidatorsToAttack(
 		totalValidations,
 		validators: Validator[],
 		fractionalToTakeOver: number,

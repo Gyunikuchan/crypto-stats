@@ -38,9 +38,9 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 		totalNodes: statsManager.totalNodeCount.toString(),
 		totalProducers: producerStats1Week.producers.length.toString(),
 		totalValidators: producerStats1Week.producers.length.toString(),
-		noTopValidatorsToTakeOver: producerStats1Week.noTopValidatorsToTakeOver.toString(),
+		noTopValidatorsToAttack: producerStats1Week.noTopValidatorsToAttack.toString(),
 		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toPrecision(5),
-		wealthNoTopAccountsToTakeOver: wealthStats.noTopAccountsToTakeOverWealthString,
+		wealthNoTopAccountsToAttack: wealthStats.noTopAccountsToAttackString,
 	};
 }
 
@@ -85,8 +85,8 @@ function writeProducerStats(statsManager: EthereumStatsManager) {
 	writer.write();
 
 	// Summary
-	const noTopValidatorsToTakeOver = Math.min(producerStats1Day.noTopValidatorsToTakeOver, producerStats1Week.noTopValidatorsToTakeOver);
-	writer.writeHeader(`**No of validators to take over network: <span style="color:red">${noTopValidatorsToTakeOver}</span>**`, 3);
+	const noTopValidatorsToAttack = Math.min(producerStats1Day.noTopValidatorsToAttack, producerStats1Week.noTopValidatorsToAttack);
+	writer.writeHeader(`**No of validators to attack the network: <span style="color:red">${noTopValidatorsToAttack}</span>**`, 3);
 
 	return producerStats1Week;
 }
@@ -101,7 +101,7 @@ function writePeriodProducerStats(statsManager: EthereumStatsManager, start: mom
 	writer.writeTableRow(`Total producers`, `${producerStats.producers.length}`);
 	writer.writeTableRow(`Total validations`, `${producerStats.totalValidations}`);
 	writer.writeTableRow(`Total validators`, `${producerStats.validators.length}`);
-	writer.writeTableRow(`No of validators to take over network`, `${producerStats.noTopValidatorsToTakeOver}`);
+	writer.writeTableRow(`No of validators to attack`, `${producerStats.noTopValidatorsToAttack}`);
 	writer.write();
 	writer.writeLn();
 
@@ -148,11 +148,11 @@ function writeWealthStats(statsManager: EthereumStatsManager) {
 	writer.write();
 
 	// Summary
-	const noTopAccountsToTakeOverWealthString = `-`;	// PoW is not affected
-	writer.writeHeader(`**No of accounts needed to take over network with wealth: <span style="color:red">${noTopAccountsToTakeOverWealthString}</span>**`, 3);
+	const noTopAccountsToAttackString = `-`;	// PoW is not affected
+	writer.writeHeader(`**No of accounts needed to attack the network with wealth: <span style="color:red">${noTopAccountsToAttackString}</span>**`, 3);
 
 	return {
 		accumWealthPercent100,
-		noTopAccountsToTakeOverWealthString,
+		noTopAccountsToAttackString,
 	};
 }

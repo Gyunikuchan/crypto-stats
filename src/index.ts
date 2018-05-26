@@ -11,8 +11,8 @@ const writer: MDWriter = new MDWriter();
 
 async function writeSummary() {
 	const endLoadMoment = moment();
-	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
+	const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
+	// const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
 
 	// Load summaries
 	const summaries: Summary[] = [
@@ -39,10 +39,10 @@ async function writeSummary() {
 	writer.writeTableRow(`Total Producers`, `Unique addresses that managed to produce blocks<br/>` +
 		`A higher number here means that the network is harder to censor (your transactions will be published fairly and timely)`);
 	writer.writeTableRow(`Total Validators`, `Unique addresses that participated in validation`);
-	writer.writeTableRow(`No of validators to take over network`, `The minimum number of the top addresses needed for collusion<br/>` +
+	writer.writeTableRow(`No of top validators to attack`, `The minimum number of the top addresses needed for collusion<br/>` +
 		`A higher number here helps to guard against network attacks (e.g. double spends, network stoppage)`);
 	writer.writeTableRow(`Wealth held by top 100 (%)`, `Percentage of wealth held by the top 100 addresses`);
-	writer.writeTableRow(`No of accounts to take over network with wealth`, `The minimum number of the top addresses needed for collusion<br/>` +
+	writer.writeTableRow(`No of top accounts to attack`, `The minimum number of the top addresses needed for collusion<br/>` +
 		`Similar to "No of validators to take over network" but relevant only to staking consensus and includes all potential validators`);
 	writer.write();
 	writer.writeHeader(`Why?`, 3);
@@ -55,7 +55,7 @@ async function writeSummary() {
 	writer.writeLn(`- Some networks have higher barriers to entry in governance or in execution`);
 	writer.writeLn(`- Some networks have claims/properties we assume to be true, but may not be so in practice`);
 	writer.writeLn(`- Some of the wealthiest addresses are exchanges, but they still poses a potential threat should they misbehave`);
-	writer.writeLn(`- While wealth inequality in non-staking networks should not directly affect the network, price manipulation may be a concern`);
+	writer.writeLn(`- While wealth inequality in non-staking networks should not directly affect the network, there are other economical concerns`);
 	writer.writeDivider();
 
 	writer.writeHeader(`How to run`, 2);
@@ -72,9 +72,9 @@ async function writeSummary() {
 		`Total Nodes`,
 		`Total Producers`,
 		`Total Validators`,
-		`**No of validators to take over network**`,
+		`**No of top validators to attack**`,
 		`Wealth held by top 100 (%)`,
-		`**No of accounts to take over network with wealth**`);
+		`**No of top accounts to attack**`);
 	writer.writeTableRowQuoted(`:---`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`);
 	for (const summary of summaries) {
 		writer.writeTableRowQuoted(
@@ -84,9 +84,9 @@ async function writeSummary() {
 			`${summary.totalNodes}`,
 			`${summary.totalProducers}`,
 			`${summary.totalValidators}`,
-			`**${summary.noTopValidatorsToTakeOver}**`,
+			`**${summary.noTopValidatorsToAttack}**`,
 			`${summary.wealthPercentHeldbyTop100}`,
-			`**${summary.wealthNoTopAccountsToTakeOver}**`);
+			`**${summary.wealthNoTopAccountsToAttack}**`);
 	}
 	writer.write();
 	writer.writeQuoted(`*Not dynamically updated`);

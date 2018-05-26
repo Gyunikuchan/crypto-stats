@@ -11,8 +11,8 @@ const writer: MDWriter = new MDWriter();
 
 async function writeSummary() {
 	const endLoadMoment = moment();
-	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
+	const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
+	// const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
 
 	// Load summaries
 	const summaries: Summary[] = [

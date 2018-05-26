@@ -19,7 +19,7 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 
 ### Other Considerations
 - A single entity can control multiple addresses<br/>
-- Some consensus are easier/cheaper to game (e.g.buying votes) <br/>
+- Some consensus are easier/cheaper to game (e.g. buying votes)<br/>
 - Some networks have higher barriers to entry either in governance or in execution<br/>
 - Some networks have claims/properties we assume to be true, but may not be so in practice<br/>
 - Some of the top wealth holders are exchanges, but it still poses a threat should the exchange misbehave<br/>
@@ -33,11 +33,11 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 ---
 ## Results
 Date: May 26th 2018<br/>
-Period: 1 week (Sat May 26 2018 14:56:11 GMT+0800 - Sat May 26 2018 15:06:11 GMT+0800)<br/>
+Period: 1 week (Sat May 19 2018 15:17:02 GMT+0800 - Sat May 26 2018 15:17:02 GMT+0800)<br/>
 > |Name|Consensus|Total Blocks|Total Nodes|Total Producers|Total Validators|No of validators to take over network|Wealth held by top 100 (%)|No of accounts to take over network with wealth|
 > |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-> |[Ethereum](results/ethereum.results.md)|PoW|33|16055|8|8|2|34.512|-|
-> |[Qtum](results/qtum.results.md)|MPoS|7|6746|7|7|4|73.057|24|
-> |[Neo](results/neo.results.md)|dBFT|15|7*|1|7*|3|?|?|
+> |[Ethereum](results/ethereum.results.md)|PoW|39370|16067|79|79|3|34.512|-|
+> |[Qtum](results/qtum.results.md)|MPoS|4211|6738|1176|1176|67|73.061|24|
+> |[Neo](results/neo.results.md)|dBFT|27428|7*|1|7*|3|?|?|
 
 > *Not dynamically updated

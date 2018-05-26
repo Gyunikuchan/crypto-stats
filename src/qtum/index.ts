@@ -56,9 +56,10 @@ function writeSummary(statsManager: QtumStatsManager) {
 	writer.write(`|Attribute|Description|`);
 	writer.write(`|---|---|`);
 	writer.write(`|**Website**|https://qtum.org|`);
-	writer.write(`|**Sources**|${QTUM_ACCOUNTS_SOURCE_URL}|`);
-	writer.write(`| |${QTUM_BLOCKS_SOURCE_URL}|`);
-	writer.write(`| |${QTUM_NODES_SOURCE_URL}|`);
+	writer.write(`|**Sources**|` +
+		`${QTUM_ACCOUNTS_SOURCE_URL}<br/>` +
+		`${QTUM_BLOCKS_SOURCE_URL}<br/>` +
+		`${QTUM_NODES_SOURCE_URL}|`);
 	writer.write(`|**Consensus**|${statsManager.consensus}|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
 }
@@ -128,7 +129,7 @@ function writeWealthStats(statsManager: QtumStatsManager) {
 	writer.writeLn(`Amount held by the top 100 accounts: **${accumWealthPercent100.toPrecision(5)}%**`);
 
 	// Top accounts
-	writer.writeQuoted(`|Rank|Address|Amount(%)|`);
+	writer.writeQuoted(`|Rank|Address|Amount (%)|`);
 	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];

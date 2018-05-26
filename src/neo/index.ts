@@ -55,8 +55,9 @@ function writeSummary(statsManager: NeoStatsManager) {
 	writer.write(`|Attribute|Description|`);
 	writer.write(`|---|---|`);
 	writer.write(`|**Website**|https://neo.org|`);
-	writer.write(`|**Sources**|${NEO_ACCOUNTS_SOURCE_URL}|`);
-	writer.write(`| |${NEO_API_SOURCE_URL}|`);
+	writer.write(`|**Sources**|` +
+		`${NEO_ACCOUNTS_SOURCE_URL}<br/>` +
+		`${NEO_API_SOURCE_URL}|`);
 	writer.write(`|**Consensus**|${statsManager.consensus}|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}*|`);
 }
@@ -88,7 +89,7 @@ function writeProducerStats(statsManager: NeoStatsManager) {
 }
 
 function writePeriodProducerStats(statsManager: NeoStatsManager, start: moment.Moment) {
-	const producerStats = statsManager.getProducerStats(start, statsManager.end, 2 / 3);
+	const producerStats = statsManager.getProducerStats(start, statsManager.end, 1 / 3);
 
 	// Producer stats
 	writer.writeLn(`Total blocks: **${producerStats.totalBlocks}**`);
@@ -126,7 +127,7 @@ function writeWealthStats(statsManager: NeoStatsManager) {
 	writer.writeLn(`Amount held by the top 100 accounts: **${accumWealthPercent100.toPrecision(5)}%**`);
 
 	// Top accounts
-	writer.writeQuoted(`|Rank|Address|Amount(%)|`);
+	writer.writeQuoted(`|Rank|Address|Amount (%)|`);
 	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];
@@ -136,7 +137,7 @@ function writeWealthStats(statsManager: NeoStatsManager) {
 	writer.write();
 
 	// Summary
-	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth(2 / 3);
+	const noTopAccountsToTakeOverWealth = statsManager.getNoTopAccountsToTakeOverWealth(1 / 3);
 	const prefixSymbol = noTopAccountsToTakeOverWealth.moreThan ? ">" : "";
 	const noTopAccountsToTakeOverWealthString = `${prefixSymbol}${noTopAccountsToTakeOverWealth.noOfAccounts}`;
 	writer.writeHeader(`**No of accounts needed to take over network with wealth: <span style="color:red">${noTopAccountsToTakeOverWealthString}</span>**`, 3);

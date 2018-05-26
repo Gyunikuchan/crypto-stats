@@ -56,10 +56,11 @@ function writeSummary(statsManager: EthereumStatsManager) {
 	writer.write(`|Attribute|Description|`);
 	writer.write(`|---|---|`);
 	writer.write(`|**Website**|https://www.ethereum.org|`);
-	writer.write(`|**Sources**|${ETH_ACCOUNTS_SOURCE_URL}|`);
-	writer.write(`| |${ETH_API_SOURCE_URL}|`);
-	writer.write(`| |${ETH_BLOCKS_SOURCE_URL}|`);
-	writer.write(`| |${ETH_NODES_SOURCE_URL}|`);
+	writer.write(`|**Sources**|` +
+		`${ETH_ACCOUNTS_SOURCE_URL}<br/>` +
+		`${ETH_API_SOURCE_URL}<br/>` +
+		`${ETH_BLOCKS_SOURCE_URL}<br/>` +
+		`${ETH_NODES_SOURCE_URL}|`);
 	writer.write(`|**Consensus**|${statsManager.consensus}|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
 }
@@ -129,7 +130,7 @@ function writeWealthStats(statsManager: EthereumStatsManager) {
 	writer.writeLn(`Amount held by the top 100 accounts: **${accumWealthPercent100.toPrecision(5)}%**`);
 
 	// Top accounts
-	writer.writeQuoted(`|Rank|Address|Amount(%)|`);
+	writer.writeQuoted(`|Rank|Address|Amount (%)|`);
 	writer.writeQuoted(`|---|---|---|`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];

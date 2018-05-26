@@ -48,8 +48,9 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 
 function writeSummary(statsManager: NeoStatsManager) {
 	writer.writeHeader(`${statsManager.name} (${statsManager.end.format("MMMM Do YYYY")})`, 1);
-	writer.writeLn(`NEO is a non-profit community-based blockchain project that utilizes blockchain technology and digital identity to digitize assets,`);
-	writer.writeLn(`to automate the management of digital assets using smart contracts, and to realize a "smart economy" with a distributed network.`);
+	writer.writeLn(`NEO is a non-profit community-based blockchain project that utilizes blockchain technology` +
+		`and digital identity to digitize assets, to automate the management of digital assets using smart contracts, ` +
+		`and to realize a "smart economy" with a distributed network.`);
 	writer.write(``);
 
 	writer.write(`|Attribute|Description|`);

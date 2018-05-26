@@ -50,7 +50,8 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 
 function writeSummary(statsManager: EthereumStatsManager) {
 	writer.writeHeader(`${statsManager.name} (${statsManager.end.format("MMMM Do YYYY")})`, 1);
-	writer.writeLn(`Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.`);
+	writer.writeLn(`Ethereum is a decentralized platform that runs smart contracts: applications that` +
+		`run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.`);
 	writer.write(``);
 
 	writer.write(`|Attribute|Description|`);

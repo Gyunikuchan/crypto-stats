@@ -86,9 +86,9 @@ async function writeSummary() {
 			`${summary.totalNodes}|` +
 			`${summary.totalProducers}|` +
 			`${summary.totalValidators}|` +
-			`${summary.noTopValidatorsToTakeOver}|` +
+			`**${summary.noTopValidatorsToTakeOver}**|` +
 			`${summary.wealthPercentHeldbyTop100}|` +
-			`${summary.wealthNoTopAccountsToTakeOver}|`);
+			`**${summary.wealthNoTopAccountsToTakeOver}**|`);
 	}
 	writer.write(``);
 	writer.writeQuoted(`*Not dynamically updated`);

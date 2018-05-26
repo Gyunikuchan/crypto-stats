@@ -112,7 +112,7 @@ export abstract class StatsManager {
 	}
 
 	public getNoTopAccountsToTakeOverWealth(fractionalToTakeOver) {
-		const wealthToTakeOver = this.totalWealth * fractionalToTakeOver;
+		const wealthToTakeOver = Math.floor(this.totalWealth * fractionalToTakeOver);
 		let noOfAccounts = 0;
 		let wealthAccum = 0;
 
@@ -121,7 +121,7 @@ export abstract class StatsManager {
 			wealthAccum += account.wealth;
 
 			logger.debug(`Account #${noOfAccounts} holds ${account.wealth}, totalling ${wealthAccum}`);
-			if (wealthAccum > wealthToTakeOver)
+			if (wealthAccum >= wealthToTakeOver)
 				break;
 		}
 

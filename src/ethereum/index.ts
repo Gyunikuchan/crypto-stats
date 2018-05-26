@@ -49,21 +49,20 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 // =============================================================================
 
 function writeSummary(statsManager: EthereumStatsManager) {
-	writer.writeHeader(`${statsManager.name} (${statsManager.end.format("MMMM Do YYYY")})`, 1);
+	writer.writeHeader(`${statsManager.name}`, 1);
 	writer.writeLn(`Ethereum is a decentralized platform that runs smart contracts: applications that` +
 		`run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.`);
-	writer.write(``);
 
-	writer.write(`|Attribute|Description|`);
-	writer.write(`|---|---|`);
-	writer.write(`|**Website**|https://www.ethereum.org|`);
-	writer.write(`|**Sources**|` +
+	writer.writeTableHeader(`Attribute`, `Description`);
+	writer.writeTableRow(`---`, `---`);
+	writer.writeTableRow(`**Website**`, `https://www.ethereum.org`);
+	writer.writeTableRow(`**Sources**`,
 		`${ETH_ACCOUNTS_SOURCE_URL}<br/>` +
 		`${ETH_API_SOURCE_URL}<br/>` +
 		`${ETH_BLOCKS_SOURCE_URL}<br/>` +
-		`${ETH_NODES_SOURCE_URL}|`);
-	writer.write(`|**Consensus**|${statsManager.consensus}|`);
-	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
+		`${ETH_NODES_SOURCE_URL}`);
+	writer.writeTableRow(`**Consensus**`, `${statsManager.consensus}`);
+	writer.writeTableRow(`**Total nodes**`, `${statsManager.totalNodeCount}`);
 }
 
 // =============================================================================
@@ -96,19 +95,23 @@ function writePeriodProducerStats(statsManager: EthereumStatsManager, start: mom
 	const producerStats = statsManager.getProducerStats(start, statsManager.end, 0.5);
 
 	// Producer stats
-	writer.writeLn(`Total blocks: **${producerStats.totalBlocks}**`);
-	writer.writeLn(`Total producers: **${producerStats.producers.length}**`);
-	writer.writeLn(`Total validations: **${producerStats.totalValidations}**`);
-	writer.writeLn(`Total validators: **${producerStats.validators.length}**`);
-	writer.writeLn(`No of validators to take over network: **${producerStats.noTopValidatorsToTakeOver}**`);
+	writer.writeTableHeader(`Metric`, `Result`);
+	writer.writeTableRow(`---`, `---`);
+	writer.writeTableRow(`Total blocks`, `${producerStats.totalBlocks}`);
+	writer.writeTableRow(`Total producers`, `${producerStats.producers.length}`);
+	writer.writeTableRow(`Total validations`, `${producerStats.totalValidations}`);
+	writer.writeTableRow(`Total validators`, `${producerStats.validators.length}`);
+	writer.writeTableRow(`No of validators to take over network`, `${producerStats.noTopValidatorsToTakeOver}`);
+	writer.write();
+	writer.writeLn();
 
 	// Top producers
-	writer.writeQuoted(`|Rank|Address|Blocks|`);
-	writer.writeQuoted(`|---|---|---|`);
+	writer.writeTableHeaderQuoted(`Rank`, `Address`, `Blocks`);
+	writer.writeTableRowQuoted(`---`, `---`, `---`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const producer = producerStats.producers[index];
 		if (producer)
-			writer.writeQuoted(`|${(index + 1)}|${statsManager.getAliasOrId(producer.id)}|${producer.blockCount}|`);
+			writer.writeTableRowQuoted(`${(index + 1)}`, `${statsManager.getAliasOrId(producer.id)}`, `${producer.blockCount}`);
 	}
 
 	return producerStats;
@@ -126,17 +129,21 @@ function writeWealthStats(statsManager: EthereumStatsManager) {
 	const accumWealthPercent50 = statsManager.getAccumulatedWealthForAccountCount(50);
 	const accumWealthPercent100 = statsManager.getAccumulatedWealthForAccountCount(100);
 
-	writer.writeLn(`Amount held by the top 10 accounts: **${accumWealthPercent10.toPrecision(5)}%**`);
-	writer.writeLn(`Amount held by the top 50 accounts: **${accumWealthPercent50.toPrecision(5)}%**`);
-	writer.writeLn(`Amount held by the top 100 accounts: **${accumWealthPercent100.toPrecision(5)}%**`);
+	writer.writeTableHeader(`Metric`, `Result`);
+	writer.writeTableRow(`---`, `---`);
+	writer.writeTableRow(`Amount held by the top 10 accounts`, `${accumWealthPercent10.toPrecision(5)}%`);
+	writer.writeTableRow(`Amount held by the top 50 accounts`, `${accumWealthPercent50.toPrecision(5)}%`);
+	writer.writeTableRow(`Amount held by the top 100 accounts`, `${accumWealthPercent100.toPrecision(5)}%`);
+	writer.write();
+	writer.writeLn();
 
 	// Top accounts
-	writer.writeQuoted(`|Rank|Address|Amount (%)|`);
-	writer.writeQuoted(`|---|---|---|`);
+	writer.writeTableHeader(`Rank`, `Address`, `Amount (%)`);
+	writer.writeTableRow(`---`, `---`, `---`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];
 		if (account)
-			writer.writeQuoted(`|${(index + 1)}|${account.alias || account.id}|${account.wealth.toPrecision(5)}|`);
+			writer.writeTableRow(`${(index + 1)}`, `${account.alias || account.id}`, `${account.wealth.toPrecision(5)}`);
 	}
 	writer.write();
 

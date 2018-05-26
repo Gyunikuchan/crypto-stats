@@ -103,7 +103,7 @@ export class ProducerService {
 	) {
 		logger.debug(`Getting number of top validators to take over`);
 
-		const validationsToTakeOver = totalValidations * fractionalToTakeOver;
+		const validationsToTakeOver = Math.floor(totalValidations * fractionalToTakeOver);
 
 		let noOfAddresses = 0;
 		let validationsAccum = 0;
@@ -112,7 +112,7 @@ export class ProducerService {
 			validationsAccum += validator.blockCount;
 
 			logger.debug(`Validator #${noOfAddresses} validated ${validator.blockCount} times (Accumulated: ${validationsAccum})`);
-			if (validationsAccum > validationsToTakeOver)
+			if (validationsAccum >= validationsToTakeOver)
 				break;
 		}
 

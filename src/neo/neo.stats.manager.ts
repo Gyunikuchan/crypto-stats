@@ -15,7 +15,7 @@ export class NeoStatsManager extends StatsManager {
 		start: moment.Moment,
 		end: moment.Moment,
 	) {
-		super({ start, end, name: "Neo", consensus: "dBFT" }, {});
+		super({ start, end, name: "NEO", consensus: "dBFT" }, {});
 		this.totalWealth = 100;		// In percentage, 0-100
 		this.totalNodeCount = 7;	// No dynamic source
 

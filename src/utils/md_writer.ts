@@ -46,4 +46,30 @@ export class MDWriter {
 		this.write();
 		this.write(`---`);
 	}
+
+	public writeTableRow(...fields: string[]) {
+		let line = `|`;
+		for (const field of fields) {
+			line += `${field}|`;
+		}
+		this.write(line);
+	}
+
+	public writeTableHeader(...fields: string[]) {
+		this.write();
+		this.writeTableRow(...fields);
+	}
+
+	public writeTableRowQuoted(...fields: string[]) {
+		let line = `> |`;
+		for (const field of fields) {
+			line += `${field}|`;
+		}
+		this.write(line);
+	}
+
+	public writeTableHeaderQuoted(...fields: string[]) {
+		this.write();
+		this.writeTableRowQuoted(...fields);
+	}
 }

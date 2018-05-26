@@ -11,8 +11,8 @@ const writer: MDWriter = new MDWriter();
 
 async function writeSummary() {
 	const endLoadMoment = moment();
-	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
+	const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
+	// const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
 
 	// Load summaries
 	const summaries: Summary[] = [
@@ -32,6 +32,7 @@ async function writeSummary() {
 	writer.writeLn(`These are pretty raw statistics and are incapable of tell the full story on its own`);
 	writer.writeLn(`A single entity can control multiple addresses`);
 	writer.writeLn(`Some consensus are easier/cheaper to game (e.g. buying votes)`);
+	writer.writeLn(`Some projects have higher barriers to entry either in governance or in execution`);
 	writer.writeLn(``);
 	writer.writeHeader(`Explanation`, 3);
 	writer.writeLn(`**Total Blocks**: Activity in this period`);

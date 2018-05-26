@@ -10,29 +10,23 @@ export interface RetryOptions {
 }
 
 export class RetryRequest {
-	protected static retryOptionsDefault: RetryOptions = {
-		retryTimes: 3,
-		interval: 3000,
-		backOffFactor: 2,
-	};
-
-	public static async get(config: AxiosRequestConfig, retryOptions: RetryOptions = this.retryOptionsDefault) {
+	public static async get(config: AxiosRequestConfig, retryOptions: RetryOptions = this.getDefaultRetryOptions()) {
 		return await this.send({ ...config, method: "GET" }, retryOptions);
 	}
 
-	public static async post(config: AxiosRequestConfig, retryOptions: RetryOptions = this.retryOptionsDefault) {
+	public static async post(config: AxiosRequestConfig, retryOptions: RetryOptions = this.getDefaultRetryOptions()) {
 		return await this.send({ ...config, method: "POST" }, retryOptions);
 	}
 
-	public static async put(config: AxiosRequestConfig, retryOptions: RetryOptions = this.retryOptionsDefault) {
+	public static async put(config: AxiosRequestConfig, retryOptions: RetryOptions = this.getDefaultRetryOptions()) {
 		return await this.send({ ...config, method: "PUT" }, retryOptions);
 	}
 
-	public static async delete(config: AxiosRequestConfig, retryOptions: RetryOptions = this.retryOptionsDefault) {
+	public static async delete(config: AxiosRequestConfig, retryOptions: RetryOptions = this.getDefaultRetryOptions()) {
 		return await this.send({ ...config, method: "DELETE" }, retryOptions);
 	}
 
-	public static async send(config: AxiosRequestConfig, retryOptions: RetryOptions = this.retryOptionsDefault): Promise<AxiosResponse> {
+	public static async send(config: AxiosRequestConfig, retryOptions: RetryOptions = this.getDefaultRetryOptions()): Promise<AxiosResponse> {
 		try {
 			return await axios(config);
 		} catch (error) {
@@ -52,5 +46,13 @@ export class RetryRequest {
 
 			return await this.send(config, retryOptions);
 		}
+	}
+
+	private static getDefaultRetryOptions(): RetryOptions {
+		return {
+			retryTimes: 3,
+			interval: 3000,
+			backOffFactor: 2,
+		};
 	}
 }

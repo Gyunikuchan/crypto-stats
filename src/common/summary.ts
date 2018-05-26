@@ -6,6 +6,7 @@ import * as moment from "moment";
 export interface Summary {
 	// General
 	name: string;
+	consensus: string;
 
 	// Producers
 	totalBlocks: string;

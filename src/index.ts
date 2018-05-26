@@ -29,7 +29,9 @@ async function writeSummary() {
 	writer.writeHeader(`Crypto-Stats`, 1);
 	writer.writeHeader(`Summary`, 2);
 	writer.writeLn(`Gathers decentralization statistics for various cryptocurrency projects`);
-	writer.writeLn(`Disclaimer: These are just numbers and is incapable of tell the full story on its own`);
+	writer.writeLn(`These are pretty raw statistics and are incapable of tell the full story on its own`);
+	writer.writeLn(`A single entity can control multiple addresses`);
+	writer.writeLn(`Some consensus are easier/cheaper to game (e.g. buying votes)`);
 	writer.writeLn(``);
 	writer.writeHeader(`Explanation`, 3);
 	writer.writeLn(`**Total Blocks**: Activity in this period`);
@@ -51,6 +53,7 @@ async function writeSummary() {
 	writer.writeLn(`Period: 1 week (${startLoadMoment.toString()} - ${endLoadMoment.toString()})`);
 	writer.writeQuoted(`|` +
 		`Name|` +
+		`Consensus|` +
 		`Total Blocks|` +
 		`Total Nodes|` +
 		`Total Producers|` +
@@ -58,10 +61,11 @@ async function writeSummary() {
 		`No of validators to take over network|` +
 		`Wealth held by top 100 (%)|` +
 		`No of accounts to take over network with wealth|`);
-	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|`);
+	writer.writeQuoted(`|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|`);
 	for (const summary of summaries) {
 		writer.writeQuoted(`|` +
 			`[${summary.name}](results/${summary.name.toLowerCase()}.results.md)|` +
+			`${summary.consensus}|` +
 			`${summary.totalBlocks}|` +
 			`${summary.totalNodes}|` +
 			`${summary.totalProducers}|` +
@@ -70,7 +74,7 @@ async function writeSummary() {
 			`${summary.wealthPercentHeldbyTop100}|` +
 			`${summary.wealthNoTopAccountsToTakeOver}|`);
 	}
-	writer.writeQuoted(`*Not dynamically calculated`);
+	writer.writeQuoted(`*Not dynamically updated`);
 
 	writer.close();
 }

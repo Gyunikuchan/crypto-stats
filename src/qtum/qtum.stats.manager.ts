@@ -14,7 +14,7 @@ export class QtumStatsManager extends StatsManager {
 		start: moment.Moment,
 		end: moment.Moment,
 	) {
-		super({ start, end, name: "Qtum" }, {});
+		super({ start, end, name: "Qtum", consensus: "MPoS" }, {});
 		this.totalWealth = 100;	// In percentage, 0-100
 	}
 

@@ -32,6 +32,7 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 
 	return {
 		name: statsManager.name,
+		consensus: statsManager.consensus,
 		totalBlocks: statsManager.blocks.length.toString(),
 		totalNodes: statsManager.totalNodeCount.toString(),
 		totalProducers: producerStats1Week.producers.length.toString(),
@@ -58,7 +59,7 @@ function writeSummary(statsManager: QtumStatsManager) {
 	writer.write(`|**Sources**|${QTUM_ACCOUNTS_SOURCE_URL}|`);
 	writer.write(`| |${QTUM_BLOCKS_SOURCE_URL}|`);
 	writer.write(`| |${QTUM_NODES_SOURCE_URL}|`);
-	writer.write(`|**Consensus**|PoS|`);
+	writer.write(`|**Consensus**|${statsManager.consensus}|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
 }
 

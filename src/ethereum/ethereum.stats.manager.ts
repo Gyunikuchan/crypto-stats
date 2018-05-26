@@ -16,7 +16,7 @@ export class EthereumStatsManager extends StatsManager {
 		start: moment.Moment,
 		end: moment.Moment,
 	) {
-		super({ start, end, name: "Ethereum" }, {});
+		super({ start, end, name: "Ethereum", consensus: "PoW" }, {});
 		this.totalWealth = 100;	// In percentage, 0-100
 	}
 

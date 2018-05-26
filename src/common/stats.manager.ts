@@ -25,6 +25,7 @@ export abstract class StatsManager {
 	public readonly start: moment.Moment;
 	public readonly end: moment.Moment;
 	public readonly name: string;
+	public readonly consensus: string;
 
 	public accounts: Account[] = [];			// Sorted by amount (descending)
 	public blocks: Block[] = [];					// Sorted by time (ascending)
@@ -36,6 +37,7 @@ export abstract class StatsManager {
 			start: moment.Moment,
 			end: moment.Moment,
 			name: string,
+			consensus: string,
 		},
 		services: {
 			auditService?: AuditService,
@@ -45,6 +47,7 @@ export abstract class StatsManager {
 		this.start = options.start;
 		this.end = options.end;
 		this.name = options.name;
+		this.consensus = options.consensus;
 
 		// Services
 		this.auditService = services.auditService || new AuditService();

@@ -31,6 +31,7 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 
 	return {
 		name: statsManager.name,
+		consensus: statsManager.consensus,
 		totalBlocks: statsManager.blocks.length.toString(),
 		totalNodes: `${statsManager.totalNodeCount.toString()}*`,
 		totalProducers: producerStats1Week.producers.length.toString(),
@@ -56,7 +57,7 @@ function writeSummary(statsManager: NeoStatsManager) {
 	writer.write(`|**Website**|https://neo.org|`);
 	writer.write(`|**Sources**|${NEO_ACCOUNTS_SOURCE_URL}|`);
 	writer.write(`| |${NEO_API_SOURCE_URL}|`);
-	writer.write(`|**Consensus**|dBFT|`);
+	writer.write(`|**Consensus**|${statsManager.consensus}|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}*|`);
 }
 

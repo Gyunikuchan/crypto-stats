@@ -33,6 +33,7 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 
 	return {
 		name: statsManager.name,
+		consensus: statsManager.consensus,
 		totalBlocks: statsManager.blocks.length.toString(),
 		totalNodes: statsManager.totalNodeCount.toString(),
 		totalProducers: producerStats1Week.producers.length.toString(),
@@ -59,7 +60,7 @@ function writeSummary(statsManager: EthereumStatsManager) {
 	writer.write(`| |${ETH_API_SOURCE_URL}|`);
 	writer.write(`| |${ETH_BLOCKS_SOURCE_URL}|`);
 	writer.write(`| |${ETH_NODES_SOURCE_URL}|`);
-	writer.write(`|**Consensus**|PoW|`);
+	writer.write(`|**Consensus**|${statsManager.consensus}|`);
 	writer.write(`|**Total nodes**|${statsManager.totalNodeCount}|`);
 }
 

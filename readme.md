@@ -3,6 +3,7 @@
 ### Summary
 Gathers decentralization statistics for various public cryptocurrency networks.<br/>
 These are pretty raw metrics that are incapable of tell the full story on its own.<br/>
+
 |Metric|Description|
 |:---|:---|
 |Total Blocks|The amount of activity within the period|<br/>

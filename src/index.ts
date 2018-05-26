@@ -31,6 +31,7 @@ async function writeSummary() {
 	writer.writeHeader(`Summary`, 3);
 	writer.writeLn(`Gathers decentralization statistics for various public cryptocurrency networks.`);
 	writer.writeLn(`These are pretty raw metrics that are incapable of tell the full story on its own.`);
+	writer.write(``);
 	writer.write(`|Metric|Description|`);
 	writer.write(`|:---|:---|`);
 	writer.writeLn(`|Total Blocks|The amount of activity within the period|`);

@@ -15,11 +15,13 @@ async function writeSummary() {
 	const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
 
 	// Load summaries
-	const summaries: Summary[] = await Promise.all([
-		ethereum.writeStats(startLoadMoment, endLoadMoment),
-		qtum.writeStats(startLoadMoment, endLoadMoment),
-		neo.writeStats(startLoadMoment, endLoadMoment),
-	]);
+	const summaries: Summary[] = [
+		...await Promise.all([
+			ethereum.writeStats(startLoadMoment, endLoadMoment),
+			qtum.writeStats(startLoadMoment, endLoadMoment),
+			neo.writeStats(startLoadMoment, endLoadMoment),
+		]),
+	];
 
 	// Write
 	writer.open(`${__dirname}/../readme.md`);
@@ -37,12 +39,12 @@ async function writeSummary() {
 	writer.writeLn(`**No of validators to take over network**: The minimum number of addresses needed for collusion (lower means it is easier to censor/attack)`);
 	writer.writeLn(`**Wealth held by top 100 (%)**: Percentage of wealth held by the top 100 addresses`);
 	writer.writeLn(`**No of accounts to take over network with wealth**: The minimum number of addresses needed for collusion (lower means it is easier to censor/attack)`);
-	writer.write(``);
+	writer.writeDivider();
 
 	writer.writeHeader(`How to run`, 2);
 	writer.writeLn(`\`npm i\``);
 	writer.writeLn(`\`npm start\``);
-	writer.write(``);
+	writer.writeDivider();
 
 	writer.writeHeader(`Results`, 2);
 	writer.writeLn(`Date: ${endLoadMoment.format("MMMM Do YYYY")}`);

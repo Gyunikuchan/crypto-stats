@@ -12,16 +12,18 @@ Disclaimer: These are just numbers and is incapable of tell the full story on it
 **Wealth held by top 100 (%)**: Percentage of wealth held by the top 100 addresses<br/>
 **No of accounts to take over network with wealth**: The minimum number of addresses needed for collusion (lower means it is easier to censor/attack)<br/>
 
+---
 ## How to run
 `npm i`<br/>
 `npm start`<br/>
 
+---
 ## Results
 Date: May 26th 2018<br/>
-Period: 1 week (Sat May 26 2018 02:13:47 GMT+0800 - Sat May 26 2018 02:23:47 GMT+0800)<br/>
+Period: 1 week (Sat May 26 2018 11:55:27 GMT+0800 - Sat May 26 2018 12:05:27 GMT+0800)<br/>
 > |Name|Total Blocks|Total Nodes|Total Producers|Total Validators|No of validators to take over network|Wealth held by top 100 (%)|No of accounts to take over network with wealth|
 > |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-> |[Ethereum](results/ethereum.results.md)|41|16457|7|7|2|34.518|-|
-> |[Qtum](results/qtum.results.md)|4|6701|4|4|3|73.035|24|
-> |[Neo](results/neo.results.md)|15|7*|1|7*|5|?|?|
+> |[Ethereum](results/ethereum.results.md)|39|16175|11|11|3|34.504|-|
+> |[Qtum](results/qtum.results.md)|4|6674|4|4|3|73.060|24|
+> |[Neo](results/neo.results.md)|16|7*|1|7*|5|?|?|
 > *Not dynamically calculated

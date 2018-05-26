@@ -12,24 +12,24 @@ to automate the management of digital assets using smart contracts, and to reali
 
 ---
 ## Producer Stats
-### Period: 1 day (Fri May 25 2018 02:23:47 GMT+0800 - Sat May 26 2018 02:23:47 GMT+0800)
-Total blocks: **15**<br/>
+### Period: 1 day (Fri May 25 2018 12:05:27 GMT+0800 - Sat May 26 2018 12:05:27 GMT+0800)
+Total blocks: **16**<br/>
 Total producers: **1**<br/>
-Total validations: **105**<br/>
+Total validations: **112**<br/>
 Total validators: **7***<br/>
 No of validators to take over network: **5**<br/>
 > |Rank|Address|Blocks|
 > |---|---|---|
-> |1|APyEx5f4Zm4oCHwFWiSTaph1fPBxZacYVR|15|
+> |1|APyEx5f4Zm4oCHwFWiSTaph1fPBxZacYVR|16|
 
-### Period: 1 week (Sat May 19 2018 02:23:47 GMT+0800 - Sat May 26 2018 02:23:47 GMT+0800)
-Total blocks: **15**<br/>
+### Period: 1 week (Sat May 19 2018 12:05:27 GMT+0800 - Sat May 26 2018 12:05:27 GMT+0800)
+Total blocks: **16**<br/>
 Total producers: **1**<br/>
-Total validations: **105**<br/>
+Total validations: **112**<br/>
 Total validators: **7***<br/>
 No of validators to take over network: **5**<br/>
 > |Rank|Address|Blocks|
 > |---|---|---|
-> |1|APyEx5f4Zm4oCHwFWiSTaph1fPBxZacYVR|15|
+> |1|APyEx5f4Zm4oCHwFWiSTaph1fPBxZacYVR|16|
 
 ### **No of validators to take over network: <span style="color:red">5</span>**

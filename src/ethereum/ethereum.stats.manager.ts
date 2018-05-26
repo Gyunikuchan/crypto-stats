@@ -1,10 +1,10 @@
 import * as _ from "lodash";
-import axios from "axios";
 import * as cheerio from "cheerio";
 import * as moment from "moment";
 
-import { Block, StatsManager } from "../common/stats.manager";
 import logger from "../utils/logger";
+import { RetryRequest } from "../utils/retry_request";
+import { Block, StatsManager } from "../common/stats.manager";
 
 export const ETH_ACCOUNTS_SOURCE_URL = "https://etherscan.io/accounts";
 export const ETH_BLOCKS_SOURCE_URL = "https://etherscan.io/blocks";
@@ -33,7 +33,8 @@ export class EthereumStatsManager extends StatsManager {
 	protected async loadAccounts() {
 		logger.debug(`Loading accounts`);
 
-		const response = await axios.get(`${ETH_ACCOUNTS_SOURCE_URL}/1`, {
+		const response = await RetryRequest.get({
+			url: `${ETH_ACCOUNTS_SOURCE_URL}/1`,
 			params: {
 				ps: 100,
 			},
@@ -134,7 +135,8 @@ export class EthereumStatsManager extends StatsManager {
 	protected async loadBlocksPage(start: moment.Moment, end: moment.Moment, page: number) {
 		logger.debug(`Loading page: ${page}`);
 
-		const response = await axios.get(ETH_BLOCKS_SOURCE_URL, {
+		const response = await RetryRequest.get({
+			url: ETH_BLOCKS_SOURCE_URL,
 			params: {
 				p: page,
 				ps: 100,
@@ -181,7 +183,8 @@ export class EthereumStatsManager extends StatsManager {
 	}
 
 	protected async loadBlock(height: number): Promise<Block> {
-		const response = await axios.get(ETH_API_SOURCE_URL, {
+		const response = await RetryRequest.get({
+			url: ETH_API_SOURCE_URL,
 			params: {
 				module: "block",
 				action: "getblockreward",
@@ -203,7 +206,9 @@ export class EthereumStatsManager extends StatsManager {
 	protected async loadTotalNodeCount() {
 		logger.debug(`Loading total node count`);
 
-		const response = await axios.get(`${ETH_NODES_SOURCE_URL}/1`);
+		const response = await RetryRequest.get({
+			url: `${ETH_NODES_SOURCE_URL}/1`,
+		});
 		const $ = cheerio.load(response.data);
 		const nodeRows = $(`div[class="col-sm-4 m-b-md"]`).find(`ul[class="list-group"]`);
 		const totalNodeCountPercent = nodeRows.children()[0].children[2].children[0].data;

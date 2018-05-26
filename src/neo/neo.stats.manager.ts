@@ -1,9 +1,9 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
 import * as moment from "moment";
 
-import { Block, StatsManager } from "../common/stats.manager";
 import logger from "../utils/logger";
+import { RetryRequest } from "../utils/retry_request";
+import { Block, StatsManager } from "../common/stats.manager";
 
 export const NEO_ACCOUNTS_SOURCE_URL = "https://coranos.github.io/neo/charts/neo-account-data.html";
 export const NEO_API_SOURCE_URL = "https://neoscan.io/api/main_net/v1";
@@ -51,6 +51,8 @@ export class NeoStatsManager extends StatsManager {
 				this.loadBlock(height - 4),
 			]);
 
+			logger.debug(`Parsing blocks: ${results[results.length - 1].height} - ${results[0].height}`);
+
 			// Combine blocks
 			for (const result of results) {
 				// Check time
@@ -75,15 +77,17 @@ export class NeoStatsManager extends StatsManager {
 	}
 
 	protected async loadCurrentHeight(): Promise<number> {
-		const response = await axios.get(`${NEO_API_SOURCE_URL}/get_height`);
+		const response = await RetryRequest.get({
+			url: `${NEO_API_SOURCE_URL}/get_height`,
+		});
 		const currentHeight = Number.parseInt(response.data.height);
 		return currentHeight;
 	}
 
 	protected async loadBlock(height: number): Promise<Block> {
-		logger.debug(`Loading block: ${height}`);
-
-		const response = await axios.get(`${NEO_API_SOURCE_URL}/get_block/${height}`);
+		const response = await RetryRequest.get({
+			url: `${NEO_API_SOURCE_URL}/get_block/${height}`,
+		});
 		const data = response.data;
 
 		const block: Block = {

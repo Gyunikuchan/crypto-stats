@@ -1,9 +1,9 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
 import * as moment from "moment";
 
-import { StatsManager } from "../common/stats.manager";
 import logger from "../utils/logger";
+import { RetryRequest } from "../utils/retry_request";
+import { StatsManager } from "../common/stats.manager";
 
 export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export const QTUM_BLOCKS_SOURCE_URL = "https://qtum.info/block";
@@ -31,7 +31,9 @@ export class QtumStatsManager extends StatsManager {
 	protected async loadAccounts() {
 		logger.debug(`Loading accounts`);
 
-		const response = await axios.get(QTUM_ACCOUNTS_SOURCE_URL);
+		const response = await RetryRequest.get({
+			url: QTUM_ACCOUNTS_SOURCE_URL,
+		});
 		const $ = cheerio.load(response.data);
 		const dataRows = $(`#app`).find(`tbody`).children();
 
@@ -56,7 +58,8 @@ export class QtumStatsManager extends StatsManager {
 
 		// Loop days
 		while (dayCounter.isBefore(this.end)) {
-			const response = await axios.get(QTUM_BLOCKS_SOURCE_URL, {
+			const response = await RetryRequest.get({
+				url: QTUM_BLOCKS_SOURCE_URL,
 				params: {
 					date: dayCounter.format("YYYY-MM-DD"),
 				},
@@ -101,7 +104,9 @@ export class QtumStatsManager extends StatsManager {
 	protected async loadTotalNodeCount() {
 		logger.debug(`Loading total node count`);
 
-		const response = await axios.get(QTUM_NODES_SOURCE_URL);
+		const response = await RetryRequest.get({
+			url: QTUM_NODES_SOURCE_URL,
+		});
 		const cityStats: any[] = response.data;
 
 		this.totalNodeCount = 0;

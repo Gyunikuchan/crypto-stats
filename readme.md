@@ -15,15 +15,15 @@ These are pretty raw metrics that are incapable of tell the full story on its ow
 |No of top accounts to attack|The minimum number of the top addresses needed for collusion<br/>Similar to "No of validators to take over network" but relevant only to staking consensus and includes all potential validators|
 
 ### Why?
-The key propositions of a public DLT network is that it is **trustless** and **permissionless**.<br/>
-Without these properties, using private/consortium/trusted networks makes a lot more sense.<br/>
+The key features of **public** DLT networks is that they are **trustless** and **permissionless**.<br/>
+Without these properties, a private/consortium/trusted networks would be more useful.<br/>
 
 ### Other Considerations
 - A single entity can control multiple addresses<br/>
 - Some consensus are easier/cheaper to game (e.g. buying votes)<br/>
 - Some networks have higher barriers to entry in governance or in execution<br/>
 - Some networks have claims/properties we assume to be true, but may not be so in practice<br/>
-- Some of the wealthiest addresses are exchanges, but they still poses a potential threat should they misbehave<br/>
+- Some of the wealthiest addresses are exchanges, but they still pose a potential threat if misbehaving<br/>
 - While wealth inequality in non-staking networks should not directly affect the network, there are other economical concerns<br/>
 
 ---
@@ -33,12 +33,10 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 
 ---
 ## Results
-### Period: 1 week (Sat May 19 2018 23:20:15 GMT+0800 - Sat May 26 2018 23:20:15 GMT+0800)
+### Period: 1 week (Fri Jun 08 2018 22:32:36 GMT+0800 - Fri Jun 15 2018 22:32:36 GMT+0800)
 
 > |Name|Consensus|Total Blocks|Total Nodes|Total Producers|Total Validators|**No of top validators to attack**|Wealth held by top 100 (%)|**No of top accounts to attack**|
 > |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-> |[Ethereum](results/ethereum.results.md)|PoW|39528|15551|79|79|**3**|34.535|**-**|
-> |[Qtum](results/qtum.results.md)|MPoS|4204|6787|1169|1169|**66**|73.102|**24**|
-> |[NEO](results/neo.results.md)|dBFT|27297|7*|1|7*|**3**|70.355|**1**|
+> |[Bitcoin](results/bitcoin.results.md)|PoW|993|9048|24|24|**3**|19.180|**-**|
 
 > *Not dynamically updated

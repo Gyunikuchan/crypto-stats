@@ -138,12 +138,12 @@ function writeWealthStats(statsManager: EthereumStatsManager) {
 	writer.writeLn();
 
 	// Top accounts
-	writer.writeTableHeader(`Rank`, `Address`, `Amount (%)`);
+	writer.writeTableHeader(`Rank`, `Address`, `Amount`);
 	writer.writeTableRow(`---`, `---`, `---`);
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];
 		if (account)
-			writer.writeTableRow(`${(index + 1)}`, `${account.alias || account.id}`, `${account.wealth.toPrecision(5)}`);
+			writer.writeTableRow(`${(index + 1)}`, `${account.alias || account.id}`, `${account.wealth.toPrecision(5)}%`);
 	}
 	writer.write();
 

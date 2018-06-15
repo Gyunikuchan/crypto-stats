@@ -211,8 +211,8 @@ export class EthereumStatsManager extends StatsManager {
 		});
 		const $ = cheerio.load(response.data);
 		const nodeRows = $(`div[class="col-sm-4 m-b-md"]`).find(`ul[class="list-group"]`);
-		const totalNodeCountPercent = nodeRows.children()[0].children[2].children[0].data;
-		this.totalNodeCount = Number.parseFloat(totalNodeCountPercent.substr(0, totalNodeCountPercent.indexOf(`(`)));
+		const totalNodeCountString = nodeRows.children()[0].children[2].children[0].data;
+		this.totalNodeCount = Number.parseInt(totalNodeCountString.substr(0, totalNodeCountString.indexOf(`(`)));
 
 		logger.debug(`Loaded total node count: ${this.totalNodeCount}`);
 	}

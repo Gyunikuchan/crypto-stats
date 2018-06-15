@@ -3,6 +3,7 @@ import * as moment from "moment";
 import { MDWriter } from "./utils/md_writer";
 import { Summary } from "./common/summary";
 
+import * as bitcoin from "./bitcoin";
 import * as ethereum from "./ethereum";
 import * as qtum from "./qtum";
 import * as neo from "./neo";
@@ -11,14 +12,15 @@ const writer: MDWriter = new MDWriter();
 
 async function writeSummary() {
 	const endLoadMoment = moment();
-	const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
-	// const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
+	// const startLoadMoment = moment(endLoadMoment).subtract(1, "week");
+	const startLoadMoment = moment(endLoadMoment).subtract(10, "minutes");
 
 	// Load summaries
 	const summaries: Summary[] = [
 		...await Promise.all([
-			ethereum.writeStats(startLoadMoment, endLoadMoment),
-			qtum.writeStats(startLoadMoment, endLoadMoment),
+			// bitcoin.writeStats(startLoadMoment, endLoadMoment),
+			// ethereum.writeStats(startLoadMoment, endLoadMoment),
+			// qtum.writeStats(startLoadMoment, endLoadMoment),
 			neo.writeStats(startLoadMoment, endLoadMoment),
 		]),
 	];
@@ -46,7 +48,7 @@ async function writeSummary() {
 		`Similar to "No of validators to take over network" but relevant only to staking consensus and includes all potential validators`);
 	writer.write();
 	writer.writeHeader(`Why?`, 3);
-	writer.writeLn(`The key propositions of a public DLT network is that it is **trustless** and **permissionless**.`);
+	writer.writeLn(`The key propositions of public DLT networks are that they are **trustless** and **permissionless**.`);
 	writer.writeLn(`Without these properties, using private/consortium/trusted networks makes a lot more sense.`);
 	writer.write();
 	writer.writeHeader(`Other Considerations`, 3);
@@ -54,7 +56,7 @@ async function writeSummary() {
 	writer.writeLn(`- Some consensus are easier/cheaper to game (e.g. buying votes)`);
 	writer.writeLn(`- Some networks have higher barriers to entry in governance or in execution`);
 	writer.writeLn(`- Some networks have claims/properties we assume to be true, but may not be so in practice`);
-	writer.writeLn(`- Some of the wealthiest addresses are exchanges, but they still poses a potential threat should they misbehave`);
+	writer.writeLn(`- Some of the wealthiest addresses are exchanges, but they still pose a potential threat if misbehaving`);
 	writer.writeLn(`- While wealth inequality in non-staking networks should not directly affect the network, there are other economical concerns`);
 	writer.writeDivider();
 

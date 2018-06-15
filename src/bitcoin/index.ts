@@ -4,16 +4,17 @@ import * as moment from "moment";
 import { MDWriter } from "../utils/md_writer";
 import { Summary } from "../common/summary";
 import {
-	NEO_ACCOUNTS_SOURCE_URL,
-	NEO_API_SOURCE_URL,
-	NeoStatsManager,
-} from "./neo.stats.manager";
+	BITCOIN_ACCOUNTS_SOURCE_URL,
+	BITCOIN_BLOCKS_SOURCE_URL,
+	BITCOIN_NODES_SOURCE_URL,
+	BitcoinStatsManager,
+} from "./bitcoin.stats.manager";
 
 const writer: MDWriter = new MDWriter();
 
 export async function writeStats(start: moment.Moment, end: moment.Moment): Promise<Summary> {
 	// Load stats
-	const statsManager = new NeoStatsManager(start, end);
+	const statsManager = new BitcoinStatsManager(start, end);
 	await statsManager.load();
 
 	// Write
@@ -33,9 +34,9 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 		name: statsManager.name,
 		consensus: statsManager.consensus,
 		totalBlocks: statsManager.blocks.length.toString(),
-		totalNodes: `${statsManager.totalNodeCount.toString()}*`,
+		totalNodes: statsManager.totalNodeCount.toString(),
 		totalProducers: producerStats1Week.producers.length.toString(),
-		totalValidators: `${producerStats1Week.validators.length.toString()}*`,
+		totalValidators: producerStats1Week.validators.length.toString(),
 		noTopValidatorsToAttack: producerStats1Week.noTopValidatorsToAttack.toString(),
 		wealthPercentHeldbyTop100: wealthStats.accumWealthPercent100.toPrecision(5),
 		wealthNoTopAccountsToAttack: wealthStats.noTopAccountsToAttackString,
@@ -46,27 +47,27 @@ export async function writeStats(start: moment.Moment, end: moment.Moment): Prom
 // Summary
 // =============================================================================
 
-function writeSummary(statsManager: NeoStatsManager) {
+function writeSummary(statsManager: BitcoinStatsManager) {
 	writer.writeHeader(`${statsManager.name}`, 1);
-	writer.writeLn(`NEO is a non-profit community-based blockchain project that utilizes blockchain technology` +
-		`and digital identity to digitize assets, to automate the management of digital assets using smart contracts, ` +
-		`and to realize a "smart economy" with a distributed network.`);
+	writer.writeLn(`Bitcoin is a consensus network that enables a new payment system and a completely digital money. ` +
+		`It is the first decentralized peer-to-peer payment network that is powered by its users with no central authority or middlemen.`);
 
 	writer.writeTableHeader(`Attribute`, `Description`);
 	writer.writeTableRow(`---`, `---`);
-	writer.writeTableRow(`**Website**`, `https://neo.org`);
+	writer.writeTableRow(`**Website**`, `https://bitcoin.org`);
 	writer.writeTableRow(`**Sources**`,
-		`${NEO_ACCOUNTS_SOURCE_URL}<br/>` +
-		`${NEO_API_SOURCE_URL}`);
+		`${BITCOIN_ACCOUNTS_SOURCE_URL}<br/>` +
+		`${BITCOIN_BLOCKS_SOURCE_URL}<br/>` +
+		`${BITCOIN_NODES_SOURCE_URL}`);
 	writer.writeTableRow(`**Consensus**`, `${statsManager.consensus}`);
-	writer.writeTableRow(`**Total nodes**`, `${statsManager.totalNodeCount}*`);
+	writer.writeTableRow(`**Total nodes**`, `${statsManager.totalNodeCount}`);
 }
 
 // =============================================================================
 // Producers
 // =============================================================================
 
-function writeProducerStats(statsManager: NeoStatsManager) {
+function writeProducerStats(statsManager: BitcoinStatsManager) {
 	writer.writeHeader(`Producer Stats`, 2);
 
 	// 1 day
@@ -88,8 +89,8 @@ function writeProducerStats(statsManager: NeoStatsManager) {
 	return producerStats1Week;
 }
 
-function writePeriodProducerStats(statsManager: NeoStatsManager, start: moment.Moment) {
-	const producerStats = statsManager.getProducerStats(start, statsManager.end, 1 / 3);
+function writePeriodProducerStats(statsManager: BitcoinStatsManager, start: moment.Moment) {
+	const producerStats = statsManager.getProducerStats(start, statsManager.end, 0.5);
 
 	// Producer stats
 	writer.writeTableHeader(`Metric`, `Result`);
@@ -118,13 +119,13 @@ function writePeriodProducerStats(statsManager: NeoStatsManager, start: moment.M
 // Wealth
 // =============================================================================
 
-function writeWealthStats(statsManager: NeoStatsManager) {
+function writeWealthStats(statsManager: BitcoinStatsManager) {
 	writer.writeHeader(`Wealth Stats`, 2);
 
 	// Top accumulated
-	const accumWealthPercent10 = statsManager.getAccumulatedWealthForAccountCount(10);
-	const accumWealthPercent50 = statsManager.getAccumulatedWealthForAccountCount(50);
-	const accumWealthPercent100 = statsManager.getAccumulatedWealthForAccountCount(100);
+	const accumWealthPercent10 = statsManager.getAccumulatedWealthForAccountCount(10) * 100 / statsManager.totalWealth;
+	const accumWealthPercent50 = statsManager.getAccumulatedWealthForAccountCount(50) * 100 / statsManager.totalWealth;
+	const accumWealthPercent100 = statsManager.getAccumulatedWealthForAccountCount(100) * 100 / statsManager.totalWealth;
 
 	writer.writeTableHeader(`Metric`, `Result`);
 	writer.writeTableRow(`---`, `---`);
@@ -140,14 +141,12 @@ function writeWealthStats(statsManager: NeoStatsManager) {
 	for (const index of [..._.range(0, 15), ..._.range(19, 50, 10), 99]) {
 		const account = statsManager.accounts[index];
 		if (account)
-			writer.writeTableRow(`${(index + 1)}`, `${account.alias || account.id}`, `${account.wealth.toPrecision(5)}%`);
+			writer.writeTableRow(`${(index + 1)}`, `${account.alias || account.id}`, `${(account.wealth * 100 / statsManager.totalWealth).toPrecision(5)}%`);
 	}
 	writer.write();
 
 	// Summary
-	const noTopAccountsToAttack = statsManager.getNoTopAccountsToAttack(1 / 3);
-	const prefixSymbol = noTopAccountsToAttack.moreThan ? ">" : "";
-	const noTopAccountsToAttackString = `${prefixSymbol}${noTopAccountsToAttack.noOfAccounts}`;
+	const noTopAccountsToAttackString = `-`;	// PoW is not affected
 	writer.writeHeader(`**No of accounts needed to attack the network with wealth: <span style="color:red">${noTopAccountsToAttackString}</span>**`, 3);
 
 	return {

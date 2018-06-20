@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import * as moment from "moment";
 
 import logger from "../utils/logger";

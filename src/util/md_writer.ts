@@ -1,6 +1,4 @@
-import * as _ from "lodash";
 import * as fs from "fs";
-
 import logger from "./logger";
 
 export class MDWriter {

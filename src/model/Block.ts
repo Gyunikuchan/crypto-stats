@@ -2,7 +2,7 @@ import * as moment from "moment";
 
 export interface Block {
 	height: number;
-	producer: string;
-	validators: string[];
+	producerId: string;
+	validatorsId: string[];
 	time: moment.Moment;
 }

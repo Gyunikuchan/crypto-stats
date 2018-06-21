@@ -1,25 +1,17 @@
 import * as fs from "fs";
 import * as moment from "moment";
 import { Heap } from "typescript-collections";
-import logger from "../utils/logger";
-import { Block } from "./models/Block";
-import { BlockStatsConsolidated, BlockStatsDay, Producer, Validator } from "./models/BlockStats";
+import { Block } from "../model/Block";
+import { BlockStatsDay, BlockStatsPeriod, Producer, Validator } from "../model/BlockStats";
+import logger from "../util/logger";
+import { NetworkManager } from "./network.manager";
 
 export abstract class BlockStatsService {
-	public name: string;
-	public fractionalToAttack: number;	// 0 - 1
+	private networkManager: NetworkManager;
 
 	// =============================================================================
 	// Abstract
 	// =============================================================================
-
-	constructor(network: {
-		name: string,
-		fractionalToAttack: number,
-	}) {
-		this.name = network.name;
-		this.fractionalToAttack = network.fractionalToAttack;
-	}
 
 	// Load blocks for the day from the relevant data sources, sorted by height (ascending)
 	protected abstract async getBlocksDayFromSource(date: moment.Moment): Promise<Block[]>;
@@ -28,10 +20,23 @@ export abstract class BlockStatsService {
 	// Public
 	// =============================================================================
 
-	public async getBlockStats(dateStart: moment.Moment, dateEnd: moment.Moment): Promise<BlockStatsConsolidated> {
+	public setNetworkManager(networkManager: NetworkManager) {
+		this.networkManager = networkManager;
+		return this;
+	}
+
+	public get name() {
+		return this.networkManager.networkInfo.name;
+	}
+
+	public get percentToAttack() {
+		return this.networkManager.networkInfo.percentToAttack;
+	}
+
+	public async getBlockStats(dateStart: moment.Moment, dateEnd: moment.Moment): Promise<BlockStatsPeriod> {
 		logger.debug(`[${this.name}] Getting block stats for period: ${dateStart.format("YYYY-MM-DD")} - ${dateEnd.format("YYYY-MM-DD")}`);
 
-		const blockStatsConsolidated: BlockStatsConsolidated = {
+		const blockStatsPeriod: BlockStatsPeriod = {
 			dateStart,
 			dateEnd,
 			heightStart: undefined,
@@ -57,12 +62,12 @@ export abstract class BlockStatsService {
 				throw new Error(`[${this.name}] Invalid start block: ${blockStatsDay.heightStart} (last: ${lastHeightEnd})`);
 
 			// Update stats
-			if (blockStatsConsolidated.heightStart == null)
-				blockStatsConsolidated.heightStart = blockStatsDay.heightStart;
+			if (blockStatsPeriod.heightStart == null)
+				blockStatsPeriod.heightStart = blockStatsDay.heightStart;
 
-			blockStatsConsolidated.heightEnd = blockStatsDay.heightEnd;
-			blockStatsConsolidated.totalBlocks += blockStatsDay.totalBlocks;
-			blockStatsConsolidated.totalValidations += blockStatsDay.totalValidations;
+			blockStatsPeriod.heightEnd = blockStatsDay.heightEnd;
+			blockStatsPeriod.totalBlocks += blockStatsDay.totalBlocks;
+			blockStatsPeriod.totalValidations += blockStatsDay.totalValidations;
 
 			// Combine producers and validators
 			blockStatsDay.producers.forEach((producer) => {
@@ -94,19 +99,19 @@ export abstract class BlockStatsService {
 		const producersHeap = new Heap<Producer>((a, b) => b.count - a.count);
 		producersMap.forEach((producer, id) => { producersHeap.add(producer); });
 		while (!producersHeap.isEmpty()) {
-			blockStatsConsolidated.producers.push(producersHeap.removeRoot());
+			blockStatsPeriod.producers.push(producersHeap.removeRoot());
 		}
 
 		const validatorsHeap = new Heap<Validator>((a, b) => b.count - a.count);
 		validatorsMap.forEach((validator, id) => { validatorsHeap.add(validator); });
 		while (!validatorsHeap.isEmpty()) {
-			blockStatsConsolidated.validators.push(validatorsHeap.removeRoot());
+			blockStatsPeriod.validators.push(validatorsHeap.removeRoot());
 		}
 
 		// Calculated number to attack
-		blockStatsConsolidated.noTopValidatorsToAttack = this.calculateNoTopValidatorsToAttack(blockStatsConsolidated);
+		blockStatsPeriod.noTopValidatorsToAttack = this.calculateNoTopValidatorsToAttack(blockStatsPeriod);
 
-		return blockStatsConsolidated;
+		return blockStatsPeriod;
 	}
 
 	// =============================================================================
@@ -162,14 +167,14 @@ export abstract class BlockStatsService {
 		const validatorsMap = new Map<string, Validator>();
 
 		for (const block of blocksDay) {
-			const combinedProducer = producersMap.get(block.producer);
+			const combinedProducer = producersMap.get(block.producerId);
 			if (!combinedProducer) {
-				producersMap.set(block.producer, { id: block.producer, count: 1 });
+				producersMap.set(block.producerId, { id: block.producerId, count: 1 });
 			} else {
 				combinedProducer.count += 1;
 			}
 
-			for (const validator of block.validators) {
+			for (const validator of block.validatorsId) {
 				const combinedValidator = validatorsMap.get(validator);
 				if (!combinedValidator) {
 					validatorsMap.set(validator, { id: validator, count: 1 });
@@ -178,7 +183,7 @@ export abstract class BlockStatsService {
 				}
 			}
 
-			blockStatsDay.totalValidations += block.validators.length;
+			blockStatsDay.totalValidations += block.validatorsId.length;
 		}
 
 		// Map producer and validator data
@@ -199,7 +204,7 @@ export abstract class BlockStatsService {
 
 		// Loop blocks
 		const startHeight = blocksDay[0].height;
-		for (let i = 1; i < blocksDay.length; ++i) {
+		for (let i = 0; i < blocksDay.length; ++i) {
 			const block = blocksDay[i];
 
 			// Check for running block heights
@@ -208,11 +213,11 @@ export abstract class BlockStatsService {
 				throw new Error(`[${this.name}] Unexpected block height: expected=${expectedBlockHeight} got=${block.height}`);
 
 			// Check for bad id
-			if (!block.producer)
+			if (!block.producerId)
 				throw new Error(`[${this.name}] No producer: ${block.height}`);
 
 			// Check for no validator
-			if (block.validators.length === 0)
+			if (block.validatorsId.length === 0)
 				throw new Error(`[${this.name}] No validators: ${block.height}`);
 
 			// Check for time constraints
@@ -224,13 +229,14 @@ export abstract class BlockStatsService {
 		}
 	}
 
-	protected calculateNoTopValidatorsToAttack(blockStatsConsolidated: BlockStatsConsolidated): number {
+	protected calculateNoTopValidatorsToAttack(blockStatsConsolidated: BlockStatsPeriod): number {
 		logger.debug(`[${this.name}] Calculating number of top validators to take over`);
 
-		const validationsToAttack = Math.floor(blockStatsConsolidated.totalValidations * this.fractionalToAttack);
+		const validationsToAttack = Math.floor(blockStatsConsolidated.totalValidations * (this.percentToAttack / 100));
 
 		let noOfAddresses = 0;
 		let validationsAccum = 0;
+
 		for (const validator of blockStatsConsolidated.validators) {
 			++noOfAddresses;
 			validationsAccum += validator.count;

@@ -10,6 +10,7 @@ export interface Validator {
 	count: number;
 }
 
+// Used for memoizing
 export interface BlockStatsDay {
 	date: moment.Moment;			// Date in utc
 	heightStart: number;
@@ -20,7 +21,7 @@ export interface BlockStatsDay {
 	validators: Validator[];	// Unordered
 }
 
-export interface BlockStatsConsolidated {
+export interface BlockStatsPeriod {
 	dateStart: moment.Moment;		// Date in utc
 	dateEnd: moment.Moment;			// Date in utc
 	heightStart: number;

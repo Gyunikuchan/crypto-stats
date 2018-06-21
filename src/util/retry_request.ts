@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { delay } from "bluebird";
-
 import logger from "./logger";
 
 export interface RetryOptions {

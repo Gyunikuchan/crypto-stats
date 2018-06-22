@@ -1,11 +1,14 @@
-import { NetworkStats } from "model/NetworkStats";
-import { MDWriter } from "../util/md_writer";
+import { NetworkStats } from "src/model/NetworkStats";
+import logger from "src/util/logger";
+import { MDWriter } from "src/util/md_writer";
 
 export class ReadmeWriterService {
-	public static write(rootDirPath: string, relativeSummaryDirPath: string, allNetworkStats: NetworkStats[]) {
+	public static async write(rootDirPath: string, relativeSummaryDirPath: string, allNetworkStats: NetworkStats[]) {
+		logger.info(`Writing readme`);
+
 		// Open file
 		const writer: MDWriter = new MDWriter();
-		writer.open(`${rootDirPath}/README.md`);
+		await writer.open(rootDirPath, `README.md`);
 
 		writer.writeHeader(`Crypto-Stats`, 1);
 		writer.write();
@@ -56,14 +59,17 @@ export class ReadmeWriterService {
 			`Total Producers`,
 			`Total Validators`,
 			`No of top validators to attack`,
-			`Wealth held by top 100 (%)`,
+			`Wealth held by top 100`,
 			`No of top accounts to attack`);
 		writer.writeTableRowQuoted(`:---`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`);
 		for (const networkStats of allNetworkStats) {
 			const { networkInfo, blockStats, wealthStats } = networkStats;
+			logger.info(`Writing readme network stats: ${networkInfo.name}`);
 
 			let noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttack != null ? wealthStats.noTopAccountsToAttack.toString() : `-`);
-			noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttackOverflow ? `>` + noTopAccountsToAttackString : noTopAccountsToAttackString);
+			noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttackOverflow ? `>${noTopAccountsToAttackString}` : noTopAccountsToAttackString);
+
+			const percentTop100Wealth = (wealthStats.top100Wealth / wealthStats.totalWealth) * 100;
 
 			writer.writeTableRowQuoted(
 				`[${networkInfo.name}](${relativeSummaryDirPath}/${networkStats.networkInfo.name.toLowerCase()}.summary.md)`,
@@ -73,7 +79,7 @@ export class ReadmeWriterService {
 				`${blockStats.producers.length}`,
 				`${blockStats.validators.length}`,
 				`${blockStats.noTopValidatorsToAttack}`,
-				`${wealthStats.top100Wealth}`,
+				`${percentTop100Wealth.toPrecision(4)}%`,
 				`${noTopAccountsToAttackString}`);
 		}
 		writer.write();

@@ -1,9 +1,9 @@
-import * as fs from "fs";
+import * as fse from "fs-extra";
 import * as moment from "moment";
+import { Block } from "src/model/Block";
+import { BlockStatsDay, BlockStatsPeriod, Producer, Validator } from "src/model/BlockStats";
+import logger from "src/util/logger";
 import { Heap } from "typescript-collections";
-import { Block } from "../model/Block";
-import { BlockStatsDay, BlockStatsPeriod, Producer, Validator } from "../model/BlockStats";
-import logger from "../util/logger";
 import { NetworkManager } from "./network.manager";
 
 export abstract class BlockStatsService {
@@ -29,22 +29,18 @@ export abstract class BlockStatsService {
 		return this.networkManager.networkInfo.name;
 	}
 
-	public get percentToAttack() {
-		return this.networkManager.networkInfo.percentToAttack;
-	}
-
-	public async getBlockStats(dateStart: moment.Moment, dateEnd: moment.Moment): Promise<BlockStatsPeriod> {
-		logger.debug(`[${this.name}] Getting block stats for period: ${dateStart.format("YYYY-MM-DD")} - ${dateEnd.format("YYYY-MM-DD")}`);
+	public async getBlockStats(startDate: moment.Moment, endDate: moment.Moment): Promise<BlockStatsPeriod> {
+		logger.info(`[${this.name}] Getting block stats for period: ${startDate.format("YYYY-MM-DD")} - ${endDate.format("YYYY-MM-DD")}`);
 
 		const blockStatsPeriod: BlockStatsPeriod = {
-			dateStart,
-			dateEnd,
-			heightStart: undefined,
-			heightEnd: undefined,
-			totalBlocks: undefined,
-			totalValidations: undefined,
-			producers: undefined,
-			validators: undefined,
+			startDate,
+			endDate,
+			startHeight: undefined,
+			endHeight: undefined,
+			totalBlocks: 0,
+			totalValidations: 0,
+			producers: [],
+			validators: [],
 			noTopValidatorsToAttack: undefined,
 		};
 
@@ -52,20 +48,20 @@ export abstract class BlockStatsService {
 		const producersMap = new Map<string, Producer>();
 		const validatorsMap = new Map<string, Validator>();
 		let lastHeightEnd;
-		const currentDate = moment(dateStart);
+		const currentDate = moment(startDate);
 
-		while (!currentDate.isAfter(dateEnd)) {
+		while (!currentDate.isAfter(endDate)) {
 			const blockStatsDay = await this.getBlockStatsDay(currentDate);
 
 			// Check for overlaps
-			if (lastHeightEnd != null && blockStatsDay.heightStart <= lastHeightEnd)
-				throw new Error(`[${this.name}] Invalid start block: ${blockStatsDay.heightStart} (last: ${lastHeightEnd})`);
+			if (lastHeightEnd != null && blockStatsDay.startHeight <= lastHeightEnd)
+				throw new Error(`[${this.name}] Invalid start block: ${blockStatsDay.startHeight} (last: ${lastHeightEnd})`);
 
 			// Update stats
-			if (blockStatsPeriod.heightStart == null)
-				blockStatsPeriod.heightStart = blockStatsDay.heightStart;
+			if (blockStatsPeriod.startHeight == null)
+				blockStatsPeriod.startHeight = blockStatsDay.startHeight;
 
-			blockStatsPeriod.heightEnd = blockStatsDay.heightEnd;
+			blockStatsPeriod.endHeight = blockStatsDay.endHeight;
 			blockStatsPeriod.totalBlocks += blockStatsDay.totalBlocks;
 			blockStatsPeriod.totalValidations += blockStatsDay.totalValidations;
 
@@ -91,7 +87,7 @@ export abstract class BlockStatsService {
 			});
 
 			// Next day
-			lastHeightEnd = blockStatsDay.heightEnd;
+			lastHeightEnd = blockStatsDay.endHeight;
 			currentDate.add(1, "day");
 		}
 
@@ -109,7 +105,7 @@ export abstract class BlockStatsService {
 		}
 
 		// Calculated number to attack
-		blockStatsPeriod.noTopValidatorsToAttack = this.calculateNoTopValidatorsToAttack(blockStatsPeriod);
+		blockStatsPeriod.noTopValidatorsToAttack = this.getNoTopValidatorsToAttack(blockStatsPeriod);
 
 		return blockStatsPeriod;
 	}
@@ -119,21 +115,30 @@ export abstract class BlockStatsService {
 	// =============================================================================
 
 	protected async getBlockStatsDay(date: moment.Moment) {
-		logger.debug(`[${this.name}] Getting block stats for day: ${date.format("YYYY-MM-DD")}`);
+		logger.info(`[${this.name}] Getting block stats for day: ${date.format("YYYY-MM-DD")}`);
 
 		// Try to load from file
-		const blockStatsDayPath = `../../data/${this.name}/${date.format("YYYY-MM-DD")}`;
-		let blockStatsDay: BlockStatsDay = require(blockStatsDayPath);
-		if (blockStatsDay != null) {
-			logger.debug(`[${this.name}] Got block stats for day from file: ${blockStatsDay.totalBlocks}`);
-			return blockStatsDay;
-		}
+		const blockStatsDirPath = `${__dirname}/../../data/${this.name}`;
+		const blockStatsDayPath = `${blockStatsDirPath}/${date.format("YYYY-MM-DD")}`;
+
+		let blockStatsDay: BlockStatsDay;
+		try {
+			const file = await fse.readFile(blockStatsDayPath);
+			blockStatsDay = JSON.parse(file.toString());
+			if (blockStatsDay) {
+				logger.debug(`[${this.name}] Got block stats for day from file: ${blockStatsDay.totalBlocks}`);
+				return blockStatsDay;
+			}
+		} catch (error) { }
 
 		// Load from source
 		blockStatsDay = await this.getBlockStatsDayFromSource(date);
+		if (!blockStatsDay)
+			throw new Error(`[${this.name}] Failed to get day block stats from source: ${date.format("YYYY-MM-DD")}`);
 
 		// Write to file
-		fs.writeFileSync(blockStatsDayPath, JSON.stringify(blockStatsDay));
+		await fse.ensureDir(blockStatsDirPath);
+		await fse.writeFile(blockStatsDayPath, JSON.stringify(blockStatsDay));
 
 		logger.debug(`[${this.name}] Got block stats for day from source: ${blockStatsDay.totalBlocks}`);
 		return blockStatsDay;
@@ -141,7 +146,7 @@ export abstract class BlockStatsService {
 
 	protected async getBlockStatsDayFromSource(date: moment.Moment): Promise<BlockStatsDay> {
 		// Load blocks from source
-		logger.debug(`[${this.name}] Getting blocks from source`);
+		logger.info(`[${this.name}] Getting blocks from source`);
 
 		const blocksDay = await this.getBlocksDayFromSource(date);
 		if (blocksDay == null || blocksDay.length === 0)
@@ -154,8 +159,8 @@ export abstract class BlockStatsService {
 
 		const blockStatsDay: BlockStatsDay = {
 			date,
-			heightStart: blocksDay[0].height,
-			heightEnd: blocksDay[blocksDay.length - 1].height,
+			startHeight: blocksDay[0].height,
+			endHeight: blocksDay[blocksDay.length - 1].height,
 			totalBlocks: blocksDay.length,
 			totalValidations: 0,
 			producers: [],
@@ -197,7 +202,7 @@ export abstract class BlockStatsService {
 	}
 
 	protected auditBlocksDay(date: moment.Moment, blocksDay: Block[]) {
-		logger.debug(`[${this.name}] Auditing blocks for day: ${date.format("YYYY-MM-DD")}`);
+		logger.info(`[${this.name}] Auditing blocks for day: ${date.format("YYYY-MM-DD")}`);
 
 		const startTime = date;
 		const endTime = moment(date).endOf("day");
@@ -229,10 +234,9 @@ export abstract class BlockStatsService {
 		}
 	}
 
-	protected calculateNoTopValidatorsToAttack(blockStatsConsolidated: BlockStatsPeriod): number {
-		logger.debug(`[${this.name}] Calculating number of top validators to take over`);
-
-		const validationsToAttack = Math.floor(blockStatsConsolidated.totalValidations * (this.percentToAttack / 100));
+	protected getNoTopValidatorsToAttack(blockStatsConsolidated: BlockStatsPeriod): number {
+		logger.info(`[${this.name}] Getting number of top validators to attack`);
+		const validationsToAttack = Math.floor(blockStatsConsolidated.totalValidations * (this.networkManager.networkInfo.percentToAttack / 100));
 
 		let noOfAddresses = 0;
 		let validationsAccum = 0;
@@ -246,6 +250,7 @@ export abstract class BlockStatsService {
 				break;
 		}
 
+		logger.debug(`[${this.name}] Got number of top validators to attack: ${noOfAddresses}`);
 		return noOfAddresses;
 	}
 }

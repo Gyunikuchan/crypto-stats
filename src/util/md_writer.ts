@@ -1,11 +1,12 @@
-import * as fs from "fs";
+import * as fse from "fs-extra";
 import logger from "./logger";
 
 export class MDWriter {
-	private writeStream: fs.WriteStream;
+	private writeStream: fse.WriteStream;
 
-	public open(path: string) {
-		this.writeStream = fs.createWriteStream(path);
+	public async open(dirPath: string, fileName: string) {
+		await fse.ensureDir(dirPath);
+		this.writeStream = await fse.createWriteStream(`${dirPath}/${fileName}`);
 	}
 
 	public close() {
@@ -15,7 +16,7 @@ export class MDWriter {
 
 	public write(line?: string) {
 		line = line || ``;
-		logger.info(line);
+		logger.debug(line);
 		this.writeStream.write(`${line}\n`);
 	}
 

@@ -1,40 +1,53 @@
-import { NetworkStats } from "model/NetworkStats";
 import * as moment from "moment";
-import { NetworkInfo } from "../model/NetworkInfo";
-import { BlockStatsService } from "../network/blockstats.service";
-import logger from "../util/logger";
+import { NetworkInfo } from "src/model/NetworkInfo";
+import { NetworkStats } from "src/model/NetworkStats";
+import { BlockStatsService } from "src/network/blockstats.service";
+import logger from "src/util/logger";
 import { WealthStatsService } from "./wealthstats.service";
 
 export abstract class NetworkManager {
-	public networkInfo: NetworkInfo;
 	public readonly blockStatsService: BlockStatsService;
 	public readonly wealthStatsService: WealthStatsService;
+	public networkInfo: NetworkInfo;
 
 	// =============================================================================
 	// Abstract
 	// =============================================================================
 
-	constructor(
-		networkInfo: NetworkInfo,
-		services: {
-			blockStatsService: BlockStatsService,
-			wealthStatsService: WealthStatsService,
-		}) {
-		this.networkInfo = networkInfo;
-		this.blockStatsService = services.blockStatsService.setNetworkManager(this);
-		this.wealthStatsService = services.wealthStatsService.setNetworkManager(this);
-	}
+	public abstract get name();
+
+	protected abstract async getNetworkInfoFromSource(): Promise<NetworkInfo>;
 
 	// =============================================================================
 	// Public
 	// =============================================================================
 
-	public async getStats(dateStart: moment.Moment, dateEnd: moment.Moment): Promise<NetworkStats> {
-		logger.debug(`[${this.networkInfo.name}] Getting stats`);
+	constructor(
+		services: {
+			blockStatsService: BlockStatsService,
+			wealthStatsService: WealthStatsService,
+		}) {
+		this.blockStatsService = services.blockStatsService.setNetworkManager(this);
+		this.wealthStatsService = services.wealthStatsService.setNetworkManager(this);
+	}
+
+	public async getStats(startDate: moment.Moment, endDate: moment.Moment): Promise<NetworkStats> {
+		logger.info(`[${this.name}] Getting stats`);
+
+		this.networkInfo = await this.getNetworkInfo();
 		return {
-			networkInfo: this.networkInfo,
-			blockStats: await this.blockStatsService.getBlockStats(dateStart, dateEnd),
+			networkInfo: await this.networkInfo,
+			blockStats: await this.blockStatsService.getBlockStats(startDate, endDate),
 			wealthStats: await this.wealthStatsService.getWealthStats(),
 		};
+	}
+
+	// =============================================================================
+	// Helpers
+	// =============================================================================
+
+	protected async getNetworkInfo(): Promise<NetworkInfo> {
+		logger.debug(`[${this.name}] Getting network info from source`);
+		return this.getNetworkInfoFromSource();
 	}
 }

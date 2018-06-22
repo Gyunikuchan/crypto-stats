@@ -3,7 +3,7 @@
 		/* General settings */
 		"target": "es6",
 		"allowJs": true,
-		"baseUrl": "src",
+		"baseUrl": ".",
 		/* Module settings */
 		"module": "commonjs",
 		"moduleResolution": "node",
@@ -22,6 +22,11 @@
 		"emitDecoratorMetadata": true,
 		"preserveConstEnums": true,
 		/* Paths */
+		"paths": {
+			"src/*": [
+				"src/*"
+			]
+		},
 		"types": [
 			"node"
 		],

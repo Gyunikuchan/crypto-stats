@@ -13,8 +13,8 @@ export interface Validator {
 // Used for memoizing
 export interface BlockStatsDay {
 	date: moment.Moment;			// Date in utc
-	heightStart: number;
-	heightEnd: number;
+	startHeight: number;
+	endHeight: number;
 	totalBlocks: number;
 	totalValidations: number;
 	producers: Producer[];		// Unordered
@@ -22,10 +22,10 @@ export interface BlockStatsDay {
 }
 
 export interface BlockStatsPeriod {
-	dateStart: moment.Moment;		// Date in utc
-	dateEnd: moment.Moment;			// Date in utc
-	heightStart: number;
-	heightEnd: number;
+	startDate: moment.Moment;		// Date in utc
+	endDate: moment.Moment;			// Date in utc
+	startHeight: number;
+	endHeight: number;
 	totalBlocks: number;
 	totalValidations: number;
 	producers: Producer[];			// Sorted by count (descending)

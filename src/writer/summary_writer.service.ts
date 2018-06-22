@@ -1,12 +1,15 @@
 import * as _ from "lodash";
-import { NetworkStats } from "model/NetworkStats";
-import { MDWriter } from "../util/md_writer";
+import { NetworkStats } from "src/model/NetworkStats";
+import logger from "src/util/logger";
+import { MDWriter } from "src/util/md_writer";
 
 export class SumaryWriterService {
-	public static write(summaryDirPath: string, networkStats: NetworkStats) {
+	public static async write(summaryDirPath: string, networkStats: NetworkStats) {
+		logger.info(`Writing summary network stats: ${networkStats.networkInfo.name}`);
+
 		// Open file
 		const writer: MDWriter = new MDWriter();
-		writer.open(`${summaryDirPath}/${networkStats.networkInfo.name.toLowerCase()}.summary.md`);
+		await writer.open(summaryDirPath, `${networkStats.networkInfo.name.toLowerCase()}.summary.md`);
 
 		// Write
 		this.writeSummary(writer, networkStats);
@@ -34,6 +37,7 @@ export class SumaryWriterService {
 		writer.writeTableRow(`**Website**`, networkInfo.website);
 		writer.writeTableRow(`**Sources**`, networkInfo.sources.join(`<br/>`));
 		writer.writeTableRow(`**Consensus**`, networkInfo.consensus);
+		writer.writeTableRow(`**Percent to Attack**`, `${networkInfo.percentToAttack.toPrecision(4)}%`);
 		writer.writeTableRow(`**Total nodes**`, networkInfo.nodeCount.toString());
 	}
 
@@ -45,8 +49,8 @@ export class SumaryWriterService {
 		// Metrics
 		writer.writeTableHeader(`Metric`, `Result`);
 		writer.writeTableRow(`---`, `---`);
-		writer.writeTableRow(`Period`, `${blockStats.dateStart.format("YYYY-MM-DD")} - ${blockStats.dateEnd.format("YYYY-MM-DD")}`);
-		writer.writeTableRow(`Blocks`, `${blockStats.heightStart} - ${blockStats.heightEnd}`);
+		writer.writeTableRow(`Period`, `${blockStats.startDate.format("YYYY-MM-DD")} - ${blockStats.endDate.format("YYYY-MM-DD")}`);
+		writer.writeTableRow(`Blocks`, `${blockStats.startHeight} - ${blockStats.endHeight}`);
 		writer.writeTableRow(`Total blocks`, `${blockStats.totalBlocks}`);
 		writer.writeTableRow(`Total producers`, `${blockStats.producers.length}`);
 		writer.writeTableRow(`Total validations`, `${blockStats.totalValidations}`);
@@ -56,7 +60,7 @@ export class SumaryWriterService {
 		writer.writeLn();
 
 		// Top validators
-		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Blocks`);
+		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Validations`);
 		writer.writeTableRowQuoted(`---`, `---`, `---`);
 		for (const index of [..._.range(0, 18), ..._.range(19, 100, 10)]) {
 			const validator = blockStats.validators[index];
@@ -73,33 +77,44 @@ export class SumaryWriterService {
 		// Metrics
 		writer.writeTableHeader(`Metric`, `Result`);
 		writer.writeTableRow(`---`, `---`);
-		writer.writeTableRow(`Total wealth`, `${wealthStats.totalWealth.toPrecision(5)}%`);
+
+		if (wealthStats.totalWealth !== 100)
+			writer.writeTableRow(`Total wealth`, `${wealthStats.totalWealth.toPrecision(4)}%`);
 
 		const top10Wealth = wealthStats.top10Wealth.toPrecision(5);
-		const top10WealthPercentage = ((wealthStats.top10Wealth / wealthStats.totalWealth) * 100).toPrecision(5);
-		writer.writeTableRow(`Top 10 accounts wealth`, `${top10Wealth} (${top10WealthPercentage}%)`);
+		const top10WealthPercentage = (wealthStats.top10Wealth / wealthStats.totalWealth) * 100;
+		writer.writeTableRow(`Top 10 accounts wealth`, `${top10Wealth} (${top10WealthPercentage.toPrecision(4)}%)`);
 
 		const top50Wealth = wealthStats.top50Wealth.toPrecision(5);
-		const top50WealthPercentage = ((wealthStats.top50Wealth / wealthStats.totalWealth) * 100).toPrecision(5);
-		writer.writeTableRow(`Top 50 accounts wealth`, `${top50Wealth} (${top50WealthPercentage}%)`);
+		const top50WealthPercentage = (wealthStats.top50Wealth / wealthStats.totalWealth) * 100;
+		writer.writeTableRow(`Top 50 accounts wealth`, `${top50Wealth} (${top50WealthPercentage.toPrecision(4)}%)`);
 
 		const top100Wealth = wealthStats.top100Wealth.toPrecision(5);
-		const top100WealthPercentage = ((wealthStats.top100Wealth / wealthStats.totalWealth) * 100).toPrecision(5);
-		writer.writeTableRow(`Top 100 accounts wealth`, `${top100Wealth} (${top100WealthPercentage}%)`);
+		const top100WealthPercentage = (wealthStats.top100Wealth / wealthStats.totalWealth) * 100;
+		writer.writeTableRow(`Top 100 accounts wealth`, `${top100Wealth} (${top100WealthPercentage.toPrecision(4)}%)`);
 
 		let noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttack != null ? wealthStats.noTopAccountsToAttack.toString() : `-`);
-		noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttackOverflow ? `>` + noTopAccountsToAttackString : noTopAccountsToAttackString);
+		noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttackOverflow ? `>${noTopAccountsToAttackString}` : noTopAccountsToAttackString);
 		writer.writeTableRow(`No of top accounts to attack`, noTopAccountsToAttackString);
 		writer.write();
 		writer.writeLn();
 
 		// Top accounts
-		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Blocks`);
+		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Wealth`);
 		writer.writeTableRowQuoted(`---`, `---`, `---`);
 		for (const index of [..._.range(0, 18), ..._.range(19, 100, 10)]) {
 			const account = wealthStats.topAccountsWealth[index];
-			if (account)
-				writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth}`);
+			if (!account)
+				break;
+
+			// Special case if wealth is already in percentage
+			if (wealthStats.totalWealth === 100) {
+				writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(4)}%`);
+				continue;
+			}
+
+			const wealthPercentage = (account.wealth / wealthStats.totalWealth) * 100;
+			writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(5)} (${wealthPercentage.toPrecision(4)}%)`);
 		}
 	}
 }

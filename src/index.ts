@@ -1,21 +1,34 @@
 import * as _ from "lodash";
-import { NetworkStats } from "model/NetworkStats";
-import { ReadmeWriterService } from "writer/readme_writer.service";
-import { SumaryWriterService } from "writer/summary_writer.service";
+import * as moment from "moment";
+import { NetworkStats } from "src/model/NetworkStats";
+import { QtumNetworkManager } from "src/network/qtum/qtum.network.manager";
+import logger from "src/util/logger";
+import { ReadmeWriterService } from "src/writer/readme_writer.service";
+import { SumaryWriterService } from "src/writer/summary_writer.service";
 
 async function start() {
-	// Load network stats
-	const allNetworkStats: NetworkStats[] = await Promise.all([
-		// TODO:
-	]);
+	try {
+		// Determine start and end dates
+		const endDate = moment().utc().subtract(1, "day").startOf("day");
+		const startDate = moment(endDate).utc().subtract(6, "day").startOf("day");
+		// const startDate = moment(endDate).utc().subtract(1, "day").startOf("day");
 
-	// Write summaries
-	_.forEach(allNetworkStats, (networkStats) => {
-		SumaryWriterService.write(`${__dirname}/summaries`, networkStats);
-	});
+		// Load network stats
+		const allNetworkStats: NetworkStats[] = await Promise.all([
+			new QtumNetworkManager().getStats(startDate, endDate),
+		]);
 
-	// Write readme
-	ReadmeWriterService.write(__dirname, `summaries`, allNetworkStats);
+		// Write summaries
+		const relativeSummariesDirPath = `../summaries`;
+		await Promise.all(_.map(allNetworkStats, (networkStats) => {
+			return SumaryWriterService.write(`${__dirname}/${relativeSummariesDirPath}`, networkStats);
+		}));
+
+		// Write readme
+		await ReadmeWriterService.write(__dirname, relativeSummariesDirPath, allNetworkStats);
+	} catch (error) {
+		logger.error(error);
+	}
 }
 
 start();

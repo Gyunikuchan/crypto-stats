@@ -19,13 +19,14 @@ async function start() {
 		]);
 
 		// Write summaries
-		const relativeSummariesDirPath = `../summaries`;
+		const roolDirPath = `${__dirname}/..`;
+		const relativeSummariesDirPath = `summaries`;
 		await Promise.all(_.map(allNetworkStats, (networkStats) => {
-			return SumaryWriterService.write(`${__dirname}/${relativeSummariesDirPath}`, networkStats);
+			return SumaryWriterService.write(`${roolDirPath}/${relativeSummariesDirPath}`, networkStats);
 		}));
 
 		// Write readme
-		await ReadmeWriterService.write(__dirname, relativeSummariesDirPath, allNetworkStats);
+		await ReadmeWriterService.write(roolDirPath, relativeSummariesDirPath, allNetworkStats);
 	} catch (error) {
 		logger.error(error);
 	}

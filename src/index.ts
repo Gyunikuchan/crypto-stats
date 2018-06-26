@@ -5,6 +5,7 @@ import { QtumNetworkManager } from "src/network/qtum/qtum.network.manager";
 import logger from "src/util/logger";
 import { ReadmeWriterService } from "src/writer/readme_writer.service";
 import { SumaryWriterService } from "src/writer/summary_writer.service";
+import { EthereumNetworkManager } from "src/network/ethereum/ethereum.network.manager";
 
 async function start() {
 	try {
@@ -16,7 +17,11 @@ async function start() {
 		// Load network stats
 		const allNetworkStats: NetworkStats[] = await Promise.all([
 			new QtumNetworkManager().getStats(startDate, endDate),
+			// new EthereumNetworkManager().getStats(startDate, endDate),
 		]);
+
+		// Sort by name
+		allNetworkStats.sort((a, b) => a.networkInfo.name.localeCompare(b.networkInfo.name));
 
 		// Write summaries
 		const roolDirPath = `${__dirname}/..`;

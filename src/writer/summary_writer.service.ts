@@ -62,7 +62,7 @@ export class SumaryWriterService {
 		// Top validators
 		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Validations`);
 		writer.writeTableRowQuoted(`---`, `---`, `---`);
-		for (const index of [..._.range(0, 18), ..._.range(19, 100, 10)]) {
+		for (const index of [..._.range(0, 19), ..._.range(19, 100, 10)]) {
 			const validator = blockStats.validators[index];
 			if (validator)
 				writer.writeTableRowQuoted(`${(index + 1)}`, `${validator.id}`, `${validator.count}`);
@@ -102,7 +102,7 @@ export class SumaryWriterService {
 		// Top accounts
 		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Wealth`);
 		writer.writeTableRowQuoted(`---`, `---`, `---`);
-		for (const index of [..._.range(0, 18), ..._.range(19, 100, 10)]) {
+		for (const index of [..._.range(0, 19), ..._.range(19, 100, 10)]) {
 			const account = wealthStats.topAccountsWealth[index];
 			if (!account)
 				break;

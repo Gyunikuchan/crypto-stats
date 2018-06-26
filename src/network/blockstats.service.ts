@@ -3,7 +3,6 @@ import * as moment from "moment";
 import { Block } from "src/model/Block";
 import { BlockStatsDay, BlockStatsPeriod, Producer, Validator } from "src/model/BlockStats";
 import logger from "src/util/logger";
-import { Heap } from "typescript-collections";
 import { NetworkManager } from "./network.manager";
 
 export abstract class BlockStatsService {
@@ -29,6 +28,10 @@ export abstract class BlockStatsService {
 		return this.networkManager.networkInfo.name;
 	}
 
+	/**
+	 * Get block stats for a period
+	 * Expecting utc dates only
+	 */
 	public async getBlockStats(startDate: moment.Moment, endDate: moment.Moment): Promise<BlockStatsPeriod> {
 		logger.info(`[${this.name}] Getting block stats for period: ${startDate.format("YYYY-MM-DD")} - ${endDate.format("YYYY-MM-DD")}`);
 
@@ -91,18 +94,12 @@ export abstract class BlockStatsService {
 			currentDate.add(1, "day");
 		}
 
-		// Heap sort producers and validators by count (descending)
-		const producersHeap = new Heap<Producer>((a, b) => b.count - a.count);
-		producersMap.forEach((producer, id) => { producersHeap.add(producer); });
-		while (!producersHeap.isEmpty()) {
-			blockStatsPeriod.producers.push(producersHeap.removeRoot());
-		}
+		// Sort producers and validators by count (descending)
+		blockStatsPeriod.producers = Array.from(producersMap.values());
+		blockStatsPeriod.producers.sort((a, b) => b.count - a.count);
 
-		const validatorsHeap = new Heap<Validator>((a, b) => b.count - a.count);
-		validatorsMap.forEach((validator, id) => { validatorsHeap.add(validator); });
-		while (!validatorsHeap.isEmpty()) {
-			blockStatsPeriod.validators.push(validatorsHeap.removeRoot());
-		}
+		blockStatsPeriod.validators = Array.from(validatorsMap.values());
+		blockStatsPeriod.validators.sort((a, b) => b.count - a.count);
 
 		// Calculated number to attack
 		blockStatsPeriod.noTopValidatorsToAttack = this.getNoTopValidatorsToAttack(blockStatsPeriod);
@@ -114,6 +111,10 @@ export abstract class BlockStatsService {
 	// Helpers
 	// =============================================================================
 
+	/**
+	 * Attempts to get block stats for a single day from file first
+	 * Loads from source and cache on file otherwise
+	 */
 	protected async getBlockStatsDay(date: moment.Moment) {
 		logger.info(`[${this.name}] Getting block stats for day: ${date.format("YYYY-MM-DD")}`);
 
@@ -144,6 +145,9 @@ export abstract class BlockStatsService {
 		return blockStatsDay;
 	}
 
+	/**
+	 * Load blocks for a single day from source and compute it's block stats
+	 */
 	protected async getBlockStatsDayFromSource(date: moment.Moment): Promise<BlockStatsDay> {
 		// Load blocks from source
 		logger.info(`[${this.name}] Getting blocks from source`);
@@ -201,6 +205,10 @@ export abstract class BlockStatsService {
 		return blockStatsDay;
 	}
 
+	/**
+	 * Sanity check for blocks that are loaded from source
+	 * Expecting blocks to be ordered by block height (ascending)
+	 */
 	protected auditBlocksDay(date: moment.Moment, blocksDay: Block[]) {
 		logger.info(`[${this.name}] Auditing blocks for day: ${date.format("YYYY-MM-DD")}`);
 
@@ -234,9 +242,13 @@ export abstract class BlockStatsService {
 		}
 	}
 
+	/**
+	 * Computes the number of top validators required to attack the network
+	 */
 	protected getNoTopValidatorsToAttack(blockStatsConsolidated: BlockStatsPeriod): number {
 		logger.info(`[${this.name}] Getting number of top validators to attack`);
-		const validationsToAttack = Math.floor(blockStatsConsolidated.totalValidations * (this.networkManager.networkInfo.percentToAttack / 100));
+		const fractionalToAttack = this.networkManager.networkInfo.percentToAttack / 100;
+		const validationsToAttack = Math.floor(blockStatsConsolidated.totalValidations * fractionalToAttack);
 
 		let noOfAddresses = 0;
 		let validationsAccum = 0;

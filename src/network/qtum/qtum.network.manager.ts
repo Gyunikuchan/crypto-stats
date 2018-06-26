@@ -1,9 +1,9 @@
 import { NetworkInfo } from "src/model/NetworkInfo";
-import { QtumBlockStatsService } from "src/network/qtum/qtum.blockstats.service";
-import { QtumWealthStatsService } from "src/network/qtum/qtum.wealthstats.service";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
 import { NetworkManager } from "../network.manager";
+import { QtumBlockStatsService } from "./qtum.blockstats.service";
+import { QtumWealthStatsService } from "./qtum.wealthstats.service";
 
 export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export const QTUM_BLOCKS_SOURCE_URL = "https://qtum.info/block";
@@ -55,12 +55,12 @@ export class QtumNetworkManager extends NetworkManager {
 		});
 		const cityStats: any[] = response.data;
 
-		let totalNodeCount = 0;
+		let nodeCount = 0;
 		for (const cityStat of cityStats) {
-			totalNodeCount += cityStat.count;
+			nodeCount += cityStat.count;
 		}
 
-		logger.debug(`[${this.name}] Got network count: ${totalNodeCount}`);
-		return totalNodeCount;
+		logger.debug(`[${this.name}] Got network count: ${nodeCount}`);
+		return nodeCount;
 	}
 }

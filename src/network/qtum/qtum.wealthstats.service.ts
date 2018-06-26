@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
 import { AccountWealth, WealthStats } from "src/model/WealthStats";
-import { QTUM_ACCOUNTS_SOURCE_URL } from "src/network/qtum/qtum.network.manager";
-import { WealthStatsService } from "src/network/wealthstats.service";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
+import { WealthStatsService } from "../wealthstats.service";
+import { QTUM_ACCOUNTS_SOURCE_URL } from "./qtum.network.manager";
 
 export class QtumWealthStatsService extends WealthStatsService {
 	// =============================================================================

@@ -22,6 +22,8 @@ export class SnippetNetworkManager extends NetworkManager {
 	}
 
 	protected async getNetworkInfoFromSource(): Promise<NetworkInfo> {
-		return {} as NetworkInfo;
+		return {
+			name: this.name,
+		};
 	}
 }

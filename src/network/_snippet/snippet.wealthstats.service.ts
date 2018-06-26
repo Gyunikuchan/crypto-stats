@@ -1,5 +1,5 @@
 import { WealthStats } from "src/model/WealthStats";
-import { WealthStatsService } from "src/network/wealthstats.service";
+import { WealthStatsService } from "../wealthstats.service";
 
 export class SnippetWealthStatsService extends WealthStatsService {
 	// =============================================================================
@@ -7,6 +7,7 @@ export class SnippetWealthStatsService extends WealthStatsService {
 	// =============================================================================
 
 	protected async getWealthStatsFromSource(): Promise<WealthStats> {
-		return {} as WealthStats;
+		return {
+		};
 	}
 }

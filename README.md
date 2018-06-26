@@ -36,5 +36,5 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 
 > |Name|Consensus|Total Nodes|Total Blocks|Total Producers|Total Validators|No of top validators to attack|Wealth held by top 100|No of top accounts to attack|
 > |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-> |[Qtum](summaries/qtum.summary.md)|PoS|7346|4202|1219|1219|59|76.26%|22|
+> |[Qtum](summaries/qtum.summary.md)|PoS|7455|4182|1245|1245|62|76.22%|22|
 

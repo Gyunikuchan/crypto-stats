@@ -7,7 +7,7 @@ Ethereum is a decentralized platform that runs smart contracts: applications tha
 |**Sources**|https://etherscan.io/accounts<br/>https://etherscan.io/blocks<br/>https://api.etherscan.io/api<br/>https://www.ethernodes.org/network|
 |**Consensus**|PoW|
 |**Percent to Attack**|50.00%|
-|**Total nodes**|16838|
+|**Total nodes**|16849|
 
 ---
 ## Block Stats
@@ -60,9 +60,9 @@ Ethereum is a decentralized platform that runs smart contracts: applications tha
 
 |Metric|Result|
 |---|---|
-|Top 10 accounts wealth|10.880 (10.88%)|
-|Top 50 accounts wealth|27.192 (27.19%)|
-|Top 100 accounts wealth|34.219 (34.22%)|
+|Top 10 accounts wealth|10.880%|
+|Top 50 accounts wealth|27.193%|
+|Top 100 accounts wealth|34.220%|
 |No of top accounts to attack|-|
 
 <br/>
@@ -75,14 +75,14 @@ Ethereum is a decentralized platform that runs smart contracts: applications tha
 > |4|0x53d284357ec70ce289d6d64134dfac8e511c8a3d|1.374%|
 > |5|0xab7c74abc0c4d48d1bdad5dcb26153fc8780f83e|0.9966%|
 > |6|0xfe9e8709d3215310075d67e3ed32a380ccf451c8|0.9208%|
-> |7|0xe853c56864a2ebe4576a807d26fdc4a0ada51919|0.7985%|
+> |7|0xe853c56864a2ebe4576a807d26fdc4a0ada51919|0.7984%|
 > |8|0x742d35cc6634c0532925a3b844bc454e4438f44e|0.7781%|
 > |9|0x61edcdf5bb737adffe5043706e7c5bb1f1a56eea|0.7524%|
 > |10|0xdc76cd25977e0a5ae17155770273ad58648900d3|0.7181%|
 > |11|0xf27daff52c38b2c373ad2b9392652ddf433303c4|0.6705%|
-> |12|0x3d2e397f94e415d7773e72e44d5b5338a99e77d9|0.6703%|
+> |12|0x3d2e397f94e415d7773e72e44d5b5338a99e77d9|0.6702%|
 > |13|0xb8487eed31cf5c559bf3f4edd166b949553d0d11|0.6687%|
-> |14|0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98|0.6679%|
+> |14|0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98|0.6687%|
 > |15|0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae|0.6646%|
 > |16|0xfca70e67b3f93f679992cd36323eeb5a5370c8e4|0.5890%|
 > |17|0x74660414dfae86b196452497a4332bd0e6611e82|0.5780%|

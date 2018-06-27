@@ -51,7 +51,7 @@ export class ReadmeWriterService {
 		writer.writeDivider();
 
 		writer.writeHeader(`Metrics`, 2);
-		writer.writeTableHeaderQuoted(
+		writer.writeTableHeader(
 			`Name`,
 			`Consensus`,
 			`Total Nodes`,
@@ -61,7 +61,7 @@ export class ReadmeWriterService {
 			`No of top validators to attack`,
 			`Wealth held by top 100`,
 			`No of top accounts to attack`);
-		writer.writeTableRowQuoted(`:---`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`);
+		writer.writeTableRow(`:---`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`);
 		for (const networkStats of allNetworkStats) {
 			const { networkInfo, blockStats, wealthStats } = networkStats;
 			logger.info(`Writing readme network stats: ${networkInfo.name}`);
@@ -71,7 +71,7 @@ export class ReadmeWriterService {
 
 			const percentTop100Wealth = (wealthStats.top100Wealth / wealthStats.totalWealth) * 100;
 
-			writer.writeTableRowQuoted(
+			writer.writeTableRow(
 				`[${networkInfo.name}](${relativeSummaryDirPath}/${networkStats.networkInfo.name.toLowerCase()}.summary.md)`,
 				`${networkInfo.consensus}`,
 				`${networkInfo.nodeCount}`,

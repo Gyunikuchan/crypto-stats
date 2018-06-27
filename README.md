@@ -34,8 +34,8 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 ---
 ## Metrics
 
-> |Name|Consensus|Total Nodes|Total Blocks|Total Producers|Total Validators|No of top validators to attack|Wealth held by top 100|No of top accounts to attack|
-> |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-> |[Ethereum](summaries/ethereum.summary.md)|PoW|16838|40649|104|104|3|34.22%|-|
-> |[Qtum](summaries/qtum.summary.md)|PoS|7575|4158|1223|1223|62|76.37%|22|
+|Name|Consensus|Total Nodes|Total Blocks|Total Producers|Total Validators|No of top validators to attack|Wealth held by top 100|No of top accounts to attack|
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|[Ethereum](summaries/ethereum.summary.md)|PoW|16849|40649|104|104|3|34.22%|-|
+|[Qtum](summaries/qtum.summary.md)|PoS|7541|4158|1223|1223|62|76.37%|22|
 

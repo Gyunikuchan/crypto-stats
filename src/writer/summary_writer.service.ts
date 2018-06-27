@@ -82,16 +82,28 @@ export class SumaryWriterService {
 			writer.writeTableRow(`Total wealth`, `${wealthStats.totalWealth.toPrecision(4)}%`);
 
 		const top10Wealth = wealthStats.top10Wealth.toPrecision(5);
-		const top10WealthPercentage = (wealthStats.top10Wealth / wealthStats.totalWealth) * 100;
-		writer.writeTableRow(`Top 10 accounts wealth`, `${top10Wealth} (${top10WealthPercentage.toPrecision(4)}%)`);
+		if (wealthStats.totalWealth !== 100) {
+			const top10WealthPercentage = (wealthStats.top10Wealth / wealthStats.totalWealth) * 100;
+			writer.writeTableRow(`Top 10 accounts wealth`, `${top10Wealth} (${top10WealthPercentage.toPrecision(4)}%)`);
+		} else {
+			writer.writeTableRow(`Top 10 accounts wealth`, `${top10Wealth}%`);
+		}
 
 		const top50Wealth = wealthStats.top50Wealth.toPrecision(5);
-		const top50WealthPercentage = (wealthStats.top50Wealth / wealthStats.totalWealth) * 100;
-		writer.writeTableRow(`Top 50 accounts wealth`, `${top50Wealth} (${top50WealthPercentage.toPrecision(4)}%)`);
+		if (wealthStats.totalWealth !== 100) {
+			const top50WealthPercentage = (wealthStats.top50Wealth / wealthStats.totalWealth) * 100;
+			writer.writeTableRow(`Top 50 accounts wealth`, `${top50Wealth} (${top50WealthPercentage.toPrecision(4)}%)`);
+		} else {
+			writer.writeTableRow(`Top 50 accounts wealth`, `${top50Wealth}%`);
+		}
 
 		const top100Wealth = wealthStats.top100Wealth.toPrecision(5);
-		const top100WealthPercentage = (wealthStats.top100Wealth / wealthStats.totalWealth) * 100;
-		writer.writeTableRow(`Top 100 accounts wealth`, `${top100Wealth} (${top100WealthPercentage.toPrecision(4)}%)`);
+		if (wealthStats.totalWealth !== 100) {
+			const top100WealthPercentage = (wealthStats.top100Wealth / wealthStats.totalWealth) * 100;
+			writer.writeTableRow(`Top 100 accounts wealth`, `${top100Wealth} (${top100WealthPercentage.toPrecision(4)}%)`);
+		} else {
+			writer.writeTableRow(`Top 100 accounts wealth`, `${top100Wealth}%`);
+		}
 
 		let noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttack != null ? wealthStats.noTopAccountsToAttack.toString() : `-`);
 		noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttackOverflow ? `>${noTopAccountsToAttackString}` : noTopAccountsToAttackString);
@@ -107,14 +119,14 @@ export class SumaryWriterService {
 			if (!account)
 				break;
 
-			// Special case if wealth is already in percentage
-			if (wealthStats.totalWealth === 100) {
-				writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(4)}%`);
+			// Compute percentage if not already
+			if (wealthStats.totalWealth !== 100) {
+				const wealthPercentage = (account.wealth / wealthStats.totalWealth) * 100;
+				writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(5)} (${wealthPercentage.toPrecision(4)}%)`);
 				continue;
 			}
 
-			const wealthPercentage = (account.wealth / wealthStats.totalWealth) * 100;
-			writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(5)} (${wealthPercentage.toPrecision(4)}%)`);
+			writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(4)}%`);
 		}
 	}
 }

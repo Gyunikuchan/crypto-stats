@@ -7,7 +7,7 @@ Combining a modified Bitcoin Core infrastructure with an intercompatible version
 |**Sources**|https://qtum.info/misc/rich-list<br/>https://qtum.info/block<br/>https://nodes.qtum.org/api/nodes|
 |**Consensus**|PoS|
 |**Percent to Attack**|50.00%|
-|**Total nodes**|7575|
+|**Total nodes**|7541|
 
 ---
 ## Block Stats
@@ -60,9 +60,9 @@ Combining a modified Bitcoin Core infrastructure with an intercompatible version
 
 |Metric|Result|
 |---|---|
-|Top 10 accounts wealth|37.364 (37.36%)|
-|Top 50 accounts wealth|67.894 (67.89%)|
-|Top 100 accounts wealth|76.370 (76.37%)|
+|Top 10 accounts wealth|37.364%|
+|Top 50 accounts wealth|67.899%|
+|Top 100 accounts wealth|76.374%|
 |No of top accounts to attack|22|
 
 <br/>

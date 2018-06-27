@@ -31,9 +31,14 @@ export abstract class BlockStatsService {
 	/**
 	 * Get block stats for a period
 	 * Expecting utc dates only
+	 * Expecting endDate to be at least 24 hours ago (for finality and for padding)
 	 */
 	public async getBlockStats(startDate: moment.Moment, endDate: moment.Moment): Promise<BlockStatsPeriod> {
 		logger.info(`[${this.name}] Getting block stats for period: ${startDate.format("YYYY-MM-DD")} - ${endDate.format("YYYY-MM-DD")}`);
+
+		const latestEndDate = moment().subtract(23, "hours").subtract(59, "seconds");
+		if (endDate.isAfter(latestEndDate))
+			throw new Error(`[${this.name}] End date must be at least 24 hours ago`);
 
 		const blockStatsPeriod: BlockStatsPeriod = {
 			startDate,
@@ -183,7 +188,7 @@ export abstract class BlockStatsService {
 				combinedProducer.count += 1;
 			}
 
-			for (const validator of block.validatorsId) {
+			for (const validator of block.validatorIds) {
 				const combinedValidator = validatorsMap.get(validator);
 				if (!combinedValidator) {
 					validatorsMap.set(validator, { id: validator, count: 1 });
@@ -192,7 +197,7 @@ export abstract class BlockStatsService {
 				}
 			}
 
-			blockStatsDay.totalValidations += block.validatorsId.length;
+			blockStatsDay.totalValidations += block.validatorIds.length;
 		}
 
 		// Map producer and validator data
@@ -230,7 +235,7 @@ export abstract class BlockStatsService {
 				throw new Error(`[${this.name}] No producer: ${block.height}`);
 
 			// Check for no validator
-			if (block.validatorsId.length === 0)
+			if (block.validatorIds.length === 0)
 				throw new Error(`[${this.name}] No validators: ${block.height}`);
 
 			// Check for time constraints

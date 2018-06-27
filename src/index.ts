@@ -1,11 +1,11 @@
 import * as _ from "lodash";
 import * as moment from "moment";
 import { NetworkStats } from "src/model/NetworkStats";
+import { EthereumNetworkManager } from "src/network/ethereum/ethereum.network.manager";
 import { QtumNetworkManager } from "src/network/qtum/qtum.network.manager";
 import logger from "src/util/logger";
 import { ReadmeWriterService } from "src/writer/readme_writer.service";
 import { SumaryWriterService } from "src/writer/summary_writer.service";
-import { EthereumNetworkManager } from "src/network/ethereum/ethereum.network.manager";
 
 async function start() {
 	try {
@@ -17,7 +17,7 @@ async function start() {
 		// Load network stats
 		const allNetworkStats: NetworkStats[] = await Promise.all([
 			new QtumNetworkManager().getStats(startDate, endDate),
-			// new EthereumNetworkManager().getStats(startDate, endDate),
+			new EthereumNetworkManager().getStats(startDate, endDate),
 		]);
 
 		// Sort by name

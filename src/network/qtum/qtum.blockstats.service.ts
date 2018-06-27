@@ -34,7 +34,7 @@ export class QtumBlockStatsService extends BlockStatsService {
 			blocks.push({
 				height,
 				producerId,
-				validatorsId: [producerId],
+				validatorIds: [producerId],
 				time: blockTimeMoment,
 			});
 		});

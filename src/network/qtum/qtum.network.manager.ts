@@ -1,9 +1,9 @@
 import { NetworkInfo } from "src/model/NetworkInfo";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
-import { NetworkManager } from "../network.manager";
-import { QtumBlockStatsService } from "./qtum.blockstats.service";
-import { QtumWealthStatsService } from "./qtum.wealthstats.service";
+import { NetworkManager } from "src/network/network.manager";
+import { QtumBlockStatsService } from "src/network/qtum/qtum.blockstats.service";
+import { QtumWealthStatsService } from "src/network/qtum/qtum.wealthstats.service";
 
 export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export const QTUM_BLOCKS_SOURCE_URL = "https://qtum.info/block";

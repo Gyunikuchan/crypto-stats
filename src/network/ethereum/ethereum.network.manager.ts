@@ -2,9 +2,9 @@ import * as cheerio from "cheerio";
 import { NetworkInfo } from "src/model/NetworkInfo";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
-import { NetworkManager } from "../network.manager";
-import { EthereumBlockStatsService } from "./ethereum.blockstats.service";
-import { EthereumWealthStatsService } from "./ethereum.wealthstats.service";
+import { NetworkManager } from "src/network/network.manager";
+import { EthereumBlockStatsService } from "src/network/ethereum/ethereum.blockstats.service";
+import { EthereumWealthStatsService } from "src/network/ethereum/ethereum.wealthstats.service";
 
 export const ETH_ACCOUNTS_SOURCE_URL = "https://etherscan.io/accounts";
 export const ETH_BLOCKS_SOURCE_URL = "https://etherscan.io/blocks";

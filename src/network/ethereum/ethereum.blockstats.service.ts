@@ -4,7 +4,7 @@ import { Block } from "src/model/Block";
 import { ETH_API_SOURCE_URL, ETH_BLOCKS_SOURCE_URL } from "src/network/ethereum/ethereum.network.manager";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
-import { BlockStatsService } from "../blockstats.service";
+import { BlockStatsService } from "src/network/blockstats.service";
 
 const BLOCK_TIME_S = 15;
 const BLOCKS_PER_PAGE = 100;

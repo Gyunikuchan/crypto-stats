@@ -1,5 +1,5 @@
 import * as fse from "fs-extra";
-import logger from "./logger";
+import logger from "src/util/logger";
 
 export class MDWriter {
 	private writeStream: fse.WriteStream;

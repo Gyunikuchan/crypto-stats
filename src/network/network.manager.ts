@@ -3,7 +3,7 @@ import { NetworkInfo } from "src/model/NetworkInfo";
 import { NetworkStats } from "src/model/NetworkStats";
 import { BlockStatsService } from "src/network/blockstats.service";
 import logger from "src/util/logger";
-import { WealthStatsService } from "./wealthstats.service";
+import { WealthStatsService } from "src/network/wealthstats.service";
 
 export abstract class NetworkManager {
 	public readonly blockStatsService: BlockStatsService;

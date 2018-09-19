@@ -1,7 +1,7 @@
 import { NetworkInfo } from "src/model/NetworkInfo";
-import { NetworkManager } from "../network.manager";
-import { SnippetBlockStatsService } from "./snippet.blockstats.service";
-import { SnippetWealthStatsService } from "./snippet.wealthstats.service";
+import { NetworkManager } from "src/network/network.manager";
+import { SnippetBlockStatsService } from "src/network/_snippet/snippet.blockstats.service";
+import { SnippetWealthStatsService } from "src/network/_snippet/snippet.wealthstats.service";
 
 export const SNIPPET_SOURCE_URL = "TODO:";
 

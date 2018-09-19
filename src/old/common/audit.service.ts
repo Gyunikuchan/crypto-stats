@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import { StatsManager } from "./stats.manager";
+import { StatsManager } from "src/old/common/stats.manager";
 import logger from "../utils/logger";
 
 export class AuditService {

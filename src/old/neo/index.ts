@@ -2,12 +2,12 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md_writer";
-import { Summary } from "../common/summary";
+import { Summary } from "src/old/common/summary";
 import {
 	NEO_ACCOUNTS_SOURCE_URL,
 	NEO_API_SOURCE_URL,
 	NeoStatsManager,
-} from "./neo.stats.manager";
+} from "src/old/neo/neo.stats.manager";
 
 const writer: MDWriter = new MDWriter();
 

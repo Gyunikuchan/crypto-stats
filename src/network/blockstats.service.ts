@@ -3,7 +3,7 @@ import * as moment from "moment";
 import { Block } from "src/model/Block";
 import { BlockStatsDay, BlockStatsPeriod, Producer, Validator } from "src/model/BlockStats";
 import logger from "src/util/logger";
-import { NetworkManager } from "./network.manager";
+import { NetworkManager } from "src/network/network.manager";
 
 export abstract class BlockStatsService {
 	private networkManager: NetworkManager;

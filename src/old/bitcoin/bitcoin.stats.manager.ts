@@ -4,7 +4,7 @@ import { delay } from "bluebird";
 
 import logger from "../utils/logger";
 import { RetryRequest } from "../utils/retry_request";
-import { StatsManager } from "../common/stats.manager";
+import { StatsManager } from "src/old/common/stats.manager";
 
 export const BITCOIN_ACCOUNTS_SOURCE_URL = "https://btc.com/stats/rich-list";
 export const BITCOIN_BLOCKS_SOURCE_URL = "https://chain.api.btc.com";

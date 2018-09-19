@@ -1,11 +1,10 @@
-import * as cheerio from "cheerio";
 import { AccountWealth, WealthStats } from "src/model/WealthStats";
+import { NEO_ACCOUNTS_SOURCE_URL } from "src/network/neo/neo.network.manager";
+import { WealthStatsService } from "src/network/wealthstats.service";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
-import { WealthStatsService } from "src/network/wealthstats.service";
-import { QTUM_ACCOUNTS_SOURCE_URL } from "src/network/qtum/qtum.network.manager";
 
-export class QtumWealthStatsService extends WealthStatsService {
+export class NeoWealthStatsService extends WealthStatsService {
 	// =============================================================================
 	// Abstract
 	// =============================================================================
@@ -37,22 +36,30 @@ export class QtumWealthStatsService extends WealthStatsService {
 		logger.info(`[${this.name}] Getting top accounts wealth from source`);
 
 		const response = await RetryRequest.get({
-			url: QTUM_ACCOUNTS_SOURCE_URL,
+			url: `${NEO_ACCOUNTS_SOURCE_URL}`,
 		});
-		const $ = cheerio.load(response.data);
-		const dataRows = $(`#app`).find(`tbody`).children();
+
+		const accountResults = response.data.results;
+		let totalWealth = 0;
 
 		// Loop accounts
 		const accounts: AccountWealth[] = [];
-		dataRows.each((index, element) => {
-			const id = element.children[1].children[0].children[0].children[0].data;
-			const percentage = element.children[3].children[0].data;
+		for (const accountData of accountResults) {
+			const id = accountData.account;
+			const wealth = Number.parseFloat(accountData.neo);
+			totalWealth += wealth;
 
 			accounts.push({
 				id,
-				wealth: Number.parseFloat(percentage),
+				wealth,
 			});
-		});
+		}
+
+		// Sort by wealth (highest first)
+		accounts.sort((a, b) => b.wealth - a.wealth);
+
+		// Convert wealth to percentage (1-100)
+		accounts.forEach((account) => { account.wealth = account.wealth / totalWealth * 100; });
 
 		logger.debug(`[${this.name}] Got top accounts wealth from source: ${accounts.length}`);
 		return accounts;

@@ -1,6 +1,6 @@
-import { BlockStatsPeriod } from "./BlockStats";
-import { NetworkInfo } from "./NetworkInfo";
-import { WealthStats } from "./WealthStats";
+import { BlockStatsPeriod } from "src/model/BlockStats";
+import { NetworkInfo } from "src/model/NetworkInfo";
+import { WealthStats } from "src/model/WealthStats";
 
 export interface NetworkStats {
 	networkInfo: NetworkInfo;

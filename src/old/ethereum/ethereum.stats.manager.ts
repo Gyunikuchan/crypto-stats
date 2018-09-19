@@ -4,7 +4,7 @@ import * as moment from "moment";
 
 import logger from "../utils/logger";
 import { RetryRequest } from "../utils/retry_request";
-import { Block, StatsManager } from "../common/stats.manager";
+import { Block, StatsManager } from "src/old/common/stats.manager";
 
 export const ETH_ACCOUNTS_SOURCE_URL = "https://etherscan.io/accounts";
 export const ETH_BLOCKS_SOURCE_URL = "https://etherscan.io/blocks";

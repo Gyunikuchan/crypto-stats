@@ -1,6 +1,6 @@
 import { AccountWealth, WealthStats } from "src/model/WealthStats";
 import logger from "src/util/logger";
-import { NetworkManager } from "./network.manager";
+import { NetworkManager } from "src/network/network.manager";
 
 export abstract class WealthStatsService {
 	protected networkManager: NetworkManager;

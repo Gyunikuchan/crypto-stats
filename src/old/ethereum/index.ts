@@ -2,14 +2,14 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md_writer";
-import { Summary } from "../common/summary";
+import { Summary } from "src/old/common/summary";
 import {
 	ETH_ACCOUNTS_SOURCE_URL,
 	ETH_API_SOURCE_URL,
 	ETH_BLOCKS_SOURCE_URL,
 	ETH_NODES_SOURCE_URL,
 	EthereumStatsManager,
-} from "./ethereum.stats.manager";
+} from "src/old/ethereum/ethereum.stats.manager";
 
 const writer: MDWriter = new MDWriter();
 

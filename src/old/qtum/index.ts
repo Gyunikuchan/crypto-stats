@@ -2,13 +2,13 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md_writer";
-import { Summary } from "../common/summary";
+import { Summary } from "src/old/common/summary";
 import {
 	QTUM_ACCOUNTS_SOURCE_URL,
 	QTUM_BLOCKS_SOURCE_URL,
 	QTUM_NODES_SOURCE_URL,
 	QtumStatsManager,
-} from "./qtum.stats.manager";
+} from "src/old/qtum/qtum.stats.manager";
 
 const writer: MDWriter = new MDWriter();
 

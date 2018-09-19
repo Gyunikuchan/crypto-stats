@@ -6,6 +6,7 @@ import { QtumNetworkManager } from "src/network/qtum/qtum.network.manager";
 import logger from "src/util/logger";
 import { ReadmeWriterService } from "src/writer/readme_writer.service";
 import { SumaryWriterService } from "src/writer/summary_writer.service";
+import { NeoNetworkManager } from "src/network/neo/neo.network.manager";
 
 async function start() {
 	try {
@@ -18,6 +19,7 @@ async function start() {
 		const allNetworkStats: NetworkStats[] = await Promise.all([
 			new QtumNetworkManager().getStats(startDate, endDate),
 			new EthereumNetworkManager().getStats(startDate, endDate),
+			// new NeoNetworkManager().getStats(startDate, endDate),
 		]);
 
 		// Sort by name

@@ -1,8 +1,8 @@
 import * as moment from "moment";
 
 import logger from "../utils/logger";
-import { AuditService } from "./audit.service";
-import { ProducerService } from "./producer.service";
+import { AuditService } from "src/old/common/audit.service";
+import { ProducerService } from "src/old/common/producer.service";
 
 export interface Account {
 	id: string;

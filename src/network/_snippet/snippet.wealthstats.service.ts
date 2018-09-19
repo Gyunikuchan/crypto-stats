@@ -1,5 +1,5 @@
 import { WealthStats } from "src/model/WealthStats";
-import { WealthStatsService } from "../wealthstats.service";
+import { WealthStatsService } from "src/network/wealthstats.service";
 
 export class SnippetWealthStatsService extends WealthStatsService {
 	// =============================================================================

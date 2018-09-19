@@ -4,7 +4,7 @@ import { AccountWealth, WealthStats } from "src/model/WealthStats";
 import { ETH_ACCOUNTS_SOURCE_URL } from "src/network/ethereum/ethereum.network.manager";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
-import { WealthStatsService } from "../wealthstats.service";
+import { WealthStatsService } from "src/network/wealthstats.service";
 
 export class EthereumWealthStatsService extends WealthStatsService {
 	// =============================================================================
@@ -53,25 +53,9 @@ export class EthereumWealthStatsService extends WealthStatsService {
 			if (index > 99)
 				return;
 
-			const td = element.children[1];
-			let id: string;
-			let alias: string;
-
-			if (td.children[0].name === "a") {
-				id = td.children[0].children[0].data;
-			} else if (td.children[1].name === "a") {
-				id = td.children[1].children[0].data;
-			} else if (td.children[2].name === "a") {
-				id = td.children[2].children[0].data;
-			}
-
-			if (!!td.children[1] && td.children[1].type === "text" && td.children[1].data.trim().length > 0) {
-				alias = _.trimStart(td.children[1].data, " | ");
-			} else if (!!td.children[3] && td.children[3].type === "text" && td.children[3].data.trim().length > 0) {
-				alias = _.trimStart(td.children[3].data, " | ");
-			}
-
-			const percentage = element.children[3].children[0].data;
+			const td = element.children[2];
+			const id = td.children[0].children[0].data;
+			const percentage = element.children[5].children[0].data;
 
 			accounts.push({
 				id,

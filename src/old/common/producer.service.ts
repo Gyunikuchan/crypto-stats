@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { Heap } from "typescript-collections";
-import { Block } from "./stats.manager";
+import { Block } from "src/old/common/stats.manager";
 import logger from "../utils/logger";
 
 export interface Producer {

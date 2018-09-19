@@ -2,7 +2,7 @@ import * as moment from "moment";
 
 import logger from "../utils/logger";
 import { RetryRequest } from "../utils/retry_request";
-import { Block, StatsManager } from "../common/stats.manager";
+import { Block, StatsManager } from "src/old/common/stats.manager";
 
 export const NEO_ACCOUNTS_SOURCE_URL = "https://coranos.github.io/neo/charts/neo-account-data.json";
 export const NEO_API_SOURCE_URL = "https://neoscan.io/api/main_net/v1";

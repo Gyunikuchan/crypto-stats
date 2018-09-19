@@ -2,7 +2,9 @@ import * as moment from "moment";
 import { Block } from "src/model/Block";
 import { BlockStatsService } from "src/network/blockstats.service";
 
-export class SnippetBlockStatsService extends BlockStatsService {
+const BLOCK_TIME_S = 15;
+
+export class NeoBlockStatsService extends BlockStatsService {
 	// =============================================================================
 	// Abstract
 	// =============================================================================

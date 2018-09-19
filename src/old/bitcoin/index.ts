@@ -2,13 +2,13 @@ import * as _ from "lodash";
 import * as moment from "moment";
 
 import { MDWriter } from "../utils/md_writer";
-import { Summary } from "../common/summary";
+import { Summary } from "src/old/common/summary";
 import {
 	BITCOIN_ACCOUNTS_SOURCE_URL,
 	BITCOIN_BLOCKS_SOURCE_URL,
 	BITCOIN_NODES_SOURCE_URL,
 	BitcoinStatsManager,
-} from "./bitcoin.stats.manager";
+} from "src/old/bitcoin/bitcoin.stats.manager";
 
 const writer: MDWriter = new MDWriter();
 

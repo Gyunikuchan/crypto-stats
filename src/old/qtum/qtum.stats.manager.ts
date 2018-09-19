@@ -3,7 +3,7 @@ import * as moment from "moment";
 
 import logger from "../utils/logger";
 import { RetryRequest } from "../utils/retry_request";
-import { StatsManager } from "../common/stats.manager";
+import { StatsManager } from "src/old/common/stats.manager";
 
 export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export const QTUM_BLOCKS_SOURCE_URL = "https://qtum.info/block";

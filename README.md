@@ -36,6 +36,6 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 
 |Name|Consensus|Total Nodes|Total Blocks|Total Producers|Total Validators|No of top validators to attack|Wealth held by top 100|No of top accounts to attack|
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|[Ethereum](summaries/ethereum.summary.md)|PoW|14324|42324|91|91|3|37.05%|-|
-|[Qtum](summaries/qtum.summary.md)|PoS|5425|4214|1038|1038|28|78.00%|20|
+|[Ethereum](summaries/ethereum.summary.md)|PoW|15078|42583|93|93|3|36.94%|-|
+|[Qtum](summaries/qtum.summary.md)|PoS|5462|4171|1054|1054|36|77.52%|18|
 

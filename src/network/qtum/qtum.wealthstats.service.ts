@@ -45,8 +45,8 @@ export class QtumWealthStatsService extends WealthStatsService {
 		// Loop accounts
 		const accounts: AccountWealth[] = [];
 		dataRows.each((index, element) => {
-			const id = element.children[1].children[0].children[0].children[0].data;
-			const percentage = element.children[3].children[0].data;
+			const id = element.children[2].children[0].children[0].children[0].data;
+			const percentage = element.children[6].children[0].data;
 
 			accounts.push({
 				id,

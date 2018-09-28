@@ -25,12 +25,12 @@ export class QtumBlockStatsService extends BlockStatsService {
 		const blocks: Block[] = [];
 		dataRows.each((index, element) => {
 			// Check time
-			const blockTimeString = element.children[1].children[0].data;
+			const blockTimeString = element.children[2].children[0].data;
 			const blockTimeMoment = moment.utc(blockTimeString);
 
 			// Add block
 			const height = Number.parseInt(element.children[0].children[0].children[0].children[0].data);
-			const producerId = element.children[3].children[0].children[0].children[0].data;
+			const producerId = element.children[6].children[0].children[0].children[0].data;
 			blocks.push({
 				height,
 				producerId,

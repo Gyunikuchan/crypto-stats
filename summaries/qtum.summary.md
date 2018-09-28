@@ -7,94 +7,94 @@ Combining a modified Bitcoin Core infrastructure with an intercompatible version
 |**Sources**|https://qtum.info/misc/rich-list<br/>https://qtum.info/block<br/>https://nodes.qtum.org/api/nodes|
 |**Consensus**|PoS|
 |**Percent to Attack**|50.00%|
-|**Total nodes**|5425|
+|**Total nodes**|5462|
 
 ---
 ## Block Stats
 
 |Metric|Result|
 |---|---|
-|Period|2018-09-12 - 2018-09-18|
-|Blocks|225719 - 229932|
-|Total blocks|4214|
-|Total producers|1038|
-|Total validations|4214|
-|Total validators|1038|
-|No of top validators to attack|28|
+|Period|2018-09-21 - 2018-09-27|
+|Blocks|231117 - 235287|
+|Total blocks|4171|
+|Total producers|1054|
+|Total validations|4171|
+|Total validators|1054|
+|No of top validators to attack|36|
 
 <br/>
 
 > |Rank|Address|Validations|
 > |---|---|---|
-> |1|QNqKeSsHjZfbVxB2jkpDUgGcZvSheWKhCw|381|
-> |2|QPoVZqSCxtWkHgNt8jkipv6KNJUMmE7gRT|245|
-> |3|QWGYZXGCtancAVcCPsAoidrKBqJuB6v7Zr|235|
-> |4|QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND|215|
-> |5|QXUwSHNeDqE5PRCfYQP4u9Nyk9tJ6bgbbo|120|
-> |6|Qdc3zFTE4o5DiyWADAAZZCT26htGtdct21|109|
-> |7|Qgdj4FrXXxLVkxPDYtFNNGZNd9TJrNjtpM|84|
-> |8|QVPauAZRc2EtPBkpfYnfAcTvtoBrdLNfAi|81|
-> |9|Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn|66|
-> |10|QLd4V38B7Z6PUwq9vj2NmpGPRgTWiQPXW4|64|
-> |11|QZ5XtY8BnThygPq4b2hsHVaz3su1jJAbWZ|61|
-> |12|QYHV93kbN9osowPHTWHjeYzgrmZasdatov|47|
-> |13|QfFE2wjWdqPDX4TQESSdEyb5y9DqL5wYHA|44|
-> |14|QVimnkQYTy7HXhrMahWigSFVcaCqRatVL4|41|
-> |15|QZwBZ425yRnRjXciF9QrEBdDJNbBWKDcn5|39|
-> |16|Qi8t89jduvEpncyHjA3zt66d5KCZZx6vWA|28|
-> |17|QdB6krR2kgssX7xnx8E9JPrRktfSBRBrEa|25|
-> |18|QhLFfhh1CLrm82rTZKafRcN2xEEu9iNvTA|24|
-> |19|QQw7fYjAf2onXpNd6mFM1jue4LZkE1Myva|24|
-> |20|QS2LXLscB9aN1SRAiDQf19o2Jso6AUBeut|24|
-> |30|QhpxC94aDJk6KQBqtvWUGZHkgngkwtJ54n|17|
-> |40|QZ4eZQvN96Hq2SmS6MXYXVG975YUruTBiX|13|
-> |50|Qbtm8CXfwQKhqGCCZF4yrFWMHYnUYAbk3S|10|
-> |60|QX8U4uMCaQzoLv6rcBvN4dBk9xYPi8TkcR|9|
-> |70|QZLuFrrRaJ9ZntuZjjLGvNT4K2QBkNUAU1|8|
-> |80|QVpYKGctSbvwjqGSh9TsaDN1fdqvgrztus|7|
-> |90|Qd5SAjYqcHHpta9WXr2tUtyzdx5SmidV9u|6|
-> |100|QXwacYrM7FPLSsF7obTzYeJS6reAuXLcua|5|
+> |1|QNqKeSsHjZfbVxB2jkpDUgGcZvSheWKhCw|319|
+> |2|QPoVZqSCxtWkHgNt8jkipv6KNJUMmE7gRT|239|
+> |3|QYHV93kbN9osowPHTWHjeYzgrmZasdatov|191|
+> |4|QWGYZXGCtancAVcCPsAoidrKBqJuB6v7Zr|177|
+> |5|QXUwSHNeDqE5PRCfYQP4u9Nyk9tJ6bgbbo|111|
+> |6|QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND|105|
+> |7|Qdc3zFTE4o5DiyWADAAZZCT26htGtdct21|95|
+> |8|Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn|88|
+> |9|QLd4V38B7Z6PUwq9vj2NmpGPRgTWiQPXW4|81|
+> |10|QVPauAZRc2EtPBkpfYnfAcTvtoBrdLNfAi|76|
+> |11|QZ5XtY8BnThygPq4b2hsHVaz3su1jJAbWZ|56|
+> |12|Qgdj4FrXXxLVkxPDYtFNNGZNd9TJrNjtpM|49|
+> |13|QfFE2wjWdqPDX4TQESSdEyb5y9DqL5wYHA|35|
+> |14|QdB6krR2kgssX7xnx8E9JPrRktfSBRBrEa|32|
+> |15|QVimnkQYTy7HXhrMahWigSFVcaCqRatVL4|31|
+> |16|QS2LXLscB9aN1SRAiDQf19o2Jso6AUBeut|30|
+> |17|QZwBZ425yRnRjXciF9QrEBdDJNbBWKDcn5|29|
+> |18|Qi8t89jduvEpncyHjA3zt66d5KCZZx6vWA|27|
+> |19|QSJXkBDZsNCWdAFQyMArZr4TpdjgeEzNTK|26|
+> |20|QUMjbkZ8NtBrPnEcBD67oYvnyqQjHdARcg|24|
+> |30|QRDwtB3u3DuMGUSZYbYXbKvZ12ne55PuM4|16|
+> |40|QPD1AwukqjwSvfYZxsBzmcqQNZQDhndLYh|13|
+> |50|QXdCX2f9ZHEuSbht1fE7FD7Kzrm93Avs6y|11|
+> |60|QZLuFrrRaJ9ZntuZjjLGvNT4K2QBkNUAU1|9|
+> |70|QN9bc3sn5tB88vtzPqDSMJkEhWqEbG2EgL|8|
+> |80|QdvN8m7snGTMtvJgE6GEeseL8RRJh2VKv8|7|
+> |90|QZWqgvPKtFThPxPeQ1C5WMTB1Nx88WXiHw|7|
+> |100|QUZMTeBQaChsqPbNsTH5ZxsqF3B4Hi3NCe|6|
 
 ---
 ## Wealth Stats
 
 |Metric|Result|
 |---|---|
-|Top 10 accounts wealth|40.029%|
-|Top 50 accounts wealth|69.930%|
-|Top 100 accounts wealth|78.001%|
-|No of top accounts to attack|20|
+|Top 10 accounts wealth|41.743%|
+|Top 50 accounts wealth|70.380%|
+|Top 100 accounts wealth|77.522%|
+|No of top accounts to attack|18|
 
 <br/>
 
 > |Rank|Address|Wealth|
 > |---|---|---|
-> |1|QQetqGpBoGXKLDeiLsBRLf21yhvx6kpjJa|6.534%|
-> |2|MCgyroQse81wuv5RwPpY5DXDNxeafzLFJ8|5.947%|
-> |3|M9F1pAFeDKAG2b3CuJ2Ua9TChn9ue6SiB7|5.947%|
-> |4|QLtjTb8hjbu3zxYhe3aW3axoTdWFeqVL8J|4.862%|
-> |5|QdkTWzpNJsfnE8SEFkVDK2bxDHCizVC9Hk|3.613%|
-> |6|MDnVLQeMGgqihWnrsJmZePJwc65vwNckc5|2.973%|
-> |7|MG93TgCtnxjyZAn9wLsjB5VqqsjZSkFN5b|2.973%|
-> |8|QVbtbtDMHYYYTrEjXrGRj8m2LHjgR5QcwU|2.781%|
-> |9|QLtZYvLaf8RZYKoCkkTs8P7ZRDqigu86VB|2.577%|
+> |1|QQetqGpBoGXKLDeiLsBRLf21yhvx6kpjJa|6.533%|
+> |2|MCgyroQse81wuv5RwPpY5DXDNxeafzLFJ8|5.945%|
+> |3|M9F1pAFeDKAG2b3CuJ2Ua9TChn9ue6SiB7|5.945%|
+> |4|QLtjTb8hjbu3zxYhe3aW3axoTdWFeqVL8J|5.854%|
+> |5|QdkTWzpNJsfnE8SEFkVDK2bxDHCizVC9Hk|4.050%|
+> |6|QVbtbtDMHYYYTrEjXrGRj8m2LHjgR5QcwU|3.073%|
+> |7|MDnVLQeMGgqihWnrsJmZePJwc65vwNckc5|2.973%|
+> |8|MG93TgCtnxjyZAn9wLsjB5VqqsjZSkFN5b|2.973%|
+> |9|QLtZYvLaf8RZYKoCkkTs8P7ZRDqigu86VB|2.576%|
 > |10|QRCFKkQWhrb7TEaiiXs1NVP2NUQSR7ubUJ|1.822%|
-> |11|QNqKeSsHjZfbVxB2jkpDUgGcZvSheWKhCw|1.234%|
-> |12|QURJ7hdjsYZJDgnyaaX24Q5dwQy4yD7mUD|1.123%|
-> |13|QWGYZXGCtancAVcCPsAoidrKBqJuB6v7Zr|1.096%|
-> |14|QdHaaRnQrPLzYaMqbEZGX24tjdqj68g49T|1.090%|
-> |15|QRS661JBDdpygoRHZQA8nB3Qtm1prUzpzA|1.090%|
-> |16|MVv4EJgCZGCk1mUk3gcNFV3kMrbofbDQLY|1.087%|
-> |17|M98TGs3d2L5qYLkJKbej4fxYw8QHoxhhHn|0.9911%|
-> |18|MJd5BDFCr9yhnmowi6gvEbazTqzi9zoWcv|0.9911%|
-> |19|MLXX3rmgdvzgSZgXuixg1Q1ApTiB5x1V8Q|0.9911%|
-> |20|MPANVT5SYNmkxDiwS1hbrcXaiT6YENyeii|0.9911%|
-> |30|QPRSbSSxFfjiLYDn9ptCjm5RfoNdaXB56p|0.7929%|
-> |40|QQMm2zhZhKF3ijwTjXHvrLcumzbUSSsJJs|0.4955%|
-> |50|QU11KMHGHG9hXY4rFrRVJdE1t8Jt1HW8Vs|0.2973%|
-> |60|QTCoqe9mHinRVAd7rrrkmBBfK2EEqDiAEG|0.2345%|
-> |70|QQnCbi1qomKWP6Zwe1MEg23uuD2td4vhyp|0.1828%|
-> |80|QZwBZ425yRnRjXciF9QrEBdDJNbBWKDcn5|0.1223%|
-> |90|Qdm2weSMyJQ9qu7Wpy3fr7HyJdb7ffP7m3|0.09910%|
-> |100|QSxGfi6KcwdTguGJv8XdbKZKyxCVU9r69S|0.08080%|
+> |11|QURJ7hdjsYZJDgnyaaX24Q5dwQy4yD7mUD|1.246%|
+> |12|M98TGs3d2L5qYLkJKbej4fxYw8QHoxhhHn|1.189%|
+> |13|QRS661JBDdpygoRHZQA8nB3Qtm1prUzpzA|1.090%|
+> |14|MVv4EJgCZGCk1mUk3gcNFV3kMrbofbDQLY|1.087%|
+> |15|QNqKeSsHjZfbVxB2jkpDUgGcZvSheWKhCw|1.006%|
+> |16|MJd5BDFCr9yhnmowi6gvEbazTqzi9zoWcv|0.9909%|
+> |17|MLXX3rmgdvzgSZgXuixg1Q1ApTiB5x1V8Q|0.9909%|
+> |18|MPANVT5SYNmkxDiwS1hbrcXaiT6YENyeii|0.9909%|
+> |19|MVvCLsSvLV8631e17BvnvQ4ZvJxmY6xFa1|0.9909%|
+> |20|QgYuhGfBkuugMkfsbgcHcRU9mKf7u2HTPN|0.9909%|
+> |30|QYHV93kbN9osowPHTWHjeYzgrmZasdatov|0.7682%|
+> |40|MVuqLMmtnwY9QxgGVhrv1tpzrDJxccmPBA|0.4759%|
+> |50|QLd4V38B7Z6PUwq9vj2NmpGPRgTWiQPXW4|0.2891%|
+> |60|MF4WBw8bqQzqhvejDJG4dtwoie34mr8noV|0.1996%|
+> |70|QdhP7ZcDKAjBSGbH4FBxHUWTvsC7bCFMfk|0.1546%|
+> |80|QdB6krR2kgssX7xnx8E9JPrRktfSBRBrEa|0.1006%|
+> |90|QaTEBdisRAL1tSocQfBFMcN8WGyynzJ79h|0.08310%|
+> |100|QSJXkBDZsNCWdAFQyMArZr4TpdjgeEzNTK|0.07130%|
 

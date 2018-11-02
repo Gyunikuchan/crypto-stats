@@ -32,7 +32,7 @@ export class ReadmeWriterService {
 		writer.write();
 
 		writer.writeHeader(`Why?`, 3);
-		writer.writeLn(`The key propositions of public DLT networks are that they are **trustless** and **permissionless**.`);
+		writer.writeLn(`The key propositions of public DLT networks are that they are **trustless**, **permissionless** and **censorship-resistant**.`);
 		writer.writeLn(`Without these properties, using private/consortium/trusted networks makes a lot more sense.`);
 		writer.write();
 

@@ -49,7 +49,7 @@ export class SumaryWriterService {
 		// Metrics
 		writer.writeTableHeader(`Metric`, `Result`);
 		writer.writeTableRow(`---`, `---`);
-		writer.writeTableRow(`Period`, `${blockStats.startDate.format("YYYY-MM-DD")} - ${blockStats.endDate.format("YYYY-MM-DD")}`);
+		writer.writeTableRow(`Period`, `${blockStats.startDate.format("YYYY/MM/DD")} - ${blockStats.endDate.format("YYYY/MM/DD")}`);
 		writer.writeTableRow(`Blocks`, `${blockStats.startHeight} - ${blockStats.endHeight}`);
 		writer.writeTableRow(`Total blocks`, `${blockStats.totalBlocks}`);
 		writer.writeTableRow(`Total producers`, `${blockStats.producers.length}`);

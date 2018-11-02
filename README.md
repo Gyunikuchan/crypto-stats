@@ -15,7 +15,7 @@ These are pretty raw metrics that are incapable of tell the full story on its ow
 |No of top accounts to attack|The minimum number of the top addresses needed for collusion<br/>Similar to "No of validators to take over network" but relevant only to staking consensus and includes all potential validators|
 
 ### Why?
-The key propositions of public DLT networks are that they are **trustless** and **permissionless**.<br/>
+The key propositions of public DLT networks are that they are **trustless**, **permissionless** and **censorship-resistant**.<br/>
 Without these properties, using private/consortium/trusted networks makes a lot more sense.<br/>
 
 ### Other Considerations
@@ -36,6 +36,6 @@ Without these properties, using private/consortium/trusted networks makes a lot 
 
 |Name|Consensus|Total Nodes|Total Blocks|Total Producers|Total Validators|No of top validators to attack|Wealth held by top 100|No of top accounts to attack|
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|[Ethereum](summaries/ethereum.summary.md)|PoW|14864|42708|88|88|3|36.98%|-|
-|[Qtum](summaries/qtum.summary.md)|PoS|5339|4145|1143|1143|47|77.11%|19|
+|[Ethereum](summaries/ethereum.summary.md)|PoW|13300|42739|90|90|3|36.61%|-|
+|[Qtum](summaries/qtum.summary.md)|PoS|4992|4217|1089|1089|30|76.75%|21|
 

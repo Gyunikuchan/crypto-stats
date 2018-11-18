@@ -2,8 +2,8 @@ import * as moment from "moment";
 import { NetworkInfo } from "src/model/NetworkInfo";
 import { NetworkStats } from "src/model/NetworkStats";
 import { BlockStatsService } from "src/network/blockstats.service";
-import logger from "src/util/logger";
 import { WealthStatsService } from "src/network/wealthstats.service";
+import logger from "src/util/logger";
 
 export abstract class NetworkManager {
 	public readonly blockStatsService: BlockStatsService;
@@ -36,10 +36,18 @@ export abstract class NetworkManager {
 
 		this.networkInfo = await this.getNetworkInfo();
 		return {
+			networkManager: this,
 			networkInfo: await this.networkInfo,
 			blockStats: await this.blockStatsService.getBlockStats(startDate, endDate),
 			wealthStats: await this.wealthStatsService.getWealthStats(),
 		};
+	}
+
+	/**
+	 * Attempt to map address to an alias
+	 */
+	public getAlias(address: string): string {
+		return this.networkInfo.aliases.get(address);
 	}
 
 	// =============================================================================

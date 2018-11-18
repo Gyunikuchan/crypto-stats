@@ -1,6 +1,6 @@
 import { AccountWealth, WealthStats } from "src/model/WealthStats";
-import logger from "src/util/logger";
 import { NetworkManager } from "src/network/network.manager";
+import logger from "src/util/logger";
 
 export abstract class WealthStatsService {
 	protected networkManager: NetworkManager;
@@ -21,7 +21,7 @@ export abstract class WealthStatsService {
 	}
 
 	public get name() {
-		return this.networkManager.networkInfo.name;
+		return this.networkManager.name;
 	}
 
 	public async getWealthStats(): Promise<WealthStats> {

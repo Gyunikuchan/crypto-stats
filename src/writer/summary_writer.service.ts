@@ -5,11 +5,11 @@ import { MDWriter } from "src/util/md_writer";
 
 export class SumaryWriterService {
 	public static async write(summaryDirPath: string, networkStats: NetworkStats) {
-		logger.info(`Writing summary network stats: ${networkStats.networkInfo.name}`);
+		logger.info(`Writing summary network stats: ${networkStats.networkManager.name}`);
 
 		// Open file
 		const writer: MDWriter = new MDWriter();
-		await writer.open(summaryDirPath, `${networkStats.networkInfo.name.toLowerCase()}.summary.md`);
+		await writer.open(summaryDirPath, `${networkStats.networkManager.name.toLowerCase()}.summary.md`);
 
 		// Write
 		this.writeSummary(writer, networkStats);
@@ -29,7 +29,7 @@ export class SumaryWriterService {
 	private static writeSummary(writer: MDWriter, networkStats: NetworkStats) {
 		const { networkInfo } = networkStats;
 
-		writer.writeHeader(networkInfo.name, 1);
+		writer.writeHeader(networkStats.networkManager.name, 1);
 		writer.writeLn(networkInfo.summary);
 
 		writer.writeTableHeader(`Attribute`, `Description`);
@@ -62,10 +62,15 @@ export class SumaryWriterService {
 		// Top validators
 		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Validations`);
 		writer.writeTableRowQuoted(`---`, `---`, `---`);
-		for (const index of [..._.range(0, 19), ..._.range(19, 100, 10)]) {
+		for (const index of [..._.range(0, 29), ..._.range(29, 100, 10)]) {
 			const validator = blockStats.validators[index];
-			if (validator)
-				writer.writeTableRowQuoted(`${(index + 1)}`, `${validator.id}`, `${validator.count}`);
+			if (!validator)
+				continue;
+
+			const id = validator.id;
+			const alias = networkStats.networkManager.getAlias(id);
+			const aliasPostfix = alias ? ` (${alias})` : "";
+			writer.writeTableRowQuoted(`${(index + 1)}`, `${id}${aliasPostfix}`, `${validator.count}`);
 		}
 	}
 
@@ -114,19 +119,23 @@ export class SumaryWriterService {
 		// Top accounts
 		writer.writeTableHeaderQuoted(`Rank`, `Address`, `Wealth`);
 		writer.writeTableRowQuoted(`---`, `---`, `---`);
-		for (const index of [..._.range(0, 19), ..._.range(19, 100, 10)]) {
+		for (const index of [..._.range(0, 29), ..._.range(29, 100, 10)]) {
 			const account = wealthStats.topAccountsWealth[index];
 			if (!account)
 				break;
 
-			// Compute percentage if not already
+			const id = account.id;
+			const alias = networkStats.networkManager.getAlias(id);
+			const aliasPostfix = alias ? ` (${alias})` : "";
+
+			// Compute percentage if not already in it
 			if (wealthStats.totalWealth !== 100) {
 				const wealthPercentage = (account.wealth / wealthStats.totalWealth) * 100;
-				writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(5)} (${wealthPercentage.toPrecision(4)}%)`);
+				writer.writeTableRowQuoted(`${(index + 1)}`, `${id}${aliasPostfix}`, `${account.wealth.toPrecision(5)} (${wealthPercentage.toPrecision(4)}%)`);
 				continue;
 			}
 
-			writer.writeTableRowQuoted(`${(index + 1)}`, `${account.id}`, `${account.wealth.toPrecision(4)}%`);
+			writer.writeTableRowQuoted(`${(index + 1)}`, `${id}${aliasPostfix}`, `${account.wealth.toPrecision(4)}%`);
 		}
 	}
 }

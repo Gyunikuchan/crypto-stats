@@ -25,7 +25,6 @@ export class NeoNetworkManager extends NetworkManager {
 
 	protected async getNetworkInfoFromSource(): Promise<NetworkInfo> {
 		return {
-			name: this.name,
 			summary:
 				`NEO is a non-profit community-based blockchain project that utilizes blockchain technology ` +
 				`and digital identity to digitize assets, to automate the management of digital assets using smart contracts, ` +
@@ -38,6 +37,7 @@ export class NeoNetworkManager extends NetworkManager {
 			],
 			percentToAttack: 1 / 3,
 			nodeCount: await this.getNodeCountFromSource(),
+			aliases: new Map(),
 		};
 	}
 

@@ -2,8 +2,8 @@ import * as fse from "fs-extra";
 import * as moment from "moment";
 import { Block } from "src/model/Block";
 import { BlockStatsDay, BlockStatsPeriod, Producer, Validator } from "src/model/BlockStats";
-import logger from "src/util/logger";
 import { NetworkManager } from "src/network/network.manager";
+import logger from "src/util/logger";
 
 export abstract class BlockStatsService {
 	private networkManager: NetworkManager;
@@ -25,7 +25,7 @@ export abstract class BlockStatsService {
 	}
 
 	public get name() {
-		return this.networkManager.networkInfo.name;
+		return this.networkManager.name;
 	}
 
 	/**

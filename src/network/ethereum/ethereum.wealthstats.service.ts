@@ -1,10 +1,9 @@
 import * as cheerio from "cheerio";
-import * as _ from "lodash";
 import { AccountWealth, WealthStats } from "src/model/WealthStats";
 import { ETH_ACCOUNTS_SOURCE_URL } from "src/network/ethereum/ethereum.network.manager";
+import { WealthStatsService } from "src/network/wealthstats.service";
 import logger from "src/util/logger";
 import { RetryRequest } from "src/util/retry_request";
-import { WealthStatsService } from "src/network/wealthstats.service";
 
 export class EthereumWealthStatsService extends WealthStatsService {
 	// =============================================================================

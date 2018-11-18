@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
 import * as moment from "moment";
 import { Block } from "src/model/Block";
-import { RetryRequest } from "src/util/retry_request";
 import { BlockStatsService } from "src/network/blockstats.service";
 import { QTUM_BLOCKS_SOURCE_URL } from "src/network/qtum/qtum.network.manager";
+import { RetryRequest } from "src/util/retry_request";
 
 export class QtumBlockStatsService extends BlockStatsService {
 	// =============================================================================

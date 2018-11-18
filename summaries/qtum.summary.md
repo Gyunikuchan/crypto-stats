@@ -7,94 +7,112 @@ Combining a modified Bitcoin Core infrastructure with an intercompatible version
 |**Sources**|https://qtum.info/misc/rich-list<br/>https://qtum.info/block<br/>https://nodes.qtum.org/api/nodes|
 |**Consensus**|PoS|
 |**Percent to Attack**|50.00%|
-|**Total nodes**|5069|
+|**Total nodes**|5291|
 
 ---
 ## Block Stats
 
 |Metric|Result|
 |---|---|
-|Period|2018/11/07 - 2018/11/13|
-|Blocks|259239 - 263441|
-|Total blocks|4203|
-|Total producers|1036|
-|Total validations|4203|
-|Total validators|1036|
-|No of top validators to attack|28|
+|Period|2018/11/11 - 2018/11/17|
+|Blocks|261650 - 265843|
+|Total blocks|4194|
+|Total producers|1041|
+|Total validations|4194|
+|Total validators|1041|
+|No of top validators to attack|31|
 
 <br/>
 
 > |Rank|Address|Validations|
 > |---|---|---|
-> |1|QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND|371|
-> |2|QPoVZqSCxtWkHgNt8jkipv6KNJUMmE7gRT|232|
-> |3|QWGYZXGCtancAVcCPsAoidrKBqJuB6v7Zr|199|
-> |4|Qgdj4FrXXxLVkxPDYtFNNGZNd9TJrNjtpM|189|
-> |5|Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn|157|
-> |6|QYHV93kbN9osowPHTWHjeYzgrmZasdatov|105|
-> |7|QXUwSHNeDqE5PRCfYQP4u9Nyk9tJ6bgbbo|99|
-> |8|QVPauAZRc2EtPBkpfYnfAcTvtoBrdLNfAi|84|
-> |9|QLd4V38B7Z6PUwq9vj2NmpGPRgTWiQPXW4|62|
-> |10|Qdc3zFTE4o5DiyWADAAZZCT26htGtdct21|59|
-> |11|QZ5XtY8BnThygPq4b2hsHVaz3su1jJAbWZ|57|
-> |12|QNG4mkK4thjgMaFHEStfW7gseWaVhcy6QY|44|
-> |13|QgyPxo6wiYLRWu295mGPwR6Z83cVNh6neG|44|
-> |14|QfFE2wjWdqPDX4TQESSdEyb5y9DqL5wYHA|43|
-> |15|QdB6krR2kgssX7xnx8E9JPrRktfSBRBrEa|42|
-> |16|QZkyE7XAweUtrizgtry1RoMSv1p4zk9Rw8|38|
-> |17|QZwBZ425yRnRjXciF9QrEBdDJNbBWKDcn5|35|
-> |18|Qi8t89jduvEpncyHjA3zt66d5KCZZx6vWA|29|
-> |19|QVimnkQYTy7HXhrMahWigSFVcaCqRatVL4|29|
-> |20|QinQ1YvaV2Z2xfjabgYh5tbyVFvcD7w7r7|29|
-> |30|QMkpQfMwwJTPXNws1xbwmdhTaAaHQQjHy6|16|
-> |40|Qd3xCT4kKgTDw85vqgr1jXyHq3GqZvurpa|13|
-> |50|QbmUn7aceoFfF65FjAWuZZYpRHn2vdKG9o|11|
-> |60|QPEqJ251jRSfCoQ1RvbShdtSau98sqP2AB|8|
-> |70|QToDpshFjvTPCwDfrmjo7NJUQr1TuTPmLD|7|
-> |80|Qe6BDzV7jMFj7VQu1eTfwsXmQbvMmKWiLr|7|
-> |90|QbBBjBByMbdbqSGC6dQZ1xrf5armh8gH71|6|
-> |100|QeLxrjukGaX278vgU1PQXMDeUJCfFnUKDn|6|
+> |1|QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND (Binance)|342|
+> |2|QPoVZqSCxtWkHgNt8jkipv6KNJUMmE7gRT|243|
+> |3|Qgdj4FrXXxLVkxPDYtFNNGZNd9TJrNjtpM|184|
+> |4|Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn|152|
+> |5|QWGYZXGCtancAVcCPsAoidrKBqJuB6v7Zr|143|
+> |6|QYHV93kbN9osowPHTWHjeYzgrmZasdatov|103|
+> |7|QXUwSHNeDqE5PRCfYQP4u9Nyk9tJ6bgbbo|89|
+> |8|Qdc3zFTE4o5DiyWADAAZZCT26htGtdct21|88|
+> |9|QVPauAZRc2EtPBkpfYnfAcTvtoBrdLNfAi|85|
+> |10|QLd4V38B7Z6PUwq9vj2NmpGPRgTWiQPXW4|75|
+> |11|QZ5XtY8BnThygPq4b2hsHVaz3su1jJAbWZ|52|
+> |12|QgyPxo6wiYLRWu295mGPwR6Z83cVNh6neG|46|
+> |13|QfFE2wjWdqPDX4TQESSdEyb5y9DqL5wYHA|43|
+> |14|QdB6krR2kgssX7xnx8E9JPrRktfSBRBrEa|38|
+> |15|QNG4mkK4thjgMaFHEStfW7gseWaVhcy6QY|37|
+> |16|Qi8t89jduvEpncyHjA3zt66d5KCZZx6vWA|36|
+> |17|QZwBZ425yRnRjXciF9QrEBdDJNbBWKDcn5|32|
+> |18|QfWXnxFZTMwRGAkbFXiTcF59VQjvYqr637|32|
+> |19|QinQ1YvaV2Z2xfjabgYh5tbyVFvcD7w7r7|31|
+> |20|QS2LXLscB9aN1SRAiDQf19o2Jso6AUBeut|28|
+> |21|QVimnkQYTy7HXhrMahWigSFVcaCqRatVL4|27|
+> |22|QZkyE7XAweUtrizgtry1RoMSv1p4zk9Rw8|26|
+> |23|QUMjbkZ8NtBrPnEcBD67oYvnyqQjHdARcg|24|
+> |24|QQYySVc5WEe3g6PnNFYmspqG5CfSG8rnma|23|
+> |25|QQf5CHKHT4G7vdRRLAPuCBWGLZitEVtBqD|20|
+> |26|QPD1AwukqjwSvfYZxsBzmcqQNZQDhndLYh|20|
+> |27|QRjwu9LvXkYeE73Hb52vVm8e9QSn4Sxg7K|19|
+> |28|QSJXkBDZsNCWdAFQyMArZr4TpdjgeEzNTK|16|
+> |29|QbnHo1j5AEGGhbD88w8BWeTfusvy1F11co|16|
+> |30|QV8UUvxTyGSQCyKPWvAwB4QdFQiNutnbVJ (Binance)|16|
+> |40|Qhgd5MSSDU5qaFshofqCCrxXnMJwQ1TTx3|13|
+> |50|QdNAoXMEhGXkdFYp12aCeyW7mR7j34Hq1e|10|
+> |60|QbmUn7aceoFfF65FjAWuZZYpRHn2vdKG9o|9|
+> |70|QVMYYdVS2abftzKxaHLAX4u1VHNjPVWdFV|8|
+> |80|Qjer1p6F1ufvvz1Kt9ZLQjqGZCYM3d3zky|7|
+> |90|QaGJs4RAFKeopi2UCMh9LEkxwNYF182asY|6|
+> |100|Qfd3NSSSJUAQavLVmuBvtrxmQjwRPfDxfB|5|
 
 ---
 ## Wealth Stats
 
 |Metric|Result|
 |---|---|
-|Top 10 accounts wealth|38.293%|
-|Top 50 accounts wealth|69.058%|
-|Top 100 accounts wealth|76.846%|
+|Top 10 accounts wealth|38.240%|
+|Top 50 accounts wealth|68.654%|
+|Top 100 accounts wealth|76.438%|
 |No of top accounts to attack|21|
 
 <br/>
 
 > |Rank|Address|Wealth|
 > |---|---|---|
-> |1|QQetqGpBoGXKLDeiLsBRLf21yhvx6kpjJa|6.526%|
-> |2|MCgyroQse81wuv5RwPpY5DXDNxeafzLFJ8|5.939%|
-> |3|M9F1pAFeDKAG2b3CuJ2Ua9TChn9ue6SiB7|5.939%|
-> |4|QiikH5WyVFENAp7MtAiH7H78iege3FebhY|3.990%|
-> |5|QdkTWzpNJsfnE8SEFkVDK2bxDHCizVC9Hk|3.503%|
-> |6|QVbtbtDMHYYYTrEjXrGRj8m2LHjgR5QcwU|3.006%|
+> |1|QQetqGpBoGXKLDeiLsBRLf21yhvx6kpjJa|6.525%|
+> |2|MCgyroQse81wuv5RwPpY5DXDNxeafzLFJ8 (Qtum Foundation)|5.938%|
+> |3|M9F1pAFeDKAG2b3CuJ2Ua9TChn9ue6SiB7 (Qtum Foundation)|5.938%|
+> |4|QP782rQzXz5ijqyZH4nYK7nqSrcFmW52zL|3.959%|
+> |5|QdkTWzpNJsfnE8SEFkVDK2bxDHCizVC9Hk|3.502%|
+> |6|QVbtbtDMHYYYTrEjXrGRj8m2LHjgR5QcwU|2.987%|
 > |7|MDnVLQeMGgqihWnrsJmZePJwc65vwNckc5|2.969%|
 > |8|MG93TgCtnxjyZAn9wLsjB5VqqsjZSkFN5b|2.969%|
-> |9|QRCFKkQWhrb7TEaiiXs1NVP2NUQSR7ubUJ|1.820%|
+> |9|QRCFKkQWhrb7TEaiiXs1NVP2NUQSR7ubUJ|1.819%|
 > |10|QLtjTb8hjbu3zxYhe3aW3axoTdWFeqVL8J|1.634%|
-> |11|QURJ7hdjsYZJDgnyaaX24Q5dwQy4yD7mUD|1.473%|
-> |12|MVuqLMmtnwY9QxgGVhrv1tpzrDJxccmPBA|1.402%|
-> |13|QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND|1.310%|
-> |14|M98TGs3d2L5qYLkJKbej4fxYw8QHoxhhHn|1.188%|
-> |15|QRS661JBDdpygoRHZQA8nB3Qtm1prUzpzA|1.089%|
-> |16|MVv4EJgCZGCk1mUk3gcNFV3kMrbofbDQLY|1.086%|
-> |17|MJd5BDFCr9yhnmowi6gvEbazTqzi9zoWcv|0.9898%|
-> |18|MLXX3rmgdvzgSZgXuixg1Q1ApTiB5x1V8Q|0.9898%|
-> |19|MPANVT5SYNmkxDiwS1hbrcXaiT6YENyeii|0.9898%|
-> |20|MVvCLsSvLV8631e17BvnvQ4ZvJxmY6xFa1|0.9898%|
-> |30|QPoVZqSCxtWkHgNt8jkipv6KNJUMmE7gRT|0.8469%|
-> |40|QQMm2zhZhKF3ijwTjXHvrLcumzbUSSsJJs|0.4949%|
-> |50|QN9nbQDD54KhTbN6aKeUupenSvoJW73T8S|0.2860%|
-> |60|QMi322ndMQBcSGBESzhqG84k1Wktf9aC83|0.2177%|
-> |70|QS46SSNgNAsX4pQcTvswCyPsE9BhoL8tSt|0.1742%|
-> |80|MSvJQBJMZs1dhxz7UAWa2si4iyMD2FHQd5|0.1206%|
-> |90|QZ1LdwPz71iqKywV1zv9tnkxvTbZnX3vqd|0.09900%|
-> |100|QQYySVc5WEe3g6PnNFYmspqG5CfSG8rnma|0.08210%|
+> |11|QURJ7hdjsYZJDgnyaaX24Q5dwQy4yD7mUD|1.514%|
+> |12|MVuqLMmtnwY9QxgGVhrv1tpzrDJxccmPBA|1.323%|
+> |13|M98TGs3d2L5qYLkJKbej4fxYw8QHoxhhHn|1.188%|
+> |14|QRS661JBDdpygoRHZQA8nB3Qtm1prUzpzA|1.089%|
+> |15|MVv4EJgCZGCk1mUk3gcNFV3kMrbofbDQLY|1.086%|
+> |16|QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND (Binance)|1.019%|
+> |17|MJd5BDFCr9yhnmowi6gvEbazTqzi9zoWcv|0.9897%|
+> |18|MLXX3rmgdvzgSZgXuixg1Q1ApTiB5x1V8Q|0.9897%|
+> |19|MPANVT5SYNmkxDiwS1hbrcXaiT6YENyeii|0.9897%|
+> |20|MVvCLsSvLV8631e17BvnvQ4ZvJxmY6xFa1|0.9897%|
+> |21|QgYuhGfBkuugMkfsbgcHcRU9mKf7u2HTPN|0.9897%|
+> |22|QXoQCZNnuyt2ZMFUsHQw4vdyCPqe9hVQHY|0.9897%|
+> |23|MBZEZVaGrXtFm5MpijbDdnKpRfSaZ6ppzZ|0.9897%|
+> |24|Qgdj4FrXXxLVkxPDYtFNNGZNd9TJrNjtpM|0.9419%|
+> |25|MUPa92sH3vhXCjyp1kGoVTR1HyFvUcdpjm|0.9015%|
+> |26|QWGYZXGCtancAVcCPsAoidrKBqJuB6v7Zr|0.8946%|
+> |27|QbsgH2CfkpRMPGUWxVcVNgfeTvHMwwZKEx|0.8907%|
+> |28|QLtZYvLaf8RZYKoCkkTs8P7ZRDqigu86VB|0.8907%|
+> |29|MTXKqcPTXLsesDg7DqbdZtkemEUioA7bFL|0.8485%|
+> |30|QPoVZqSCxtWkHgNt8jkipv6KNJUMmE7gRT|0.8474%|
+> |40|QQMm2zhZhKF3ijwTjXHvrLcumzbUSSsJJs|0.4948%|
+> |50|QcASpnj9Tw2Pr8TrM8ESz7vb7sB43zFGNB|0.2749%|
+> |60|QaymNJUpdZ9gurZyBgy4M36gNWYPuy3esU|0.2004%|
+> |70|QipReUcgmQyZRUaVxQiZ7NhvNJsMALqW1J|0.1822%|
+> |80|QirTVqRvZD9ccWr1EbL7mrvUicVR8uHMty|0.1267%|
+> |90|QdB6krR2kgssX7xnx8E9JPrRktfSBRBrEa|0.1014%|
+> |100|QU2Z478u158pDPtyFUPNGub3M7sJBaYsPW|0.08170%|
 

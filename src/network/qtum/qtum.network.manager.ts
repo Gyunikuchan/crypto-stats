@@ -1,9 +1,9 @@
 import { NetworkInfo } from "src/model/NetworkInfo";
-import logger from "src/util/logger";
-import { RetryRequest } from "src/util/retry_request";
 import { NetworkManager } from "src/network/network.manager";
 import { QtumBlockStatsService } from "src/network/qtum/qtum.blockstats.service";
 import { QtumWealthStatsService } from "src/network/qtum/qtum.wealthstats.service";
+import logger from "src/util/logger";
+import { RetryRequest } from "src/util/retry_request";
 
 export const QTUM_ACCOUNTS_SOURCE_URL = "https://qtum.info/misc/rich-list";
 export const QTUM_BLOCKS_SOURCE_URL = "https://qtum.info/block";
@@ -27,7 +27,6 @@ export class QtumNetworkManager extends NetworkManager {
 
 	protected async getNetworkInfoFromSource(): Promise<NetworkInfo> {
 		return {
-			name: this.name,
 			summary:
 				`Combining a modified Bitcoin Core infrastructure with an intercompatible version of the Ethereum Virtual Machine (EVM), ` +
 				`Qtum merges the reliability of Bitcoin’s unfailing blockchain with the endless possibilities provided by smart contracts.`,
@@ -40,6 +39,12 @@ export class QtumNetworkManager extends NetworkManager {
 			],
 			percentToAttack: 50,
 			nodeCount: await this.getNodeCountFromSource(),
+			aliases: new Map([
+				["MCgyroQse81wuv5RwPpY5DXDNxeafzLFJ8", "Qtum Foundation"],
+				["M9F1pAFeDKAG2b3CuJ2Ua9TChn9ue6SiB7", "Qtum Foundation"],
+				["QV8UUvxTyGSQCyKPWvAwB4QdFQiNutnbVJ", "Binance"],
+				["QUFwvRXTnjnWmGVYxaXZoEAmMkKtkth8ND", "Binance"],
+			]),
 		};
 	}
 

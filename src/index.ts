@@ -6,7 +6,6 @@ import { QtumNetworkManager } from "src/network/qtum/qtum.network.manager";
 import logger from "src/util/logger";
 import { ReadmeWriterService } from "src/writer/readme_writer.service";
 import { SumaryWriterService } from "src/writer/summary_writer.service";
-import { NeoNetworkManager } from "src/network/neo/neo.network.manager";
 
 async function start() {
 	try {
@@ -23,7 +22,7 @@ async function start() {
 		]);
 
 		// Sort by name
-		allNetworkStats.sort((a, b) => a.networkInfo.name.localeCompare(b.networkInfo.name));
+		allNetworkStats.sort((a, b) => a.networkManager.name.localeCompare(b.networkManager.name));
 
 		// Write summaries
 		const roolDirPath = `${__dirname}/..`;

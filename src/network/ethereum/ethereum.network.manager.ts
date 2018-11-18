@@ -1,10 +1,10 @@
 import * as cheerio from "cheerio";
 import { NetworkInfo } from "src/model/NetworkInfo";
-import logger from "src/util/logger";
-import { RetryRequest } from "src/util/retry_request";
-import { NetworkManager } from "src/network/network.manager";
 import { EthereumBlockStatsService } from "src/network/ethereum/ethereum.blockstats.service";
 import { EthereumWealthStatsService } from "src/network/ethereum/ethereum.wealthstats.service";
+import { NetworkManager } from "src/network/network.manager";
+import logger from "src/util/logger";
+import { RetryRequest } from "src/util/retry_request";
 
 export const ETH_ACCOUNTS_SOURCE_URL = "https://etherscan.io/accounts";
 export const ETH_BLOCKS_SOURCE_URL = "https://etherscan.io/blocks";
@@ -29,7 +29,6 @@ export class EthereumNetworkManager extends NetworkManager {
 
 	protected async getNetworkInfoFromSource(): Promise<NetworkInfo> {
 		return {
-			name: this.name,
 			summary:
 				`Ethereum is a decentralized platform that runs smart contracts: applications that ` +
 				`run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference.`,
@@ -43,6 +42,7 @@ export class EthereumNetworkManager extends NetworkManager {
 			],
 			percentToAttack: 50,
 			nodeCount: await this.getNodeCountFromSource(),
+			aliases: new Map(),
 		};
 	}
 

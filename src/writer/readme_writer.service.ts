@@ -63,8 +63,8 @@ export class ReadmeWriterService {
 			`No of top accounts to attack`);
 		writer.writeTableRow(`:---`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`, `:---:`);
 		for (const networkStats of allNetworkStats) {
-			const { networkInfo, blockStats, wealthStats } = networkStats;
-			logger.info(`Writing readme network stats: ${networkInfo.name}`);
+			const { networkInfo, blockStats, wealthStats, networkManager } = networkStats;
+			logger.info(`Writing readme network stats: ${networkManager.name}`);
 
 			let noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttack != null ? wealthStats.noTopAccountsToAttack.toString() : `-`);
 			noTopAccountsToAttackString = (wealthStats.noTopAccountsToAttackOverflow ? `>${noTopAccountsToAttackString}` : noTopAccountsToAttackString);
@@ -72,7 +72,7 @@ export class ReadmeWriterService {
 			const percentTop100Wealth = (wealthStats.top100Wealth / wealthStats.totalWealth) * 100;
 
 			writer.writeTableRow(
-				`[${networkInfo.name}](${relativeSummaryDirPath}/${networkStats.networkInfo.name.toLowerCase()}.summary.md)`,
+				`[${networkManager.name}](${relativeSummaryDirPath}/${networkManager.name.toLowerCase()}.summary.md)`,
 				`${networkInfo.consensus}`,
 				`${networkInfo.nodeCount}`,
 				`${blockStats.totalBlocks}`,
